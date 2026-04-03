@@ -31,7 +31,7 @@ def _svg_b64(path):
         return ""
 
 LOGO_ICON_B64  = _svg_b64(os.path.join(BASE, "assets", "logo_icon.svg"))
-LOGO_WHITE_B64 = _svg_b64(os.path.join(BASE, "assets", "logo_white.svg"))
+LOGO_WHITE_B64 = _svg_b64(os.path.join(BASE, "assets", "logo_blue.svg"))
 
 def logo_img(b64, width="100%", extra=""):
     if b64:
@@ -97,209 +97,462 @@ PLOTLY = dict(
 
 st.markdown(f"""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
-/* ─── Fond principal ─── */
+/* ══════════════════════════════════════════
+   ANIMATIONS KEYFRAMES
+══════════════════════════════════════════ */
+@keyframes fadeInUp {{
+  from {{ opacity:0; transform:translateY(18px); }}
+  to   {{ opacity:1; transform:translateY(0); }}
+}}
+@keyframes fadeInLeft {{
+  from {{ opacity:0; transform:translateX(-16px); }}
+  to   {{ opacity:1; transform:translateX(0); }}
+}}
+@keyframes pulseGlow {{
+  0%,100% {{ box-shadow: 0 0 12px rgba(0,200,255,0.2), 0 4px 24px rgba(4,12,136,0.3); }}
+  50%      {{ box-shadow: 0 0 28px rgba(0,200,255,0.45), 0 6px 32px rgba(26,47,255,0.4); }}
+}}
+@keyframes borderScan {{
+  0%   {{ background-position: 0% 50%; }}
+  100% {{ background-position: 200% 50%; }}
+}}
+@keyframes shimmer {{
+  0%   {{ background-position: -400px 0; }}
+  100% {{ background-position: 400px 0; }}
+}}
+@keyframes rotateDot {{
+  from {{ transform: rotate(0deg) translateX(22px) rotate(0deg); }}
+  to   {{ transform: rotate(360deg) translateX(22px) rotate(-360deg); }}
+}}
+@keyframes countUp {{
+  from {{ opacity:0; transform:scale(0.85); }}
+  to   {{ opacity:1; transform:scale(1); }}
+}}
+@keyframes gradientShift {{
+  0%   {{ background-position: 0% 50%; }}
+  50%  {{ background-position: 100% 50%; }}
+  100% {{ background-position: 0% 50%; }}
+}}
+@keyframes neonPulse {{
+  0%,100% {{ opacity:0.5; }}
+  50%      {{ opacity:1; }}
+}}
+
+/* ══════════════════════════════════════════
+   BASE
+══════════════════════════════════════════ */
 .stApp, [data-testid="stAppViewContainer"] {{
-  background: radial-gradient(ellipse at 20% 0%, rgba(4,12,136,0.18) 0%, transparent 60%),
-              radial-gradient(ellipse at 80% 100%, rgba(0,200,255,0.07) 0%, transparent 50%),
-              linear-gradient(180deg, {BG_DEEP} 0%, #040820 100%);
-  font-family: 'Inter', 'Segoe UI', sans-serif;
+  background:
+    radial-gradient(ellipse at 15% 0%,   rgba(4,12,136,0.22) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 100%, rgba(0,200,255,0.09) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%,  rgba(26,47,255,0.04) 0%, transparent 70%),
+    linear-gradient(180deg, {BG_DEEP} 0%, #030718 100%);
+  font-family: 'Inter', 'Space Grotesk', sans-serif;
   color: {TEXT};
+  animation: fadeInUp 0.5s ease both;
 }}
 
-/* ─── Header Streamlit ─── */
 [data-testid="stHeader"] {{
-  background: rgba(3,6,26,0.95) !important;
-  border-bottom: 1px solid {BORDER} !important;
-  backdrop-filter: blur(12px);
+  background: rgba(3,6,26,0.97) !important;
+  border-bottom: 1px solid rgba(26,47,255,0.3) !important;
+  backdrop-filter: blur(16px) saturate(180%);
 }}
 
-/* ─── Sidebar ─── */
+/* ══════════════════════════════════════════
+   SIDEBAR
+══════════════════════════════════════════ */
 [data-testid="stSidebar"] {{
-  background: linear-gradient(180deg, #030618 0%, #050c28 100%) !important;
-  border-right: 1px solid {BORDER} !important;
+  background: linear-gradient(180deg, #020514 0%, #040c26 100%) !important;
+  border-right: 1px solid rgba(4,12,136,0.6) !important;
+  animation: fadeInLeft 0.4s ease both;
 }}
-[data-testid="stSidebar"] .stSlider label {{ color: {CYAN} !important; font-size: 0.82rem; font-weight: 500; }}
-[data-testid="stSidebar"] h3 {{ color: {BRAND_LT} !important; font-size: 0.88rem; letter-spacing: 0.5px; }}
-[data-testid="stSidebar"] p, [data-testid="stSidebar"] span {{ color: {TEXT_DIM} !important; }}
+[data-testid="stSidebar"]::after {{
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 1px; height: 100%;
+  background: linear-gradient(180deg, transparent, {CYAN}, transparent);
+  opacity: 0.2;
+  animation: neonPulse 3s ease-in-out infinite;
+}}
+[data-testid="stSidebar"] .stSlider label {{
+  color: {CYAN} !important;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}}
+[data-testid="stSidebar"] p  {{ color: {TEXT_DIM} !important; font-size: 0.82rem; }}
 
 /* ─── Sliders ─── */
 [data-testid="stSlider"] [data-baseweb="slider"] div[role="slider"] {{
-  background: {BRAND_MED} !important;
+  background: radial-gradient(circle, {CYAN}, {BRAND_MED}) !important;
   border: 2px solid {CYAN} !important;
-  box-shadow: 0 0 10px rgba(0,200,255,0.5);
+  width: 18px !important; height: 18px !important;
+  box-shadow: 0 0 12px rgba(0,200,255,0.7), 0 0 4px rgba(0,200,255,0.4);
+  transition: box-shadow 0.2s, transform 0.2s;
+}}
+[data-testid="stSlider"] [data-baseweb="slider"] div[role="slider"]:hover {{
+  box-shadow: 0 0 20px rgba(0,200,255,0.9) !important;
+  transform: scale(1.15) !important;
 }}
 [data-testid="stSlider"] div[data-baseweb="slider"] > div > div:first-child {{
-  background: {BRAND} !important;
+  background: linear-gradient(90deg, {BRAND}, {BRAND_MED}) !important;
+  border-radius: 4px;
 }}
 
-/* ─── Métriques ─── */
+/* ══════════════════════════════════════════
+   MÉTRIQUES — CARTES KPI
+══════════════════════════════════════════ */
 [data-testid="metric-container"] {{
-  background: linear-gradient(135deg, rgba(4,12,136,0.18) 0%, rgba(7,14,48,0.9) 100%);
-  border: 1px solid {BORDER_LT};
+  background: linear-gradient(145deg, rgba(10,20,70,0.85) 0%, rgba(4,8,32,0.95) 100%);
+  border: 1px solid rgba(77,106,255,0.3);
   border-top: 2px solid {BRAND_MED};
-  border-radius: 14px;
-  padding: 18px 16px 14px;
-  box-shadow: 0 4px 24px rgba(4,12,136,0.25), inset 0 1px 0 rgba(77,106,255,0.15);
-  backdrop-filter: blur(8px);
-  transition: transform 0.2s, box-shadow 0.2s;
+  border-radius: 16px;
+  padding: 20px 18px 16px;
+  backdrop-filter: blur(12px) saturate(150%);
+  animation: pulseGlow 4s ease-in-out infinite, fadeInUp 0.5s ease both;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.25s cubic-bezier(.34,1.56,.64,1), box-shadow 0.25s ease;
+}}
+[data-testid="metric-container"]::before {{
+  content: '';
+  position: absolute;
+  top: 0; left: -60%;
+  width: 40%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0,200,255,0.06), transparent);
+  animation: shimmer 3.5s ease-in-out infinite;
 }}
 [data-testid="metric-container"]:hover {{
-  transform: translateY(-2px);
-  box-shadow: 0 8px 32px rgba(4,12,136,0.4);
+  transform: translateY(-4px) scale(1.01);
+  border-top-color: {CYAN} !important;
+  box-shadow: 0 12px 40px rgba(4,12,136,0.5), 0 0 20px rgba(0,200,255,0.15);
 }}
 [data-testid="metric-container"] [data-testid="stMetricValue"] {{
   color: {WHITE} !important;
-  font-family: 'Inter', monospace;
-  font-size: 1.6rem !important;
-  font-weight: 800;
-  letter-spacing: -0.5px;
+  font-family: 'Space Grotesk', 'Inter', sans-serif;
+  font-size: 1.65rem !important;
+  font-weight: 700;
+  letter-spacing: -0.8px;
+  animation: countUp 0.6s cubic-bezier(.34,1.56,.64,1) both;
 }}
 [data-testid="metric-container"] [data-testid="stMetricLabel"] {{
-  color: {TEXT_DIM} !important;
-  font-size: 0.75rem !important;
+  color: rgba(160,180,220,0.75) !important;
+  font-size: 0.72rem !important;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  font-weight: 500;
+  letter-spacing: 1.2px;
+  font-weight: 600;
 }}
 [data-testid="metric-container"] [data-testid="stMetricDelta"] {{
   color: {CYAN} !important;
-  font-size: 0.8rem !important;
+  font-size: 0.78rem !important;
+  font-weight: 600;
 }}
 
-/* ─── Onglets ─── */
+/* ══════════════════════════════════════════
+   ONGLETS
+══════════════════════════════════════════ */
 .stTabs [data-baseweb="tab-list"] {{
-  background: rgba(4,12,136,0.12);
-  border: 1px solid {BORDER};
-  border-radius: 12px;
-  padding: 4px 6px;
-  gap: 2px;
-}}
-.stTabs [data-baseweb="tab"] {{
-  color: {TEXT_DIM} !important;
-  border-radius: 9px !important;
-  padding: 8px 20px !important;
-  font-size: 0.85rem;
-  font-weight: 500;
-  transition: all 0.2s;
-}}
-.stTabs [data-baseweb="tab"][aria-selected="true"] {{
-  background: linear-gradient(90deg, rgba(4,12,136,0.7), rgba(26,47,255,0.5)) !important;
-  color: {WHITE} !important;
-  border-bottom: 2px solid {CYAN} !important;
-  box-shadow: 0 2px 12px rgba(4,12,136,0.5);
-}}
-.stTabs [data-baseweb="tab"]:hover:not([aria-selected="true"]) {{
-  background: rgba(77,106,255,0.1) !important;
-  color: {TEXT} !important;
-}}
-
-/* ─── Boutons ─── */
-.stButton > button {{
-  background: linear-gradient(90deg, {BRAND} 0%, {BRAND_MED} 100%) !important;
-  border: none !important;
-  color: {WHITE} !important;
-  border-radius: 9px !important;
-  font-weight: 600 !important;
-  font-size: 0.85rem !important;
-  padding: 10px 20px !important;
-  box-shadow: 0 4px 16px rgba(4,12,136,0.5);
-  transition: all 0.2s !important;
-}}
-.stButton > button:hover {{
-  background: linear-gradient(90deg, {BRAND_MED} 0%, {CYAN} 100%) !important;
-  box-shadow: 0 6px 24px rgba(0,200,255,0.4) !important;
-  transform: translateY(-1px);
-}}
-
-/* ─── Tableaux ─── */
-[data-testid="stDataFrame"] {{
-  border: 1px solid {BORDER} !important;
-  border-radius: 12px;
-  overflow: hidden;
-}}
-[data-testid="stDataFrame"] thead tr th {{
-  background: rgba(4,12,136,0.4) !important;
-  color: {CYAN} !important;
-  font-size: 0.78rem;
-  text-transform: uppercase;
-  letter-spacing: 0.6px;
-}}
-[data-testid="stDataFrame"] tbody tr:hover td {{
-  background: rgba(77,106,255,0.08) !important;
-}}
-
-/* ─── Divider ─── */
-.brand-divider {{
-  height: 1px;
-  background: linear-gradient(90deg, transparent, {BRAND_MED}, {CYAN}, transparent);
-  margin: 14px 0;
-  opacity: 0.5;
-}}
-
-/* ─── Cartes ─── */
-.ec-card {{
-  background: linear-gradient(135deg, rgba(4,12,136,0.15) 0%, rgba(7,14,48,0.95) 100%);
-  border: 1px solid {BORDER_LT};
+  background: rgba(4,12,136,0.1);
+  border: 1px solid rgba(26,47,255,0.25);
   border-radius: 14px;
-  padding: 20px 22px;
-  box-shadow: 0 4px 20px rgba(4,12,136,0.2);
-  margin-bottom: 14px;
+  padding: 5px 7px;
+  gap: 3px;
   backdrop-filter: blur(8px);
 }}
-.ec-card-cyan {{
-  background: linear-gradient(135deg, rgba(0,200,255,0.08) 0%, rgba(7,14,48,0.95) 100%);
-  border: 1px solid rgba(0,200,255,0.25);
-  border-radius: 14px;
-  padding: 20px 22px;
-  box-shadow: 0 4px 20px rgba(0,200,255,0.1);
-  margin-bottom: 14px;
+.stTabs [data-baseweb="tab"] {{
+  color: rgba(160,180,220,0.55) !important;
+  border-radius: 10px !important;
+  padding: 9px 22px !important;
+  font-size: 0.84rem;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  transition: all 0.22s cubic-bezier(.34,1.56,.64,1);
+  position: relative;
+}}
+.stTabs [data-baseweb="tab"]:hover:not([aria-selected="true"]) {{
+  background: rgba(77,106,255,0.12) !important;
+  color: {TEXT} !important;
+  transform: translateY(-1px);
+}}
+.stTabs [data-baseweb="tab"][aria-selected="true"] {{
+  background: linear-gradient(135deg, rgba(4,12,136,0.75), rgba(26,47,255,0.55)) !important;
+  color: {WHITE} !important;
+  border-bottom: 2px solid {CYAN} !important;
+  box-shadow: 0 3px 16px rgba(4,12,136,0.6), 0 0 12px rgba(0,200,255,0.12);
+  font-weight: 600;
 }}
 
-/* ─── Badges ─── */
+/* ══════════════════════════════════════════
+   BOUTONS — FUTURISTES
+══════════════════════════════════════════ */
+.stButton > button {{
+  background: linear-gradient(135deg, {BRAND} 0%, {BRAND_MED} 60%, #2840ff 100%) !important;
+  background-size: 200% 200% !important;
+  border: 1px solid rgba(77,106,255,0.5) !important;
+  color: {WHITE} !important;
+  border-radius: 10px !important;
+  font-family: 'Space Grotesk', 'Inter', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 0.84rem !important;
+  letter-spacing: 0.5px !important;
+  text-transform: uppercase !important;
+  padding: 11px 22px !important;
+  box-shadow: 0 4px 18px rgba(4,12,136,0.55), inset 0 1px 0 rgba(255,255,255,0.1);
+  transition: all 0.25s cubic-bezier(.34,1.56,.64,1) !important;
+  position: relative !important;
+  overflow: hidden !important;
+}}
+.stButton > button::before {{
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 60%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0,200,255,0.18), transparent);
+  transition: left 0.4s ease;
+}}
+.stButton > button:hover::before {{
+  left: 150%;
+}}
+.stButton > button:hover {{
+  background: linear-gradient(135deg, {BRAND_MED} 0%, {CYAN} 100%) !important;
+  border-color: {CYAN} !important;
+  box-shadow: 0 6px 28px rgba(0,200,255,0.4), 0 0 16px rgba(0,200,255,0.2) !important;
+  transform: translateY(-2px) scale(1.02) !important;
+}}
+.stButton > button:active {{
+  transform: translateY(0) scale(0.98) !important;
+}}
+
+/* ══════════════════════════════════════════
+   TABLEAUX
+══════════════════════════════════════════ */
+[data-testid="stDataFrame"] {{
+  border: 1px solid rgba(26,47,255,0.3) !important;
+  border-radius: 14px !important;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(4,12,136,0.2);
+  animation: fadeInUp 0.5s ease both;
+}}
+[data-testid="stDataFrame"] thead tr th {{
+  background: rgba(4,12,136,0.45) !important;
+  color: {CYAN} !important;
+  font-size: 0.73rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.8px !important;
+  font-weight: 700 !important;
+  border-bottom: 1px solid rgba(0,200,255,0.2) !important;
+}}
+[data-testid="stDataFrame"] tbody tr {{
+  transition: background 0.15s ease;
+}}
+[data-testid="stDataFrame"] tbody tr:hover td {{
+  background: rgba(26,47,255,0.1) !important;
+}}
+
+/* ══════════════════════════════════════════
+   DIVIDER ANIMÉ
+══════════════════════════════════════════ */
+.brand-divider {{
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(26,47,255,0.5) 30%,
+    {CYAN} 50%,
+    rgba(26,47,255,0.5) 70%,
+    transparent 100%);
+  background-size: 200% 100%;
+  margin: 16px 0;
+  animation: borderScan 4s linear infinite;
+}}
+
+/* ══════════════════════════════════════════
+   CARTES
+══════════════════════════════════════════ */
+.ec-card {{
+  background: linear-gradient(145deg, rgba(6,14,50,0.9) 0%, rgba(3,7,26,0.97) 100%);
+  border: 1px solid rgba(77,106,255,0.28);
+  border-radius: 16px;
+  padding: 20px 24px;
+  box-shadow: 0 4px 24px rgba(4,12,136,0.22), inset 0 1px 0 rgba(77,106,255,0.12);
+  margin-bottom: 14px;
+  backdrop-filter: blur(10px);
+  animation: fadeInUp 0.5s ease both;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}}
+.ec-card:hover {{
+  border-color: rgba(0,200,255,0.3);
+  box-shadow: 0 6px 32px rgba(4,12,136,0.35), 0 0 20px rgba(0,200,255,0.07);
+}}
+.ec-card-cyan {{
+  background: linear-gradient(145deg, rgba(0,40,80,0.25) 0%, rgba(3,7,26,0.97) 100%);
+  border: 1px solid rgba(0,200,255,0.25);
+  border-radius: 16px;
+  padding: 20px 24px;
+  box-shadow: 0 4px 24px rgba(0,200,255,0.08);
+  margin-bottom: 14px;
+  backdrop-filter: blur(10px);
+}}
+
+/* ══════════════════════════════════════════
+   BADGES
+══════════════════════════════════════════ */
 .badge-ok {{
-  background: linear-gradient(90deg, rgba(0,200,255,0.15), rgba(4,12,136,0.25));
+  background: linear-gradient(90deg, rgba(0,200,255,0.12), rgba(26,47,255,0.18));
   color: {CYAN};
-  border: 1px solid rgba(0,200,255,0.4);
+  border: 1px solid rgba(0,200,255,0.45);
   border-radius: 20px;
-  padding: 4px 14px;
-  font-size: 0.78rem;
-  font-weight: 600;
+  padding: 5px 14px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.4px;
   display: inline-block;
+  animation: fadeInUp 0.5s ease both;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(4px);
+}}
+.badge-ok:hover {{
+  background: rgba(0,200,255,0.2);
+  box-shadow: 0 0 12px rgba(0,200,255,0.35);
 }}
 .badge-warn {{
   background: rgba(255,107,53,0.12);
   color: {ORANGE};
   border: 1px solid rgba(255,107,53,0.4);
   border-radius: 20px;
-  padding: 4px 14px;
-  font-size: 0.78rem;
-  font-weight: 600;
+  padding: 5px 14px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  display: inline-block;
 }}
 
-/* ─── Header principal ─── */
+/* ══════════════════════════════════════════
+   HEADER PRINCIPAL
+══════════════════════════════════════════ */
 .ec-header-bar {{
-  background: linear-gradient(90deg, rgba(4,12,136,0.35) 0%, rgba(0,200,255,0.08) 100%);
-  border: 1px solid {BORDER_LT};
-  border-radius: 16px;
-  padding: 20px 28px;
-  margin-bottom: 6px;
+  background: linear-gradient(120deg,
+    rgba(4,12,136,0.4) 0%,
+    rgba(10,20,70,0.6) 50%,
+    rgba(0,50,80,0.2) 100%);
+  border: 1px solid rgba(77,106,255,0.35);
+  border-radius: 18px;
+  padding: 22px 30px;
+  margin-bottom: 8px;
   display: flex;
   align-items: center;
-  gap: 24px;
-  box-shadow: 0 4px 32px rgba(4,12,136,0.3), inset 0 1px 0 rgba(77,106,255,0.2);
-  backdrop-filter: blur(10px);
+  gap: 26px;
+  box-shadow: 0 6px 40px rgba(4,12,136,0.35),
+              inset 0 1px 0 rgba(77,106,255,0.2),
+              inset 0 -1px 0 rgba(0,0,0,0.3);
+  backdrop-filter: blur(14px) saturate(160%);
+  animation: fadeInUp 0.45s ease both;
+  position: relative;
+  overflow: hidden;
+}}
+.ec-header-bar::after {{
+  content: '';
+  position: absolute;
+  top: -1px; left: 10%; right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0,200,255,0.5), transparent);
+  animation: neonPulse 2.5s ease-in-out infinite;
 }}
 
-/* ─── Scrollbar ─── */
-::-webkit-scrollbar {{ width: 5px; }}
-::-webkit-scrollbar-track {{ background: {BG_DEEP}; }}
-::-webkit-scrollbar-thumb {{ background: {BRAND}; border-radius: 3px; }}
-::-webkit-scrollbar-thumb:hover {{ background: {BRAND_MED}; }}
+/* ══════════════════════════════════════════
+   SECTION LABELS
+══════════════════════════════════════════ */
+.ec-label {{
+  color: {BRAND_LT};
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  margin: 14px 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}}
+.ec-label::before {{
+  content: '';
+  display: inline-block;
+  width: 3px;
+  height: 14px;
+  background: linear-gradient(180deg, {CYAN}, {BRAND_MED});
+  border-radius: 2px;
+  flex-shrink: 0;
+}}
 
-/* ─── Selectbox / caption ─── */
-[data-testid="stCaptionContainer"] {{ color: {TEXT_DIM} !important; font-size: 0.78rem; }}
+/* ══════════════════════════════════════════
+   SCROLLBAR
+══════════════════════════════════════════ */
+::-webkit-scrollbar {{ width: 4px; height: 4px; }}
+::-webkit-scrollbar-track {{ background: {BG_DEEP}; }}
+::-webkit-scrollbar-thumb {{
+  background: linear-gradient(180deg, {BRAND_MED}, {BRAND});
+  border-radius: 4px;
+}}
+::-webkit-scrollbar-thumb:hover {{ background: {CYAN}; }}
+
+/* ══════════════════════════════════════════
+   CAPTION & DIVERS
+══════════════════════════════════════════ */
+[data-testid="stCaptionContainer"] {{
+  color: rgba(120,145,190,0.7) !important;
+  font-size: 0.76rem;
+}}
+.stMarkdown h4, .stMarkdown h5 {{
+  color: {BRAND_LT} !important;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}}
+
+/* ══════════════════════════════════════════
+   SUPPRIMER TOUS LES FONDS BLANCS STREAMLIT
+══════════════════════════════════════════ */
+[data-testid="stAppViewContainer"],
+[data-testid="stVerticalBlock"],
+[data-testid="stHorizontalBlock"],
+.main, .block-container,
+[data-testid="column"],
+[data-testid="stForm"],
+div.stTabs,
+div[data-testid="stTabsContent"],
+[data-baseweb="tab-panel"] {{
+  background: transparent !important;
+}}
+.block-container {{
+  padding-top: 1.5rem !important;
+  max-width: 100% !important;
+}}
+/* Fond des popups / tooltips */
+[data-baseweb="tooltip"] > div,
+[data-baseweb="popover"] > div {{
+  background: {BG_CARD2} !important;
+  border: 1px solid {BORDER_LT} !important;
+  border-radius: 10px !important;
+  color: {TEXT} !important;
+}}
+/* Inputs / select */
+[data-baseweb="input"] > div,
+[data-baseweb="select"] > div {{
+  background: rgba(4,12,136,0.15) !important;
+  border-color: rgba(77,106,255,0.35) !important;
+  color: {TEXT} !important;
+}}
+/* Alertes Streamlit */
+[data-testid="stAlert"] {{
+  background: rgba(4,12,136,0.2) !important;
+  border: 1px solid rgba(77,106,255,0.35) !important;
+  border-radius: 12px !important;
+  color: {TEXT} !important;
+}}
+/* Enlever le fond blanc derrière les charts Plotly */
+.js-plotly-plot .plotly, .js-plotly-plot .plotly .main-svg {{
+  background: transparent !important;
+}}
 </style>
 """, unsafe_allow_html=True)
 
@@ -622,9 +875,9 @@ with tab2:
             legend=dict(font_size=10, orientation="v", x=1.02, y=0.5),
             margin=dict(l=0, r=110, t=40, b=0),
             annotations=[dict(
-                text=f"<b>{sum(vals)/1e6:.1f}M</b><br><span style='font-size:10px'>FCFA</span>",
+                text=f"<b>{sum(vals)/1e6:.1f}M</b><br>FCFA",
                 x=0.5, y=0.5, showarrow=False,
-                font=dict(size=18, color=WHITE),
+                font=dict(size=17, color=WHITE),
             )],
         )
         st.plotly_chart(fig, use_container_width=True)
