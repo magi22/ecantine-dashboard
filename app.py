@@ -67,24 +67,53 @@ REV_KEYS   = ["rev_livraison","rev_commission","rev_abonnements","rev_pub","rev_
 YEARS      = ["An 1","An 2","An 3","An 4","An 5"]
 MONTHS     = list(range(1, 61))
 
-# Template Plotly — NE PAS mettre legend ici (conflit si passé aussi en kwarg)
-PLOTLY = dict(
-    paper_bgcolor="rgba(0,0,0,0)",
-    plot_bgcolor="rgba(245,247,255,0.5)",
-    font=dict(color=TEXT, family="Inter, sans-serif", size=12),
-    margin=dict(l=10, r=10, t=42, b=10),
-    xaxis=dict(gridcolor="#e8ecff", zerolinecolor="#e8ecff",
-               tickfont=dict(color=TEXT_DIM, size=11)),
-    yaxis=dict(gridcolor="#e8ecff", zerolinecolor="#e8ecff",
-               tickfont=dict(color=TEXT_DIM, size=11)),
-)
-# Pour Pie/Donut : sans xaxis/yaxis (sinon TypeError sur Streamlit Cloud)
-PLOTLY_PIE = {k: v for k, v in PLOTLY.items() if k not in ("xaxis", "yaxis")}
-# Légende par défaut réutilisable (NE PAS passer dans PLOTLY pour éviter les doublons)
-LEG_H = dict(bgcolor="rgba(0,0,0,0)", font=dict(size=11),
-             orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
-LEG_V = dict(bgcolor="rgba(0,0,0,0)", font=dict(size=10),
-             orientation="v", x=1.02, y=0.5)
+# ── Helpers layout Plotly ──────────────────────────────────────
+# Fonction au lieu de dict spread (**) → impossible d'avoir des doublons de clés
+_FONT   = dict(color=TEXT, family="Inter, sans-serif", size=12)
+_XAXIS  = dict(gridcolor="#e8ecff", zerolinecolor="#e8ecff",
+               tickfont=dict(color=TEXT_DIM, size=11))
+_YAXIS  = dict(gridcolor="#e8ecff", zerolinecolor="#e8ecff",
+               tickfont=dict(color=TEXT_DIM, size=11))
+_BG     = "rgba(0,0,0,0)"
+_PLOT   = "rgba(245,247,255,0.5)"
+_LEG_H  = dict(bgcolor=_BG, font=dict(size=11),
+               orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
+_LEG_V  = dict(bgcolor=_BG, font=dict(size=10), orientation="v", x=1.02, y=0.5)
+
+def _layout(title_text="", title_color=None, height=350,
+            y_title="", x_title="",
+            margin=None, legend=None, showlegend=None,
+            barmode=None, xaxis_range=None, pie=False, **extra):
+    """Génère un dict layout Plotly sans aucun doublon de clé possible."""
+    tc = title_color or TEXT
+    mg = margin or dict(l=10, r=10, t=42, b=10)
+    d = dict(
+        paper_bgcolor=_BG,
+        plot_bgcolor=_PLOT,
+        font=_FONT,
+        margin=mg,
+        height=height,
+    )
+    if title_text:
+        d["title"] = dict(text=title_text, font=dict(color=tc, size=14))
+    if y_title:
+        d["yaxis_title"] = y_title
+    if x_title:
+        d["xaxis_title"] = x_title
+    if legend is not None:
+        d["legend"] = legend
+    if showlegend is not None:
+        d["showlegend"] = showlegend
+    if barmode is not None:
+        d["barmode"] = barmode
+    if xaxis_range is not None:
+        d["xaxis_range"] = xaxis_range
+    if not pie:
+        d["xaxis"] = _XAXIS
+        d["yaxis"] = _YAXIS
+    for k, v in extra.items():
+        d[k] = v
+    return d
 
 # ══════════════════════════════════════════════════════════════
 # CSS — THÈME BLANC FLUIDE
@@ -527,9 +556,7 @@ with tab1:
             fig.add_vline(x=idx, line_dash="dot",
                           line_color="rgba(4,12,136,0.15)", line_width=1)
         fig.update_layout(
-            **PLOTLY,
-            title=dict(text="Croissance MAU — 5 ans", font=dict(color=BRAND, size=14)),
-            yaxis_title="Utilisateurs actifs", height=330, legend=LEG_H,
+            **_layout("Croissance MAU — 5 ans", BRAND, 330, y_title="Utilisateurs actifs", legend=_LEG_H),
         )
         st.plotly_chart(fig, use_container_width=True)
 
@@ -547,9 +574,7 @@ with tab1:
                             line=dict(color=WHITE, width=1)),
             ))
         fig.update_layout(
-            **PLOTLY,
-            title=dict(text="CA Annuel — 3 scénarios (M FCFA)", font=dict(color=BRAND, size=14)),
-            barmode="group", yaxis_title="Millions FCFA", height=330, legend=LEG_H,
+            **_layout("CA Annuel — 3 scénarios (M FCFA)", BRAND, 330, y_title="Millions FCFA", legend=_LEG_H, barmode="group"),
         )
         st.plotly_chart(fig, use_container_width=True)
 
@@ -604,9 +629,7 @@ with tab2:
                           annotation_text=f"  Break-even M{dr}",
                           annotation_font=dict(color=GREEN, size=12))
         fig.update_layout(
-            **PLOTLY,
-            title=dict(text="Revenus vs Coûts mensuels (M FCFA)", font=dict(color=BRAND, size=14)),
-            height=310, yaxis_title="M FCFA", legend=LEG_H,
+            **_layout("Revenus vs Coûts mensuels (M FCFA)", BRAND, 310, y_title="M FCFA", legend=_LEG_H),
         )
         st.plotly_chart(fig, use_container_width=True)
 
@@ -623,11 +646,9 @@ with tab2:
             hovertemplate="<b>%{label}</b><br>%{value:,.0f} FCFA<br>%{percent}<extra></extra>",
         ))
         fig.update_layout(
-            **PLOTLY_PIE,
-            title=dict(text="7 flux revenus — An 1", font=dict(color=BRAND, size=14)),
-            showlegend=True, height=310,
-            legend=LEG_V,
-            margin=dict(l=0, r=115, t=42, b=0),
+            **_layout("7 flux revenus — An 1", BRAND, 310,
+                      legend=_LEG_V, showlegend=True,
+                      margin=dict(l=0, r=115, t=42, b=0), pie=True),
         )
         fig.add_annotation(
             text=f"<b>{total_donut/1e6:.1f}M</b><br>FCFA",
@@ -651,10 +672,7 @@ with tab2:
                       annotation_text=f"  Break-even M{dr}",
                       annotation_font=dict(color=GREEN, size=12))
     fig.update_layout(
-        **PLOTLY,
-        title=dict(text="Cash Flow Cumulatif depuis investissement (M FCFA)",
-                   font=dict(color=BRAND, size=14)),
-        height=260, yaxis_title="M FCFA", legend=LEG_H,
+        **_layout("Cash Flow Cumulatif depuis investissement (M FCFA)", BRAND, 260, y_title="M FCFA", legend=_LEG_H),
     )
     st.plotly_chart(fig, use_container_width=True)
 
@@ -673,9 +691,7 @@ with tab2:
                 name=lbl, marker=dict(color=col, line=dict(width=0)),
             ))
         fig.update_layout(
-            **PLOTLY, barmode="stack",
-            title=dict(text="Coûts An 1 (K FCFA)", font=dict(color=BRAND, size=13)),
-            height=290, legend=LEG_H,
+            **_layout("Coûts An 1 (K FCFA)", BRAND, 290, barmode="stack", legend=_LEG_H),
         )
         st.plotly_chart(fig, use_container_width=True)
 
@@ -686,9 +702,7 @@ with tab2:
             fig.add_trace(go.Bar(x=YEARS, y=annual, name=lbl,
                                  marker=dict(color=col, line=dict(width=0))))
         fig.update_layout(
-            **PLOTLY, barmode="stack",
-            title=dict(text="Décomposition CA 5 ans (M FCFA)", font=dict(color=BRAND, size=13)),
-            height=290, legend=LEG_H,
+            **_layout("Décomposition CA 5 ans (M FCFA)", BRAND, 290, barmode="stack", legend=_LEG_H),
         )
         st.plotly_chart(fig, use_container_width=True)
 
@@ -749,9 +763,8 @@ with tab3:
             textfont=dict(color=TEXT, size=12),
         ))
         fig.update_layout(
-            **PLOTLY,
-            xaxis_range=[0, 125], height=220, showlegend=False,
-            margin=dict(l=10, r=50, t=10, b=10),
+            **_layout(height=220, showlegend=False, xaxis_range=[0,125],
+                      margin=dict(l=10, r=50, t=10, b=10)),
         )
         st.plotly_chart(fig, use_container_width=True)
 
@@ -764,10 +777,8 @@ with tab3:
                 textfont=dict(color=TEXT),
             ))
             fig.update_layout(
-                **PLOTLY,
-                title=dict(text="Freins principaux", font=dict(color=BRAND, size=13)),
-                height=max(180, len(fr)*48), showlegend=False,
-                margin=dict(l=10, r=50, t=42, b=10),
+                **_layout("Freins principaux", BRAND, max(180, len(fr)*48),
+                          showlegend=False, margin=dict(l=10, r=50, t=42, b=10)),
             )
             st.plotly_chart(fig, use_container_width=True)
 
@@ -785,9 +796,8 @@ with tab3:
             textfont=dict(color=TEXT, size=12),
         ))
         fig.update_layout(
-            **PLOTLY,
-            xaxis_range=[0, 125], height=220, showlegend=False,
-            margin=dict(l=10, r=50, t=10, b=10),
+            **_layout(height=220, showlegend=False, xaxis_range=[0,125],
+                      margin=dict(l=10, r=50, t=10, b=10)),
         )
         st.plotly_chart(fig, use_container_width=True)
 
@@ -803,9 +813,8 @@ with tab3:
             textfont=dict(color=TEXT, size=12),
         ))
         fig.update_layout(
-            **PLOTLY,
-            xaxis_range=[0, 125], height=200, showlegend=False,
-            margin=dict(l=10, r=50, t=10, b=10),
+            **_layout(height=200, showlegend=False, xaxis_range=[0,125],
+                      margin=dict(l=10, r=50, t=10, b=10)),
         )
         st.plotly_chart(fig, use_container_width=True)
 
@@ -839,9 +848,7 @@ with tab4:
                 line=dict(color=col, width=2.5 if sc=="central" else 1.8, dash=dsh),
             ))
         fig.update_layout(
-            **PLOTLY,
-            title=dict(text="MAU — 3 scénarios (milliers)", font=dict(color=BRAND, size=14)),
-            height=330, yaxis_title="MAU (000s)", legend=LEG_H,
+            **_layout("MAU — 3 scénarios (milliers)", BRAND, 330, y_title="MAU (000s)", legend=_LEG_H),
         )
         st.plotly_chart(fig, use_container_width=True)
 
@@ -858,9 +865,7 @@ with tab4:
                 marker=dict(size=7),
             ))
         fig.update_layout(
-            **PLOTLY,
-            title=dict(text="CA annuel — 3 scénarios (M FCFA)", font=dict(color=BRAND, size=14)),
-            height=330, yaxis_title="M FCFA", legend=LEG_H,
+            **_layout("CA annuel — 3 scénarios (M FCFA)", BRAND, 330, y_title="M FCFA", legend=_LEG_H),
         )
         st.plotly_chart(fig, use_container_width=True)
 
@@ -932,10 +937,8 @@ with tab5:
                               annotation_text=f"  {perc}: {val:.0f}M",
                               annotation_font=dict(color=col, size=11))
             fig.update_layout(
-                **PLOTLY,
-                title=dict(text=f"Distribution CA An5 — {mc['n_simulations']} simulations",
-                           font=dict(color=BRAND, size=14)),
-                showlegend=False, height=310, xaxis_title="CA An5 (M FCFA)", yaxis_title="Fréquence",
+                **_layout(f"Distribution CA An5 — {mc['n_simulations']} simulations",
+                          BRAND, 310, x_title="CA An5 (M FCFA)", y_title="Fréquence", showlegend=False),
             )
             st.plotly_chart(fig, use_container_width=True)
 
@@ -951,10 +954,8 @@ with tab5:
                           annotation_text="  Seuil 0",
                           annotation_font=dict(color=ORANGE, size=11))
             fig.update_layout(
-                **PLOTLY,
-                title=dict(text=f"Distribution VAN — {mc['van']['pct_positive']:.0f}% positives",
-                           font=dict(color=BRAND, size=14)),
-                showlegend=False, height=310, xaxis_title="VAN (M FCFA)", yaxis_title="Fréquence",
+                **_layout(f"Distribution VAN — {mc['van']['pct_positive']:.0f}% positives",
+                          BRAND, 310, x_title="VAN (M FCFA)", y_title="Fréquence", showlegend=False),
             )
             st.plotly_chart(fig, use_container_width=True)
 
@@ -1005,12 +1006,9 @@ with tab5:
         ))
         fig.add_vline(x=0, line_color=TEXT_DIM, line_width=1)
         fig.update_layout(
-            **PLOTLY,
-            barmode="overlay",
-            title=dict(text="Tornado — Impact ±Δ% sur CA An3",
-                       font=dict(color=BRAND, size=14)),
-            xaxis_title="Impact (%)", height=400,
-            legend=dict(bgcolor="rgba(0,0,0,0)", font=dict(size=11), orientation="h", y=1.12),
+            **_layout("Tornado — Impact ±Δ% sur CA An3", BRAND, 400,
+                      x_title="Impact (%)", barmode="overlay",
+                      legend=dict(bgcolor=_BG, font=dict(size=11), orientation="h", y=1.12)),
         )
         st.plotly_chart(fig, use_container_width=True)
         st.caption("Paramètre en tête = levier le plus fort sur le CA An3.")
