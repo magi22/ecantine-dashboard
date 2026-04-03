@@ -81,6 +81,8 @@ PLOTLY = dict(
     yaxis=dict(gridcolor="#e8ecff", zerolinecolor="#e8ecff",
                tickfont=dict(color=TEXT_DIM, size=11)),
 )
+# Template pour les graphiques sans axes (Pie/Donut) — sans xaxis/yaxis
+PLOTLY_PIE = {k: v for k, v in PLOTLY.items() if k not in ("xaxis", "yaxis")}
 
 # ══════════════════════════════════════════════════════════════
 # CSS — THÈME BLANC FLUIDE
@@ -619,17 +621,18 @@ with tab2:
             hovertemplate="<b>%{label}</b><br>%{value:,.0f} FCFA<br>%{percent}<extra></extra>",
         ))
         fig.update_layout(
-            **PLOTLY,
+            **PLOTLY_PIE,
             title=dict(text="7 flux revenus — An 1", font=dict(color=BRAND, size=14)),
             showlegend=True, height=310,
             legend=dict(font_size=10, orientation="v", x=1.02, y=0.5,
                         bgcolor="rgba(0,0,0,0)"),
             margin=dict(l=0, r=115, t=42, b=0),
-            annotations=[dict(
-                text=f"<b>{total_donut/1e6:.1f}M</b><br>FCFA",
-                x=0.44, y=0.5, showarrow=False,
-                font=dict(size=16, color=BRAND),
-            )],
+        )
+        fig.add_annotation(
+            text=f"<b>{total_donut/1e6:.1f}M</b><br>FCFA",
+            x=0.44, y=0.5, showarrow=False,
+            font=dict(size=16, color=BRAND),
+            xref="paper", yref="paper",
         )
         st.plotly_chart(fig, use_container_width=True)
 
