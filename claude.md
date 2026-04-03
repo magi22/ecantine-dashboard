@@ -36,7 +36,9 @@
 |--------|-------|-----|
 | UnicodeEncodeError CLI Windows | Terminal cp1252 | `sys.stdout = io.TextIOWrapper(encoding="utf-8")` |
 | TypeError Plotly Cloud L617 | `font=dict(weight=600)` sur titre chart | Supprimé weight partout |
-| TypeError Plotly Cloud L621/L870 | `**PLOTLY` (avec xaxis/yaxis) appliqué à go.Pie | Créé `PLOTLY_PIE = {k:v for k,v in PLOTLY.items() if k not in ("xaxis","yaxis")}` |
+| TypeError Plotly Cloud L621/L870 | `**PLOTLY` (avec xaxis/yaxis) appliqué à go.Pie | Créé `PLOTLY_PIE` sans xaxis/yaxis |
+| TypeError "multiple values for legend" | `legend=` dans PLOTLY global ET passé en kwarg → doublon Python | Supprimé `legend` de PLOTLY, créé `LEG_H`/`LEG_V` séparés, chaque chart l'ajoute explicitement |
+| `font_size=11` dans legend | Raccourci non supporté Streamlit Cloud | Remplacé partout par `font=dict(size=11)` |
 
 ## ⚠️ Règle critique à ne jamais oublier
 - **Jamais** `font=dict(..., weight=N)` dans les layouts Plotly → non supporté Streamlit Cloud
