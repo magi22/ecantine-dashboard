@@ -1,0 +1,24 @@
+id,source_restaurant,experience_livraison,annees_experience,vehicule,vehicule_proprio,permis,revenu_mensuel_fcfa,mode_paiement_prefere,modele_remuneration_prefere,compte_wave,disponibilite_soir,zones_couvertes,livraisons_par_jour,frein_principal,interet_ecantine,attente_principale
+L01,Moaye,Oui,1-2 ans,Moto personnelle,Oui,Oui,60000-80000,Wave,Base fixe + bonus,Oui,Oui,Plateau;Médina;Sacré-Cœur,10-15,Revenus imprévisibles,Très intéressé,Salaire stable garanti
+L02,Moaye,Oui,Moins de 6 mois,Moto personnelle,Oui,Oui,Moins de 60000,Wave,Base fixe + bonus,Oui,Oui,Plateau;Médina,8-12,Manque de commandes régulières,Très intéressé,Flux constant de commandes
+L03,Swice Palace,Oui,2 ans et plus,Moto personnelle,Oui,Oui,80000-100000,Wave,À la livraison,Oui,Oui,Almadies;Ouakam;Sacré-Cœur,15-20,Aucun,Très intéressé,Meilleure organisation des tournées
+L04,Swice Palace,Oui,1-2 ans,Moto personnelle,Non,Oui,60000-80000,Wave,Base fixe + bonus,Oui,Oui,Almadies;Ouakam;Grand Yoff,10-15,Revenus imprévisibles,Très intéressé,Salaire stable garanti
+L05,Bazof,Oui,2 ans et plus,Moto personnelle,Oui,Oui,80000-100000,Wave,Base fixe + bonus,Oui,Oui,Médina;Grand Yoff;HLM,12-18,Aucun,Très intéressé,Application simple GPS
+L06,Bazof,Oui,Moins de 6 mois,Moto personnelle,Oui,Non,Moins de 60000,Orange Money,Base fixe + bonus,Non,Oui,Médina;Pikine,8-10,Manque de commandes régulières,Intéressé,Flux constant de commandes
+L07,Yum Yum,Oui,1-2 ans,Moto personnelle,Oui,Oui,60000-80000,Wave,Base fixe + bonus,Oui,Oui,Plateau;Point E;Mermoz,10-15,Revenus imprévisibles,Très intéressé,Salaire stable garanti
+L08,Yum Yum,Oui,2 ans et plus,Moto personnelle,Oui,Oui,80000-100000,Wave,À la livraison,Oui,Oui,Sacré-Cœur;Mermoz;Almadies,15-20,Aucun,Très intéressé,Bonus performance
+L09,Indépendant colis,Oui,2 ans et plus,Moto personnelle,Oui,Oui,80000-100000,Wave,À la livraison,Oui,Oui,Toute Dakar,20-30,Concurrence forte,Très intéressé,Flux garanti commandes
+L10,Indépendant colis,Oui,1-2 ans,Moto personnelle,Non,Oui,60000-80000,Wave,Base fixe + bonus,Oui,Oui,Dakar centre,12-15,Revenus imprévisibles,Très intéressé,Salaire stable garanti
+L11,Moaye,Non,Jamais,Moto personnelle,Oui,Oui,Moins de 60000,Wave,Base fixe + bonus,Oui,Oui,Médina;Sacré-Cœur,5-10,Manque expérience,Très intéressé,Formation et accompagnement
+L12,Indépendant colis,Oui,2 ans et plus,Moto personnelle,Oui,Oui,100000+,Wave,À la livraison,Oui,Oui,Toute Dakar,25-35,Aucun,Intéressé,Meilleure rémunération
+L13,Swice Palace,Oui,1-2 ans,Vélo,Oui,Non,Moins de 60000,Orange Money,Base fixe + bonus,Non,Oui,Almadies;Ouakam,8-12,Revenus imprévisibles,Intéressé,Salaire stable garanti
+L14,Bazof,Oui,Moins de 6 mois,Moto personnelle,Non,Oui,Moins de 60000,Wave,Base fixe + bonus,Oui,Oui,Médina;Grand Yoff,8-10,Manque de commandes régulières,Très intéressé,Flux constant de commandes
+L15,Yum Yum,Oui,1-2 ans,Moto personnelle,Oui,Oui,60000-80000,Wave,Base fixe + bonus,Oui,Oui,Sacré-Cœur;Point E,10-15,Revenus imprévisibles,Très intéressé,Salaire stable garanti
+L16,Indépendant colis,Oui,2 ans et plus,Moto personnelle,Oui,Oui,80000-100000,Wave,À la livraison,Oui,Oui,Grand Yoff;HLM;Pikine,15-20,Concurrence forte,Très intéressé,Zones exclusives
+L17,Moaye,Oui,1-2 ans,Moto personnelle,Oui,Oui,60000-80000,Wave,Base fixe + bonus,Oui,Oui,Plateau;Médina,10-12,Revenus imprévisibles,Très intéressé,Application simple GPS
+L18,Indépendant colis,Non,Jamais,Moto personnelle,Oui,Oui,Moins de 60000,Wave,Base fixe + bonus,Oui,Oui,Sacré-Cœur;Mermoz,5-8,Manque expérience,Intéressé,Formation et accompagnement
+L19,Swice Palace,Oui,2 ans et plus,Moto personnelle,Oui,Oui,80000-100000,Wave,Base fixe + bonus,Oui,Oui,Almadies;Ouakam;Sacré-Cœur,12-18,Aucun,Très intéressé,Salaire stable garanti
+L20,Bazof,Oui,1-2 ans,Moto personnelle,Non,Oui,60000-80000,Orange Money,Base fixe + bonus,Non,Oui,Médina;Pikine;Guédiawaye,10-15,Revenus imprévisibles,Intéressé,Flux constant de commandes
+L21,Yum Yum,Oui,2 ans et plus,Moto personnelle,Oui,Oui,80000-100000,Wave,À la livraison,Oui,Oui,Plateau;Sacré-Cœur;Point E,15-20,Aucun,Très intéressé,Bonus performance
+L22,Indépendant colis,Oui,2 ans et plus,Moto personnelle,Oui,Oui,100000+,Wave,À la livraison,Oui,Oui,Toute Dakar,20-30,Concurrence forte,Très intéressé,Meilleure rémunération
+L23,Moaye,Oui,Moins de 6 mois,Moto personnelle,Oui,Oui,Moins de 60000,Wave,Base fixe + bonus,Oui,Oui,Médina;Grand Yoff,8-10,Manque de commandes régulières,Très intéressé,Flux constant de commandes
