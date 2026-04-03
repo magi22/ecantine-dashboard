@@ -67,22 +67,24 @@ REV_KEYS   = ["rev_livraison","rev_commission","rev_abonnements","rev_pub","rev_
 YEARS      = ["An 1","An 2","An 3","An 4","An 5"]
 MONTHS     = list(range(1, 61))
 
-# Template Plotly — fond blanc, sans font weight
+# Template Plotly — NE PAS mettre legend ici (conflit si passé aussi en kwarg)
 PLOTLY = dict(
     paper_bgcolor="rgba(0,0,0,0)",
     plot_bgcolor="rgba(245,247,255,0.5)",
     font=dict(color=TEXT, family="Inter, sans-serif", size=12),
     margin=dict(l=10, r=10, t=42, b=10),
-    legend=dict(bgcolor="rgba(0,0,0,0)", font_size=11,
-                orientation="h", yanchor="bottom", y=1.02,
-                xanchor="right", x=1),
     xaxis=dict(gridcolor="#e8ecff", zerolinecolor="#e8ecff",
                tickfont=dict(color=TEXT_DIM, size=11)),
     yaxis=dict(gridcolor="#e8ecff", zerolinecolor="#e8ecff",
                tickfont=dict(color=TEXT_DIM, size=11)),
 )
-# Template pour les graphiques sans axes (Pie/Donut) — sans xaxis/yaxis
+# Pour Pie/Donut : sans xaxis/yaxis (sinon TypeError sur Streamlit Cloud)
 PLOTLY_PIE = {k: v for k, v in PLOTLY.items() if k not in ("xaxis", "yaxis")}
+# Légende par défaut réutilisable (NE PAS passer dans PLOTLY pour éviter les doublons)
+LEG_H = dict(bgcolor="rgba(0,0,0,0)", font=dict(size=11),
+             orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
+LEG_V = dict(bgcolor="rgba(0,0,0,0)", font=dict(size=10),
+             orientation="v", x=1.02, y=0.5)
 
 # ══════════════════════════════════════════════════════════════
 # CSS — THÈME BLANC FLUIDE
@@ -527,7 +529,7 @@ with tab1:
         fig.update_layout(
             **PLOTLY,
             title=dict(text="Croissance MAU — 5 ans", font=dict(color=BRAND, size=14)),
-            yaxis_title="Utilisateurs actifs", height=330,
+            yaxis_title="Utilisateurs actifs", height=330, legend=LEG_H,
         )
         st.plotly_chart(fig, use_container_width=True)
 
@@ -547,7 +549,7 @@ with tab1:
         fig.update_layout(
             **PLOTLY,
             title=dict(text="CA Annuel — 3 scénarios (M FCFA)", font=dict(color=BRAND, size=14)),
-            barmode="group", yaxis_title="Millions FCFA", height=330,
+            barmode="group", yaxis_title="Millions FCFA", height=330, legend=LEG_H,
         )
         st.plotly_chart(fig, use_container_width=True)
 
@@ -604,7 +606,7 @@ with tab2:
         fig.update_layout(
             **PLOTLY,
             title=dict(text="Revenus vs Coûts mensuels (M FCFA)", font=dict(color=BRAND, size=14)),
-            height=310, yaxis_title="M FCFA",
+            height=310, yaxis_title="M FCFA", legend=LEG_H,
         )
         st.plotly_chart(fig, use_container_width=True)
 
@@ -624,8 +626,7 @@ with tab2:
             **PLOTLY_PIE,
             title=dict(text="7 flux revenus — An 1", font=dict(color=BRAND, size=14)),
             showlegend=True, height=310,
-            legend=dict(font_size=10, orientation="v", x=1.02, y=0.5,
-                        bgcolor="rgba(0,0,0,0)"),
+            legend=LEG_V,
             margin=dict(l=0, r=115, t=42, b=0),
         )
         fig.add_annotation(
@@ -653,7 +654,7 @@ with tab2:
         **PLOTLY,
         title=dict(text="Cash Flow Cumulatif depuis investissement (M FCFA)",
                    font=dict(color=BRAND, size=14)),
-        height=260, yaxis_title="M FCFA",
+        height=260, yaxis_title="M FCFA", legend=LEG_H,
     )
     st.plotly_chart(fig, use_container_width=True)
 
@@ -674,7 +675,7 @@ with tab2:
         fig.update_layout(
             **PLOTLY, barmode="stack",
             title=dict(text="Coûts An 1 (K FCFA)", font=dict(color=BRAND, size=13)),
-            height=290,
+            height=290, legend=LEG_H,
         )
         st.plotly_chart(fig, use_container_width=True)
 
@@ -687,7 +688,7 @@ with tab2:
         fig.update_layout(
             **PLOTLY, barmode="stack",
             title=dict(text="Décomposition CA 5 ans (M FCFA)", font=dict(color=BRAND, size=13)),
-            height=290,
+            height=290, legend=LEG_H,
         )
         st.plotly_chart(fig, use_container_width=True)
 
@@ -840,7 +841,7 @@ with tab4:
         fig.update_layout(
             **PLOTLY,
             title=dict(text="MAU — 3 scénarios (milliers)", font=dict(color=BRAND, size=14)),
-            height=330, yaxis_title="MAU (000s)",
+            height=330, yaxis_title="MAU (000s)", legend=LEG_H,
         )
         st.plotly_chart(fig, use_container_width=True)
 
@@ -859,7 +860,7 @@ with tab4:
         fig.update_layout(
             **PLOTLY,
             title=dict(text="CA annuel — 3 scénarios (M FCFA)", font=dict(color=BRAND, size=14)),
-            height=330, yaxis_title="M FCFA",
+            height=330, yaxis_title="M FCFA", legend=LEG_H,
         )
         st.plotly_chart(fig, use_container_width=True)
 
@@ -934,7 +935,7 @@ with tab5:
                 **PLOTLY,
                 title=dict(text=f"Distribution CA An5 — {mc['n_simulations']} simulations",
                            font=dict(color=BRAND, size=14)),
-                height=310, xaxis_title="CA An5 (M FCFA)", yaxis_title="Fréquence",
+                showlegend=False, height=310, xaxis_title="CA An5 (M FCFA)", yaxis_title="Fréquence",
             )
             st.plotly_chart(fig, use_container_width=True)
 
@@ -953,7 +954,7 @@ with tab5:
                 **PLOTLY,
                 title=dict(text=f"Distribution VAN — {mc['van']['pct_positive']:.0f}% positives",
                            font=dict(color=BRAND, size=14)),
-                height=310, xaxis_title="VAN (M FCFA)", yaxis_title="Fréquence",
+                showlegend=False, height=310, xaxis_title="VAN (M FCFA)", yaxis_title="Fréquence",
             )
             st.plotly_chart(fig, use_container_width=True)
 
@@ -1009,7 +1010,7 @@ with tab5:
             title=dict(text="Tornado — Impact ±Δ% sur CA An3",
                        font=dict(color=BRAND, size=14)),
             xaxis_title="Impact (%)", height=400,
-            legend=dict(orientation="h", y=1.12),
+            legend=dict(bgcolor="rgba(0,0,0,0)", font=dict(size=11), orientation="h", y=1.12),
         )
         st.plotly_chart(fig, use_container_width=True)
         st.caption("Paramètre en tête = levier le plus fort sur le CA An3.")
