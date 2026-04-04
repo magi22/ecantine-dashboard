@@ -220,6 +220,7 @@ def compute_revenues(mau_array, params=None):
             "mois":              i + 1,
             "mau":               int(mau),
             "commandes":         int(cmd),
+            "n_restaurants":     int(n_rest),
             "pct_ecantine_liv":  round(pct_ecantine * 100, 1),
             "rev_livraison":     int(rev_livraison),
             "rev_commission":    int(rev_commission),

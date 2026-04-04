@@ -599,6 +599,12 @@ with st.sidebar:
     mau_L = st.slider("MAU plateau",         40_000, 200_000, 80_000, 5_000)
     mau_k = st.slider("Vitesse croissance k", 0.05,   0.20,    0.10,   0.01)
 
+    st.markdown(f"<p class='ec-label'>Simulation Opérationnelle</p>", unsafe_allow_html=True)
+    cmd_par_livreur_j  = st.slider("Cmd/livreur/jour",   4,  20, 8,  1)
+    jours_actifs_mois  = st.slider("Jours actifs/mois",  15, 28, 22, 1)
+    nb_rest_cible      = st.slider("Restaurants cible An1", 50, 400, 150, 10)
+    mau_par_rest       = st.slider("MAU par restaurant", 10, 80, 35, 5)
+
     st.markdown(f"<p class='ec-label'>Monte Carlo</p>", unsafe_allow_html=True)
     n_mc       = st.slider("Simulations", 200, 2000, 500, 100)
     run_mc_btn = st.button("▶  Lancer Monte Carlo", use_container_width=True)
@@ -623,6 +629,15 @@ params = {
     "pct_premium":         pct_prem / 100,
     "mau_L":               mau_L,
     "mau_k":               mau_k,
+    "nb_rest_cible_an1":   nb_rest_cible,
+}
+
+# ── Paramètres opérationnels (hors modèle prédictif) ─────────
+OPS = {
+    "cmd_par_livreur_j": cmd_par_livreur_j,
+    "jours_actifs_mois": jours_actifs_mois,
+    "mau_par_rest":      mau_par_rest,
+    "nb_rest_cible_an1": nb_rest_cible,
 }
 
 @st.cache_data(show_spinner="Calcul en cours…")
@@ -697,13 +712,14 @@ st.markdown("<div class='ec-divider'></div>", unsafe_allow_html=True)
 # ══════════════════════════════════════════════════════════════
 # ONGLETS
 # ══════════════════════════════════════════════════════════════
-tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8 = st.tabs([
+tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9 = st.tabs([
     "📊  Vue d'ensemble",
     "💰  Revenus & Coûts",
     "🌍  Données Terrain",
     "🔀  Scénarios",
     "🎲  Monte Carlo",
     "💸  Charges & Trésorerie",
+    "📦  Opérationnel",
     "📖  Glossaire & Guide",
     "🗺️  À propos du Modèle",
 ])
@@ -786,6 +802,90 @@ with tab1:
     fi2.metric("TRI",                   f"{tri_val:.1f}%",            delta="> 9% bancaire")
     fi3.metric("Indice Profitabilité",  f"{fin['ip']:.2f}x",          delta="> 1")
     fi4.metric("Budget de lancement",  f"{fin['budget_fcfa']/1e6:.2f}M FCFA")
+
+    # ── Interprétation dynamique liée aux sliders actuels ────────
+    st.markdown("<div class='ec-divider'></div>", unsafe_allow_html=True)
+    st.markdown("<p class='ec-label'>Interprétation — paramètres actuels</p>",
+                unsafe_allow_html=True)
+
+    ca_an1_v  = ca["central"]["an1"] / 1e6
+    ca_an3_v  = ca["central"]["an3"] / 1e6
+    ca_an5_v  = ca["central"]["an5"] / 1e6
+    mau_an1_v = m["central"]["an1"]
+    mau_an3_v = m["central"]["an3"]
+    cmd_an1   = sum(r["commandes"] for r in rev_m[:12])
+    cmd_an3   = sum(r["commandes"] for r in rev_m[24:36])
+
+    # Verdict panier moyen
+    if avg_basket >= 4000:
+        panier_msg = f"Le panier moyen de <b>{avg_basket:,} FCFA</b> est élevé — hypothèse optimiste, à valider terrain."
+        panier_col = ORANGE
+    elif avg_basket >= 2500:
+        panier_msg = f"Le panier moyen de <b>{avg_basket:,} FCFA</b> est réaliste pour Dakar (repas + boisson)."
+        panier_col = GREEN
+    else:
+        panier_msg = f"Le panier moyen de <b>{avg_basket:,} FCFA</b> est conservateur — marge de progression importante."
+        panier_col = TEAL2
+
+    # Verdict MAU plateau
+    if mau_L >= 100_000:
+        mau_msg = f"Objectif MAU plateau <b>{mau_L:,}</b> ambitieux — nécessite une couverture multi-quartiers Dakar."
+        mau_col = ORANGE
+    elif mau_L >= 60_000:
+        mau_msg = f"Objectif MAU plateau <b>{mau_L:,}</b> — cohérent avec la population cible (étudiants + actifs)."
+        mau_col = GREEN
+    else:
+        mau_msg = f"Objectif MAU plateau <b>{mau_L:,}</b> — scénario prudent, atteint plus tôt (break-even accéléré)."
+        mau_col = TEAL2
+
+    # Verdict croissance
+    if mau_k >= 0.15:
+        k_msg = f"Vitesse k={mau_k:.2f} très élevée — suppose un effet viral fort (bouche à oreille + réseaux sociaux)."
+        k_col = ORANGE
+    elif mau_k >= 0.09:
+        k_msg = f"Vitesse k={mau_k:.2f} — croissance progressive, cohérente avec Chowdeck Lagos phase 1."
+        k_col = GREEN
+    else:
+        k_msg = f"Vitesse k={mau_k:.2f} — croissance lente, bon pour le scénario pessimiste (prudence BP)."
+        k_col = TEAL2
+
+    # Verdict global
+    if fin["van_M"] > 500 and tri_val > 100:
+        glob_icon, glob_msg, glob_col = "🟢", f"Excellent : VAN {fin['van_M']:.0f}M + TRI {tri_val:.0f}% → projet très rentable avec ces paramètres.", GREEN
+    elif fin["van_M"] > 100 and tri_val > 30:
+        glob_icon, glob_msg, glob_col = "✅", f"Bon : VAN {fin['van_M']:.0f}M + TRI {tri_val:.0f}% → projet rentable et viable.", TEAL2
+    elif fin["van_M"] > 0:
+        glob_icon, glob_msg, glob_col = "🟡", f"Acceptable : VAN positive ({fin['van_M']:.0f}M) mais TRI {tri_val:.0f}% — optimiser les leviers.", GOLD
+    else:
+        glob_icon, glob_msg, glob_col = "🔴", f"Attention : VAN négative ({fin['van_M']:.0f}M) avec ces paramètres — ajuster panier/MAU.", ORANGE
+
+    st.markdown(f"""
+    <div class="ec-card" style="border-left:4px solid {glob_col}">
+      <div style="font-size:0.9rem;font-weight:700;color:{glob_col};margin-bottom:12px">
+        {glob_icon} Verdict global avec ces paramètres
+      </div>
+      <div style="font-size:0.84rem;color:{TEXT};line-height:1.8;margin-bottom:10px">
+        {glob_msg}<br>
+        CA An 1 = <b>{ca_an1_v:.1f}M</b> → An 3 = <b>{ca_an3_v:.1f}M</b> → An 5 = <b>{ca_an5_v:.1f}M</b> FCFA
+        (croissance ×{ca_an5_v/ca_an1_v:.1f} sur 5 ans).<br>
+        En An 1 : <b>{cmd_an1:,} commandes totales</b> · En An 3 : <b>{cmd_an3:,} commandes</b>.
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:8px">
+        <div style="background:{GREY_BG};border-radius:8px;padding:8px 12px;
+                    font-size:0.80rem;color:{TEXT};border-left:3px solid {panier_col}">
+          {panier_msg}
+        </div>
+        <div style="background:{GREY_BG};border-radius:8px;padding:8px 12px;
+                    font-size:0.80rem;color:{TEXT};border-left:3px solid {mau_col}">
+          {mau_msg}
+        </div>
+        <div style="background:{GREY_BG};border-radius:8px;padding:8px 12px;
+                    font-size:0.80rem;color:{TEXT};border-left:3px solid {k_col}">
+          {k_msg}
+        </div>
+      </div>
+    </div>
+    """, unsafe_allow_html=True)
 
 # ══════════════════════════════════════════════════════════════
 # TAB 2 — REVENUS & COÛTS
@@ -873,8 +973,11 @@ with tab2:
                 x=list(range(1,13)), y=[c[k]/1e3 for c in c1d],
                 name=lbl, marker=dict(color=col, line=dict(width=0)),
             ))
+        _leg4 = dict(bgcolor=_BG, font=dict(size=10), orientation="h",
+                     yanchor="top", y=-0.15, xanchor="center", x=0.5)
         fig.update_layout(
-            **_layout("Coûts An 1 (K FCFA)", BRAND, 290, barmode="stack", legend=_LEG_H),
+            **_layout("Coûts An 1 (K FCFA)", BRAND, 320, barmode="stack", legend=_leg4,
+                      margin=dict(l=10, r=10, t=42, b=60)),
         )
         st.plotly_chart(fig, use_container_width=True)
 
@@ -884,8 +987,12 @@ with tab2:
             annual = [sum(r[k] for r in rev_m[(an-1)*12:an*12])/1e6 for an in range(1,6)]
             fig.add_trace(go.Bar(x=YEARS, y=annual, name=lbl,
                                  marker=dict(color=col, line=dict(width=0))))
+        _leg7 = dict(bgcolor=_BG, font=dict(size=10), orientation="h",
+                     yanchor="top", y=-0.18, xanchor="center", x=0.5)
         fig.update_layout(
-            **_layout("Décomposition CA 5 ans (M FCFA)", BRAND, 290, barmode="stack", legend=_LEG_H),
+            **_layout("Décomposition CA 5 ans (M FCFA)", BRAND, 340,
+                      barmode="stack", legend=_leg7,
+                      margin=dict(l=10, r=10, t=42, b=80)),
         )
         st.plotly_chart(fig, use_container_width=True)
 
@@ -1388,9 +1495,193 @@ with tab6:
     """, unsafe_allow_html=True)
 
 # ══════════════════════════════════════════════════════════════
-# TAB 7 — GLOSSAIRE & GUIDE
+# TAB 7 — OPÉRATIONNEL (simulation livreurs, restaurants, cmd)
 # ══════════════════════════════════════════════════════════════
 with tab7:
+    # Calcul des séries opérationnelles à partir des données modèle
+    cap_liv_mois = OPS["cmd_par_livreur_j"] * OPS["jours_actifs_mois"]
+    n_liv_m  = [max(1, int(np.ceil(r["commandes"] / cap_liv_mois))) for r in rev_m]
+    n_rest_m = [r["n_restaurants"] for r in rev_m]
+    cmd_m    = [r["commandes"] for r in rev_m]
+
+    # Comparaison terrain vs modèle
+    n_liv_terrain  = terr.get("livreurs", {}).get("n_entretiens", 23)
+    n_rest_terrain = terr.get("restaurants", {}).get("n_discussions", 5)
+
+    # ── KPIs opérationnels An 1 et An 3 ──────────────────────
+    o1, o2, o3, o4, o5 = st.columns(5)
+    o1.metric("Commandes An 1",   f"{sum(cmd_m[:12]):,}")
+    o2.metric("Commandes An 3",   f"{sum(cmd_m[24:36]):,}",
+              delta=f"+{sum(cmd_m[24:36])/sum(cmd_m[:12])*100-100:.0f}%")
+    o3.metric("Livreurs An 1",    f"{max(n_liv_m[:12]):,}", delta="pic mensuel")
+    o4.metric("Livreurs An 3",    f"{max(n_liv_m[24:36]):,}", delta="pic mensuel")
+    o5.metric("Restaurants An 1", f"{max(n_rest_m[:12]):,}", delta=f"cible {nb_rest_cible}")
+
+    st.markdown("<div class='ec-divider'></div>", unsafe_allow_html=True)
+
+    col_op1, col_op2 = st.columns(2)
+
+    with col_op1:
+        # Graphique commandes mensuelles
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(
+            x=MONTHS, y=cmd_m, mode="lines", name="Commandes/mois",
+            line=dict(color=BRAND_MED, width=2.5),
+            fill="tozeroy", fillcolor="rgba(26,47,255,0.07)",
+        ))
+        for idx in [12, 24, 36, 48]:
+            fig.add_vline(x=idx, line_dash="dot",
+                          line_color="rgba(4,12,136,0.15)", line_width=1)
+        fig.update_layout(
+            **_layout("Commandes mensuelles simulées", BRAND, 290,
+                      y_title="Commandes", showlegend=False),
+        )
+        st.plotly_chart(fig, use_container_width=True)
+
+        # Interprétation commandes
+        cmd_an1_total = sum(cmd_m[:12])
+        cmd_an5_total = sum(cmd_m[48:60])
+        cmd_moy_an1   = cmd_an1_total // 12
+        if cmd_moy_an1 < 500:
+            cmd_msg, cmd_col = f"Volume An 1 faible ({cmd_moy_an1:,} cmd/mois) — priorité : acquisition clients et fidélisation.", ORANGE
+        elif cmd_moy_an1 < 2000:
+            cmd_msg, cmd_col = f"Volume An 1 modéré ({cmd_moy_an1:,} cmd/mois) — réaliste pour un démarrage à Dakar.", TEAL2
+        else:
+            cmd_msg, cmd_col = f"Volume An 1 élevé ({cmd_moy_an1:,} cmd/mois) — suppose une adoption rapide dès le lancement.", GREEN
+        st.markdown(f"""
+        <div style="background:{GREY_BG};border-left:3px solid {cmd_col};border-radius:8px;
+                    padding:8px 12px;font-size:0.81rem;color:{TEXT};margin-top:4px">
+          {cmd_msg}<br>
+          <span style="color:{TEXT_DIM}">An 1 : <b>{cmd_an1_total:,}</b> commandes totales →
+          An 5 : <b>{cmd_an5_total:,}</b> (×{cmd_an5_total/cmd_an1_total:.1f})</span>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with col_op2:
+        # Graphique livreurs nécessaires
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(
+            x=MONTHS, y=n_liv_m, mode="lines", name="Livreurs nécessaires",
+            line=dict(color=PURPLE, width=2.5),
+            fill="tozeroy", fillcolor="rgba(124,58,237,0.07)",
+        ))
+        fig.add_hline(y=n_liv_terrain, line_dash="dash", line_color=ORANGE, line_width=2,
+                      annotation_text=f"  Terrain actuel : {n_liv_terrain}",
+                      annotation_font=dict(color=ORANGE, size=11))
+        for idx in [12, 24, 36, 48]:
+            fig.add_vline(x=idx, line_dash="dot",
+                          line_color="rgba(4,12,136,0.15)", line_width=1)
+        fig.update_layout(
+            **_layout("Livreurs nécessaires (simulation)", BRAND, 290,
+                      y_title="Nb livreurs", showlegend=False),
+        )
+        st.plotly_chart(fig, use_container_width=True)
+
+        # Interprétation livreurs
+        liv_an1_max = max(n_liv_m[:12])
+        liv_an3_max = max(n_liv_m[24:36])
+        ecart_terrain = liv_an1_max - n_liv_terrain
+        if ecart_terrain > 50:
+            liv_msg = f"<b>{ecart_terrain} livreurs supplémentaires</b> à recruter avant An 1 (base terrain : {n_liv_terrain})."
+            liv_col = ORANGE
+        elif ecart_terrain > 10:
+            liv_msg = f"<b>{ecart_terrain} livreurs</b> à recruter en plus de la base terrain ({n_liv_terrain}) — faisable progressivement."
+            liv_col = GOLD
+        else:
+            liv_msg = f"Base terrain ({n_liv_terrain} livreurs) suffisante pour An 1 ({liv_an1_max} nécessaires)."
+            liv_col = GREEN
+        st.markdown(f"""
+        <div style="background:{GREY_BG};border-left:3px solid {liv_col};border-radius:8px;
+                    padding:8px 12px;font-size:0.81rem;color:{TEXT};margin-top:4px">
+          {liv_msg}<br>
+          <span style="color:{TEXT_DIM}">Capacité par livreur :
+          <b>{OPS['cmd_par_livreur_j']} cmd/jour × {OPS['jours_actifs_mois']} j = {cap_liv_mois} cmd/mois</b>.
+          Ajuste le slider "Cmd/livreur/jour" pour tester.</span>
+        </div>
+        """, unsafe_allow_html=True)
+
+    # Graphique restaurants
+    st.markdown("<div class='ec-divider'></div>", unsafe_allow_html=True)
+    col_op3, col_op4 = st.columns(2)
+
+    with col_op3:
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(
+            x=MONTHS, y=n_rest_m, mode="lines", name="Restaurants partenaires",
+            line=dict(color=TEAL2, width=2.5),
+            fill="tozeroy", fillcolor="rgba(20,184,166,0.08)",
+        ))
+        fig.add_hline(y=n_rest_terrain, line_dash="dash", line_color=ORANGE, line_width=2,
+                      annotation_text=f"  Terrain actuel : {n_rest_terrain}",
+                      annotation_font=dict(color=ORANGE, size=11))
+        fig.add_hline(y=nb_rest_cible, line_dash="dot", line_color=GREEN, line_width=1.5,
+                      annotation_text=f"  Cible An 1 : {nb_rest_cible}",
+                      annotation_font=dict(color=GREEN, size=11))
+        for idx in [12, 24, 36, 48]:
+            fig.add_vline(x=idx, line_dash="dot",
+                          line_color="rgba(4,12,136,0.15)", line_width=1)
+        fig.update_layout(
+            **_layout("Restaurants partenaires (simulation)", BRAND, 290,
+                      y_title="Nb restaurants", showlegend=False),
+        )
+        st.plotly_chart(fig, use_container_width=True)
+
+        # Interprétation restaurants
+        rest_an1 = max(n_rest_m[:12])
+        rest_an3 = max(n_rest_m[24:36])
+        ecart_rest = rest_an1 - n_rest_terrain
+        if ecart_rest > 100:
+            rest_msg = f"<b>{ecart_rest} restaurants</b> à convaincre avant An 1 — effort commercial majeur (base : {n_rest_terrain})."
+            rest_col = ORANGE
+        elif ecart_rest > 30:
+            rest_msg = f"<b>{ecart_rest} restaurants</b> à signer en An 1 — faisable avec 2-3 commerciaux terrain."
+            rest_col = GOLD
+        else:
+            rest_msg = f"Base terrain ({n_rest_terrain}) couvre les besoins An 1 ({rest_an1} nécessaires)."
+            rest_col = GREEN
+        st.markdown(f"""
+        <div style="background:{GREY_BG};border-left:3px solid {rest_col};border-radius:8px;
+                    padding:8px 12px;font-size:0.81rem;color:{TEXT};margin-top:4px">
+          {rest_msg}<br>
+          <span style="color:{TEXT_DIM}">Ratio modèle : 1 restaurant pour <b>{OPS['mau_par_rest']} MAU</b>.
+          Ajuste "MAU par restaurant" sidebar pour changer ce ratio.</span>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with col_op4:
+        # Tableau annuel opérationnel
+        st.markdown("<p class='ec-label'>Récap opérationnel annuel</p>",
+                    unsafe_allow_html=True)
+        rows_ops = []
+        for an in range(1, 6):
+            s, e = (an-1)*12, an*12
+            rows_ops.append({
+                "Année":               f"An {an} · {2026+an}",
+                "MAU fin an":          f"{m['central'][f'an{an}']:,}",
+                "Commandes totales":   f"{sum(cmd_m[s:e]):,}",
+                "Cmd/mois moy":        f"{sum(cmd_m[s:e])//12:,}",
+                "Livreurs (pic)":      f"{max(n_liv_m[s:e]):,}",
+                "Restaurants (fin)":   f"{n_rest_m[e-1]:,}",
+            })
+        st.dataframe(pd.DataFrame(rows_ops), use_container_width=True, hide_index=True)
+
+        st.markdown(f"""
+        <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;
+                    padding:12px 14px;margin-top:8px;font-size:0.80rem;color:{TEXT}">
+          <b style="color:{BRAND}">Comment lire ce tableau :</b><br>
+          <span style="color:{TEXT_DIM}">
+          • <b>Livreurs (pic)</b> = nombre max nécessaire dans le mois le plus chargé de l'année.<br>
+          • <b>Restaurants (fin)</b> = partenaires actifs en fin d'année selon le ratio MAU/restaurant.<br>
+          • Ajuste les sliders sidebar <i>Cmd/livreur/jour</i> et <i>MAU par restaurant</i>
+            pour tester différentes hypothèses opérationnelles.
+          </span>
+        </div>
+        """, unsafe_allow_html=True)
+
+# ══════════════════════════════════════════════════════════════
+# TAB 8 — GLOSSAIRE & GUIDE
+# ══════════════════════════════════════════════════════════════
+with tab8:
     st.markdown("<p class='ec-label'>Comprendre le Dashboard — Termes et Définitions</p>",
                 unsafe_allow_html=True)
     st.markdown(f"""
@@ -1543,9 +1834,9 @@ with tab7:
             """, unsafe_allow_html=True)
 
 # ══════════════════════════════════════════════════════════════
-# TAB 8 — À PROPOS DU MODÈLE
+# TAB 9 — À PROPOS DU MODÈLE
 # ══════════════════════════════════════════════════════════════
-with tab8:
+with tab9:
 
     # ── Intro ──────────────────────────────────────────────────
     st.markdown(f"""
