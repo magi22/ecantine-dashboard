@@ -1035,8 +1035,11 @@ with tab3:
     liv  = terr.get("livreurs",    {})
     rest = terr.get("restaurants", {})
     bench= terr.get("benchmarks",  [])
-    n_rep = cli.get("n_repondants", 0)
-    n_obj = cli.get("objectif_cible", 1_000)
+    # Valeurs réelles terrain — forcées indépendamment de la taille du CSV
+    n_rep  = 100    # 100 personnes réseau de connaissance
+    n_liv  = 23     # 23 entretiens livreurs terrain
+    n_rest = 8      # 8 discussions restaurants (dont Trophet, Chez Mervi, Chez Maman Gaga)
+    n_obj  = 1_000  # objectif formulaire in-app An 1
     pct_prog = min(n_rep / n_obj * 100, 100)
 
     st.markdown(f"""
@@ -1046,7 +1049,7 @@ with tab3:
           <div style="font-size:0.7rem;color:{TEXT_DIM};text-transform:uppercase;
                       letter-spacing:1px;font-weight:600">Collecte de données primaires</div>
           <div style="font-size:1.1rem;font-weight:700;color:{BRAND};margin-top:4px">
-            {n_rep} clients · {liv.get('n_entretiens',0)} livreurs · {rest.get('n_discussions',0)} restaurants
+            {n_rep} clients · {n_liv} livreurs · {n_rest} restaurants
           </div>
           <div style="font-size:0.82rem;color:{TEXT_DIM};margin-top:3px">
             Réseau de connaissance du fondateur — personnes commandant régulièrement à Dakar.<br>
@@ -1542,8 +1545,8 @@ with tab7:
     cmd_m    = [r["commandes"] for r in rev_m]
 
     # Comparaison terrain vs modèle
-    n_liv_terrain  = terr.get("livreurs", {}).get("n_entretiens", 23)
-    n_rest_terrain = terr.get("restaurants", {}).get("n_discussions", 5)
+    n_liv_terrain  = 23
+    n_rest_terrain = 8
 
     # ── KPIs opérationnels An 1 et An 3 ──────────────────────
     o1, o2, o3, o4, o5 = st.columns(5)
@@ -2020,8 +2023,8 @@ with tab9:
             </span><br><br>
             <b style="color:{BRAND}">Données terrain :</b>
             {terr.get('clients', {}).get('n_repondants', 20)} clients (questionnaire),
-            {terr.get('livreurs', {}).get('n_entretiens', 23)} livreurs (entretiens),
-            {terr.get('restaurants', {}).get('n_discussions', 5)} restaurants (discussions).
+            23 livreurs (entretiens),
+            8 restaurants (discussions).
             Panel exploratoire (100 réseau de connaissance) — objectif <b>1 000 répondants</b> via formulaire in-app (fin An 1 commercial).<br><br>
             <b style="color:{BRAND}">Taux d'actualisation :</b>
             15% — coût du capital estimé dans le contexte UEMOA/ISM Dakar
