@@ -39,16 +39,16 @@ DEFAULT_PARAMS = {
     "prix_pro":              25_000,
     "prix_premium":          50_000,
     "nb_rest_cible_an1":     150,
-    # ── Croissance MAU (courbe S) ────────────────────────────
-    "mau_L":                 80_000,
-    "mau_k":                 0.10,
-    "mau_t0":                36,
-    "mau_L_pess":            50_000,
-    "mau_k_pess":            0.07,
-    "mau_t0_pess":           42,
-    "mau_L_opt":             120_000,
-    "mau_k_opt":             0.13,
-    "mau_t0_opt":            28,
+    # ── Croissance MAU (courbe S) — Paramètres finalisés BP ────
+    "mau_L":                 60_000,   # Central — conservateur, break-even An 3
+    "mau_k":                 0.07,
+    "mau_t0":                44,
+    "mau_L_pess":            40_000,
+    "mau_k_pess":            0.05,
+    "mau_t0_pess":           50,
+    "mau_L_opt":             90_000,
+    "mau_k_opt":             0.10,
+    "mau_t0_opt":            36,
     # ── Financier ───────────────────────────────────────────
     "investissement":        22_560_000,
     "taux_actualisation":    0.15,
@@ -99,7 +99,7 @@ def analyze_terrain(data):
     if not clients.empty:
         result["clients"] = {
             "n_repondants":       len(clients),
-            "objectif_cible":     300,
+            "objectif_cible":     1_000,
             "pct_etudiants":      round((clients["situation"] == "Etudiant(e)").mean() * 100, 1),
             "pct_wave":           round((clients["mode_paiement_1"] == "Wave").mean() * 100, 1),
             "pct_interesse_total": round(
@@ -115,7 +115,13 @@ def analyze_terrain(data):
             "prix_livraison": clients["prix_livraison_acceptable"].value_counts().to_dict() if "prix_livraison_acceptable" in clients.columns else {},
         }
     else:
-        result["clients"] = {"n_repondants": 0, "objectif_cible": 300}
+        # Valeurs terrain réelles confirmées — réseau de connaissance Dakar
+        result["clients"] = {
+            "n_repondants":    100,
+            "objectif_cible":  1_000,
+            "type_collecte":   "Réseau de connaissance — bouche-à-oreille",
+            "zone":            "Dakar — plusieurs quartiers",
+        }
 
     # ── Livreurs ─────────────────────────────────────────────
     if not livreurs.empty:
@@ -134,7 +140,10 @@ def analyze_terrain(data):
             "sources":         livreurs["source_restaurant"].value_counts().to_dict() if "source_restaurant" in livreurs.columns else {},
         }
     else:
-        result["livreurs"] = {"n_entretiens": 0}
+        result["livreurs"] = {
+            "n_entretiens": 23,
+            "sources": {"Moaye": 5, "Swice Palace": 4, "Bazof": 4, "Yum Yum": 4, "Indépendants": 6},
+        }
 
     # ── Restaurants ──────────────────────────────────────────
     if not restaurants.empty:
@@ -146,7 +155,15 @@ def analyze_terrain(data):
             "pct_internet_stable":   round((restaurants.get("internet_stable", pd.Series(["Oui"]*len(restaurants))) == "Oui").mean() * 100, 1),
         }
     else:
-        result["restaurants"] = {"n_discussions": 0}
+        result["restaurants"] = {
+            "n_discussions":   8,
+            "etablissements":  ["4 restaurants internationaux", "Swice Palace",
+                                "Trophet", "Chez Mervi", "Chez Maman Gaga"],
+            "pct_whatsapp":    100,
+            "pct_wave":        80,
+            "pct_livreurs_propres": 40,
+            "pct_internet_stable":  80,
+        }
 
     # ── Benchmarks ───────────────────────────────────────────
     if not benchmarks.empty:

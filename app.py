@@ -627,8 +627,8 @@ with st.sidebar:
     st.caption(f"% Premium (50K FCFA/mois) = {pct_prem}%")
 
     st.markdown(f"<p class='ec-label'>Croissance MAU</p>", unsafe_allow_html=True)
-    mau_L = st.slider("MAU plateau",         40_000, 200_000, 80_000, 5_000)
-    mau_k = st.slider("Vitesse croissance k", 0.05,   0.20,    0.10,   0.01)
+    mau_L = st.slider("MAU plateau",         40_000, 200_000, 60_000, 5_000)
+    mau_k = st.slider("Vitesse croissance k", 0.05,   0.20,    0.07,   0.01)
 
     st.markdown(f"<p class='ec-label'>Simulation Opérationnelle</p>", unsafe_allow_html=True)
     cmd_par_livreur_j  = st.slider("Cmd/livreur/jour",   4,  20, 8,  1)
@@ -1036,7 +1036,7 @@ with tab3:
     rest = terr.get("restaurants", {})
     bench= terr.get("benchmarks",  [])
     n_rep = cli.get("n_repondants", 0)
-    n_obj = cli.get("objectif_cible", 300)
+    n_obj = cli.get("objectif_cible", 1_000)
     pct_prog = min(n_rep / n_obj * 100, 100)
 
     st.markdown(f"""
@@ -1392,7 +1392,7 @@ with tab5:
             Le Monte Carlo simule <b style="color:{TEXT}">{mc['n_simulations'] if mc else n_mc} variantes</b>
             avec perturbation aléatoire ±20–30% des paramètres clés → intervalles P10–P90.<br>
             <span style="color:{ORANGE}">Panel terrain limité</span> —
-            projections affinées à <b style="color:{TEXT}">300 répondants clients</b>.
+            projections affinées à <b style="color:{TEXT}">1 000 répondants clients</b> (objectif fin An 1 commercial).
           </div>
         </div>
       </div>
@@ -1521,7 +1521,8 @@ with tab6:
       <b style="color:{BRAND}">Investissement initial :</b>
       {fin['budget_fcfa']/1e6:.2f}M FCFA — récupéré au mois
       <b style="color:{GREEN}">M{fin['delai_mois']}</b> (break-even cumulatif).<br>
-      <span style="color:{TEXT_DIM}">Taux d'actualisation utilisé pour la VAN : 15% (coût opportunité ISM/UEMOA).</span>
+      <span style="color:{TEXT_DIM}">Taux d'actualisation utilisé pour la VAN : 15% (coût opportunité ISM/UEMOA).</span><br>
+      <span style="color:{TEXT_DIM}"><b>Frais BCEAO 1%</b> (max 5 000 FCFA) : réglementaires, reversés à Wave / Orange Money / Mix by Yass — <b>pas un revenu E-cantine</b>.</span>
     </div>
     """, unsafe_allow_html=True)
 
@@ -1776,7 +1777,7 @@ with tab8:
             "⏱️", f"Break-even (Délai de Récupération)",
             "C'est le moment où les revenus cumulés dépassent l'investissement initial. "
             "Avant ce mois, le projet est encore en déficit cumulé. Après, il est bénéficiaire.",
-            f"Break-even au mois {fin['delai_mois']} ({2026 + fin['delai_mois']//12:.0f}) — l'investissement de {fin['budget_fcfa']/1e6:.2f}M FCFA est récupéré.",
+            f"Break-even au mois {fin['delai_mois'] or '?'} ({(2026 + fin['delai_mois']//12) if fin['delai_mois'] else 'N/A'}) — l'investissement de {fin['budget_fcfa']/1e6:.2f}M FCFA est récupéré.",
             GREEN
         ), unsafe_allow_html=True)
 
@@ -2019,7 +2020,7 @@ with tab9:
             {terr.get('clients', {}).get('n_repondants', 20)} clients (questionnaire),
             {terr.get('livreurs', {}).get('n_entretiens', 23)} livreurs (entretiens),
             {terr.get('restaurants', {}).get('n_discussions', 5)} restaurants (discussions).
-            Panel limité — projections à affiner à 300 répondants.<br><br>
+            Panel exploratoire (100 réseau de connaissance) — objectif <b>1 000 répondants</b> via formulaire in-app (fin An 1 commercial).<br><br>
             <b style="color:{BRAND}">Taux d'actualisation :</b>
             15% — coût du capital estimé dans le contexte UEMOA/ISM Dakar
             (supérieur au taux bancaire BCAO ≈ 9% + prime de risque startup ≈ 6%).
@@ -2054,7 +2055,7 @@ with tab9:
         st.markdown(f"<div class='h-section'>🚧 Limites connues</div>",
                     unsafe_allow_html=True)
         limites = [
-            "Panel terrain limité (20 clients) — à élargir à 300",
+            "Panel exploratoire (100 réseau de connaissance) — objectif 1 000 via formulaire in-app An 1",
             "Pas encore de données réelles de transactions",
             "Facteur Dakar calculé, non validé empiriquement",
             "Modèle déterministe de coûts (pas de choc externe)",
