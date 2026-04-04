@@ -62,7 +62,7 @@ PINK       = "#ec4899"
 TEAL2      = "#14b8a6"
 
 REV_COLORS = [BRAND_MED, CYAN, PURPLE, GOLD, ORANGE, TEAL2, PINK]
-REV_LABELS = ["① Livraison","② Commission","③ Abonnements","④ Pub","⑤ B2B","⑥ Sélection","⑦ Propres"]
+REV_LABELS = ["① Livraison","② Commission","③ Abonnements","④ Pub","⑤ B2B","⑥ Vitrine","⑦ Propres"]
 REV_KEYS   = ["rev_livraison","rev_commission","rev_abonnements","rev_pub","rev_b2b","rev_selection","rev_propres"]
 YEARS      = ["An 1","An 2","An 3","An 4","An 5"]
 MONTHS     = list(range(1, 61))
@@ -1213,7 +1213,7 @@ with tab4:
             "abonnements":"③ Abonnements",
             "pub":"④ Publicité in-app",
             "b2b":"⑤ B2B entreprises",
-            "selection":"⑥ Sélection (5%)",
+            "selection":"⑥ E-cantine Vitrine (5%)",
             "propres":"⑦ Livr. propres (1,5%)"}
     drows = []
     for k, lbl in lmap.items():
@@ -1853,7 +1853,7 @@ with tab8:
             ("③ Abonnements restaurants", "Formule Pro (25K/mois) ou Premium (50K/mois) pour les restaurants partenaires."),
             ("④ Publicité in-app", "Les restaurants ou marques paient pour être mis en avant dans l'application."),
             ("⑤ B2B entreprises", "Contrats avec des entreprises pour livrer des repas à leurs employés (ex. déjeuners)."),
-            ("⑥ Sélection (5%)", "Commission sur les commandes passées via le menu 'Sélection du jour'."),
+            ("⑥ E-cantine Vitrine (5%)", "Commission 5% sur les commandes passées via le menu 'E-cantine Vitrine' (menus prix fixe mis en avant)."),
             ("⑦ Livraisons propres (1,5%)", "Livraisons effectuées par les propres livreurs E-cantine, marge supplémentaire."),
         ]
         for titre, desc in rev_cards:

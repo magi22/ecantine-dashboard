@@ -10,13 +10,13 @@
 
 ---
 
-## État actuel — commit e737181
+## État actuel — commit (post-2744318)
 
 ### Fichiers principaux
 - `app.py` — Dashboard Streamlit (~1 850 lignes)
-- `predict.py` — Modèle prédictif (~340 lignes)
-- `assets/logo_blue.svg` — Logo complet (icône + texte "ecantine", bleu #4d6aff)
-- `assets/logo_icon.svg` — Icône seule (cercle "e")
+- `predict.py` — Modèle prédictif (~350 lignes)
+- `assets/logo_blue.svg` — Logo complet (icône + texte "ecantine") **couleur #040c88** (corrigé de #4d6aff)
+- `assets/logo_icon.svg` — Icône seule (cercle "e") couleur #040c88
 - `.streamlit/config.toml` — base=light
 
 ### Structure des 9 onglets
@@ -119,6 +119,35 @@ OPS = {
 - **Graphiques** : encapsulés dans carte blanche avec box-shadow (profondeur visuelle)
 - **Badges header** : vert = VAN/TRI positifs, violet = IP, bleu = Break-even
 - **Interprétation dynamique** : liée aux sliders, recalculée à chaque changement
+
+---
+
+## Corrections modèle économique (session 2026-04-04)
+
+### predict.py — Corrections appliquées
+| # | Avant | Après | Impact |
+|---|-------|-------|--------|
+| Commission | Fixe par formule (Starter/Pro/Premium) | **Dégrésive par volume** : <100cmd→2.5%, <500→2.0%, <1500→1.5%, ≥1500→1.0% | Réaliste BP |
+| Livraisons propres | 1.5% de dispatch | **2.5%** | +67% sur ce flux (~+2M FCFA An 1) |
+| Pub in-app | Flux séparé dès mois 7 | **Absorbée dans abonnements** (rev_pub=0) | Simplifié |
+| E-cantine Vitrine | "Sélection" | **"Vitrine"** (renommage) | Labels cohérents BP |
+| logo_blue.svg | #4d6aff | **#040c88** (couleur brand officielle) | Visuel cohérent |
+
+### Concurrents — Corrections factuelles
+| Acteur | Avant (faux) | Après (correct) | Source |
+|--------|-------------|-----------------|--------|
+| Glovo | "Fermé Dakar 2025" | **Jamais officiellement lancé au Sénégal** | Wikipedia + glovoapp.com |
+| Jumia Food | "Fermé déc. 2022" | **Fermé déc. 2023** | TechCabal 14/12/2023 |
+| Yassir | Secondaire | **Concurrent le plus capitalisé** ($150M levés) | TechCrunch 2022 |
+
+### Nouveaux concurrents documentés (à ajouter dans benchmarks.csv)
+Bring Me SN (100+ restaurants, 4.5⭐), KonectFood, Wajeez (ex FoodBeeper), Togalma (B2B pro), PAPS Logistique ($4.5M levés), Coucou Express (étudiants UCAD)
+
+### Preuve de concept V0 (chiffres réels à citer dans BP)
+- 34 commandes totales, 25 livrées — preuve de fonctionnement réel
+- 1er livreur : Tito Gbedjeha · 1er restaurant : TCHOP MASTER (4 commandes)
+- Plats vendus : Choukouya de Porc, ALLOCO, Attiéké → cuisine africaine validée
+- Stack : PHP/Laravel admin + React.js client + iOS/Android
 
 ---
 

@@ -178,6 +178,14 @@ def compute_mau_series(params=None, scenario="central"):
 # 4. MODÈLE DE REVENUS (7 FLUX NETS)
 # ══════════════════════════════════════════════════════════════
 
+def _commission_rate(cmd_par_rest):
+    """Commission dégrésive selon le volume de commandes par restaurant par mois."""
+    if cmd_par_rest < 100:  return 0.025
+    if cmd_par_rest < 500:  return 0.020
+    if cmd_par_rest < 1500: return 0.015
+    return 0.010
+
+
 def compute_revenues(mau_array, params=None):
     """Calcule les revenus mensuels pour chaque valeur MAU."""
     p = {**DEFAULT_PARAMS, **(params or {})}
@@ -189,29 +197,27 @@ def compute_revenues(mau_array, params=None):
         # ① Frais de livraison — revenue principal
         rev_livraison = cmd * p["frais_livraison_moy"] * pct_ecantine * p["marge_livraison"]
 
-        # ② Commission variable (1% à 2,5%) selon la formule
-        rev_commission = (
-            cmd * p["pct_starter"]  * p["avg_basket"] * p["commission_starter"] +
-            cmd * p["pct_pro"]      * p["avg_basket"] * p["commission_pro"] +
-            cmd * p["pct_premium"]  * p["avg_basket"] * p["commission_premium"]
-        )
+        # ② Commission dégrésive par volume (pas par formule)
+        n_rest = max(1, min(mau / p.get("mau_par_rest", 35), p["nb_rest_cible_an1"]))
+        cmd_par_rest = cmd / n_rest
+        taux_comm = _commission_rate(cmd_par_rest)
+        rev_commission = cmd * p["avg_basket"] * taux_comm
 
-        # ③ Abonnements restaurants Pro + Premium
-        n_rest = min(mau / 35, p["nb_rest_cible_an1"])
+        # ③ Abonnements restaurants Pro + Premium (inclut visibilité — pub absorbée)
         rev_abo = (n_rest * p["pct_pro"] * p["prix_pro"] +
                    n_rest * p["pct_premium"] * p["prix_premium"])
 
-        # ④ Publicité in-app (à partir du mois 7)
-        rev_pub = max(0, min((i - 6) * 25_000 * 0.04, n_rest * 5_000)) if i > 6 else 0
+        # ④ Publicité in-app — absorbée dans les abonnements Pro/Premium
+        rev_pub = 0
 
         # ⑤ B2B — Cantines entreprises (à partir du mois 10)
         rev_b2b = max(0, min((i - 9) * 150_000 * 0.01, 3_000_000)) if i > 9 else 0
 
-        # ⑥ E-cantine Sélection — commission 5% sur menus prix fixe (mois 4+)
+        # ⑥ E-cantine Vitrine — commission 5% sur menus prix fixe (mois 4+)
         rev_selection = cmd * p["avg_basket"] * 0.08 * 0.05 if i > 3 else 0
 
-        # ⑦ Livraisons propres restaurants — 1,5% de dispatch
-        rev_propres = cmd * p["avg_basket"] * (1 - pct_ecantine) * 0.015
+        # ⑦ Livraisons propres restaurants — 2,5% de dispatch (corrigé de 1,5%)
+        rev_propres = cmd * p["avg_basket"] * (1 - pct_ecantine) * 0.025
 
         total = (rev_livraison + rev_commission + rev_abo +
                  rev_pub + rev_b2b + rev_selection + rev_propres)
@@ -220,7 +226,7 @@ def compute_revenues(mau_array, params=None):
             "mois":              i + 1,
             "mau":               int(mau),
             "commandes":         int(cmd),
-            "n_restaurants":     int(n_rest),
+            "n_restaurants":     int(round(n_rest)),
             "pct_ecantine_liv":  round(pct_ecantine * 100, 1),
             "rev_livraison":     int(rev_livraison),
             "rev_commission":    int(rev_commission),
