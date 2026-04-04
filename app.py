@@ -1,5 +1,5 @@
 """
-E-CANTINE · TABLEAU DE BORD IA · BUSINESS PLAN V7
+E-CANTINE · TABLEAU DE BORD IA · BUSINESS PLAN
 Design : Blanc & Bleu Brand — Clean, Fluide, Moderne
 """
 
@@ -560,6 +560,37 @@ html, body, .stApp, [data-testid="stAppViewContainer"],
   line-height: 1.6;
 }}
 
+/* ── Slider min/max toujours visibles ── */
+[data-testid="stSlider"] [data-baseweb="slider"] {{
+  padding-bottom: 4px !important;
+}}
+/* Tick bar (min / max) */
+[data-testid="stSlider"] [data-testid="stTickBar"] {{
+  display: flex !important;
+  justify-content: space-between !important;
+  margin-top: 2px !important;
+}}
+[data-testid="stSlider"] [data-testid="stTickBar"] span,
+[data-testid="stSlider"] [data-testid="stTickBarMax"],
+[data-testid="stSlider"] [data-testid="stTickBarMin"] {{
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  font-size: 0.68rem !important;
+  color: {TEXT_DIM} !important;
+  font-weight: 500 !important;
+}}
+/* Valeur courante au-dessus du curseur */
+[data-testid="stSlider"] [data-baseweb="thumb-value"],
+[data-testid="stSlider"] [data-testid="stSliderThumbValue"] {{
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  font-size: 0.75rem !important;
+  color: {BRAND} !important;
+  font-weight: 700 !important;
+}}
+
 /* ── Scrollbar ── */
 ::-webkit-scrollbar {{ width: 5px; height: 5px; }}
 ::-webkit-scrollbar-track {{ background: {GREY_BG}; }}
@@ -578,7 +609,7 @@ with st.sidebar:
     </div>
     <div style="text-align:center;margin-bottom:14px">
       <span style="font-size:0.68rem;color:{TEXT_DIM};letter-spacing:1.5px;
-                   text-transform:uppercase;font-weight:600">Business Plan V7 · IA</span>
+                   text-transform:uppercase;font-weight:600">Business Plan · IA</span>
     </div>
     <div class="ec-divider"></div>
     """, unsafe_allow_html=True)
@@ -670,16 +701,17 @@ tri_val = fin["tri"] or 0
 
 st.markdown(f"""
 <div class="ec-header-bar">
-  <div style="flex-shrink:0">
-    {logo_img(LOGO_BLUE_B64, width="160px")}
+  <div style="flex-shrink:0;display:flex;align-items:center;gap:10px">
+    {logo_img(LOGO_ICON_B64, width="48px")}
+    {logo_img(LOGO_BLUE_B64, width="120px")}
   </div>
-  <div style="flex:1;padding-left:4px">
+  <div style="flex:1;padding-left:8px">
     <div style="font-size:0.68rem;color:{TEXT_DIM};letter-spacing:1.5px;
                 text-transform:uppercase;font-weight:600;margin-bottom:3px">
       Tableau de Bord · Modèle IA · Dakar 2027–2031
     </div>
     <div style="font-size:1.4rem;font-weight:800;color:{BRAND};letter-spacing:-0.5px">
-      Business Plan V7 — Prédictions Financières
+      Business Plan — Prédictions Financières
     </div>
     <div style="margin-top:10px;display:flex;gap:7px;flex-wrap:wrap">
       <span class="badge-success">✓ VAN {fin['van_M']:.1f}M FCFA</span>
@@ -1501,7 +1533,10 @@ with tab7:
     # Calcul des séries opérationnelles à partir des données modèle
     cap_liv_mois = OPS["cmd_par_livreur_j"] * OPS["jours_actifs_mois"]
     n_liv_m  = [max(1, int(np.ceil(r["commandes"] / cap_liv_mois))) for r in rev_m]
-    n_rest_m = [r["n_restaurants"] for r in rev_m]
+    # n_restaurants calculé directement ici (compatible avec cache ancien)
+    n_rest_m = [r.get("n_restaurants",
+                       int(min(r["mau"] / max(OPS["mau_par_rest"], 1), nb_rest_cible)))
+                for r in rev_m]
     cmd_m    = [r["commandes"] for r in rev_m]
 
     # Comparaison terrain vs modèle
@@ -1845,7 +1880,7 @@ with tab9:
         🗺️ Pourquoi ce dashboard existe — et comment l'utiliser
       </div>
       <div class="t-body">
-        Ce tableau de bord est l'outil central du Business Plan V7 de <b>E-Cantine</b>,
+        Ce tableau de bord est l'outil central du Business Plan de <b>E-Cantine</b>,
         une startup de livraison de repas à Dakar. Il remplace les tableaux Excel statiques
         par un <b>modèle prédictif interactif</b> : chaque paramètre de la sidebar
         recalcule instantanément toutes les projections.<br><br>
@@ -2085,7 +2120,7 @@ st.markdown(f"""
   <div>{logo_img(LOGO_BLUE_B64, width="80px", extra="opacity:0.65;")}</div>
   <div style="text-align:center">
     <div style="color:{TEXT_DIM};font-size:0.72rem;font-weight:500">
-      <b style="color:{BRAND};font-weight:700">E-Cantine · Business Plan V7</b>
+      <b style="color:{BRAND};font-weight:700">E-Cantine · Business Plan</b>
       &nbsp;·&nbsp; ISM Dakar &nbsp;·&nbsp; 2025
     </div>
     <div style="color:{TEXT_DIM};font-size:0.70rem;margin-top:2px">
