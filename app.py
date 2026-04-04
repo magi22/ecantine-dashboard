@@ -163,36 +163,43 @@ html, body, .stApp, [data-testid="stAppViewContainer"],
   box-shadow: 0 0 0 3px {BRAND_LT} !important;
 }}
 
-/* ── Métriques ── */
+/* ── Métriques — anti-troncature ── */
 [data-testid="metric-container"] {{
   background: {WHITE} !important;
   border: 1px solid {BORDER} !important;
   border-top: 3px solid {BRAND_MED} !important;
   border-radius: 14px !important;
-  padding: 18px 16px 14px !important;
-  box-shadow: 0 2px 12px rgba(4,12,136,0.08) !important;
+  padding: 16px 12px 12px !important;
+  box-shadow: 0 2px 16px rgba(4,12,136,0.09) !important;
   transition: transform 0.2s, box-shadow 0.2s;
+  overflow: visible !important;
 }}
 [data-testid="metric-container"]:hover {{
   transform: translateY(-3px);
-  box-shadow: 0 8px 28px rgba(4,12,136,0.14) !important;
+  box-shadow: 0 8px 28px rgba(4,12,136,0.16) !important;
 }}
 [data-testid="metric-container"] [data-testid="stMetricValue"] {{
   color: {BRAND} !important;
-  font-size: 1.6rem !important;
+  font-size: 1.15rem !important;
   font-weight: 800 !important;
-  letter-spacing: -0.5px !important;
+  letter-spacing: -0.3px !important;
+  white-space: nowrap !important;
+  overflow: visible !important;
+  line-height: 1.3 !important;
 }}
 [data-testid="metric-container"] [data-testid="stMetricLabel"] {{
   color: {TEXT_DIM} !important;
-  font-size: 0.72rem !important;
+  font-size: 0.70rem !important;
   text-transform: uppercase !important;
-  letter-spacing: 1px !important;
+  letter-spacing: 0.8px !important;
   font-weight: 600 !important;
+  white-space: normal !important;
+  line-height: 1.3 !important;
+  margin-bottom: 4px !important;
 }}
 [data-testid="metric-container"] [data-testid="stMetricDelta"] {{
   color: {GREEN} !important;
-  font-size: 0.78rem !important;
+  font-size: 0.76rem !important;
   font-weight: 600 !important;
 }}
 
@@ -241,6 +248,15 @@ html, body, .stApp, [data-testid="stAppViewContainer"],
   box-shadow: 0 4px 14px rgba(4,12,136,0.3) !important;
   transition: all 0.2s !important;
   letter-spacing: 0.3px !important;
+}}
+/* Fix: Streamlit enveloppe le texte du bouton dans un <p> dans certaines versions */
+.stButton > button p,
+.stButton > button span,
+.stButton > button div {{
+  color: {WHITE} !important;
+  margin: 0 !important;
+  font-size: inherit !important;
+  font-weight: inherit !important;
 }}
 .stButton > button:hover {{
   background: {BRAND_MED} !important;
@@ -302,27 +318,50 @@ html, body, .stApp, [data-testid="stAppViewContainer"],
   margin-bottom: 14px;
 }}
 
-/* ── Badges ── */
+/* ── Badges — base commune ── */
+.badge-ok, .badge-success, .badge-warn, .badge-info {{
+  border-radius: 20px;
+  padding: 5px 14px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  letter-spacing: 0.2px;
+  line-height: 1;
+}}
+/* bleu — indicateur financier neutre */
 .badge-ok {{
   background: #eff6ff;
   color: {BRAND_MED};
   border: 1px solid #bfdbfe;
-  border-radius: 20px;
-  padding: 4px 14px;
-  font-size: 0.76rem;
-  font-weight: 700;
-  display: inline-block;
-  letter-spacing: 0.2px;
 }}
+/* vert — indicateur positif confirmé */
 .badge-success {{
   background: #f0fdf4;
   color: #065f46;
   border: 1px solid #a7f3d0;
+}}
+/* violet — indicateur de rentabilité */
+.badge-purple {{
+  background: #f5f3ff;
+  color: #5b21b6;
+  border: 1px solid #ddd6fe;
   border-radius: 20px;
-  padding: 4px 14px;
-  font-size: 0.76rem;
+  padding: 5px 14px;
+  font-size: 0.75rem;
   font-weight: 700;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  letter-spacing: 0.2px;
+  line-height: 1;
+}}
+/* orange — attention / seuil */
+.badge-warn {{
+  background: #fff7ed;
+  color: #9a3412;
+  border: 1px solid #fed7aa;
 }}
 
 /* ── Header principal ── */
@@ -374,17 +413,158 @@ html, body, .stApp, [data-testid="stAppViewContainer"],
   margin: 3px;
 }}
 
+/* ── Forcer couleur texte visible partout dans sidebar ── */
+[data-testid="stSidebar"] p,
+[data-testid="stSidebar"] span,
+[data-testid="stSidebar"] div,
+[data-testid="stSidebar"] label {{
+  color: {TEXT} !important;
+}}
+[data-testid="stSidebar"] [data-testid="stSlider"] [data-baseweb="slider"] [data-testid="stTickBar"] span,
+[data-testid="stSidebar"] [data-testid="stSlider"] p {{
+  color: {TEXT_DIM} !important;
+}}
+/* Valeur du slider en sidebar */
+[data-testid="stSidebar"] [data-testid="stSlider"] input {{
+  color: {BRAND} !important;
+}}
+/* Forcer texte visible dans caption (parfois blanc sur blanc) */
+[data-testid="stCaptionContainer"] p,
+.stCaption p {{
+  color: {TEXT_DIM} !important;
+  font-size: 0.76rem !important;
+}}
+/* Fix checkbox et radio labels */
+[data-testid="stSidebar"] .stCheckbox label p,
+[data-testid="stSidebar"] .stRadio label p {{
+  color: {TEXT} !important;
+}}
+
+/* ── Profondeur — zone principale ── */
+.main .block-container {{
+  padding-left: 1.2rem !important;
+  padding-right: 1.2rem !important;
+}}
+/* Graphiques Plotly — carte avec ombre */
+[data-testid="stPlotlyChart"] {{
+  background: {WHITE} !important;
+  border: 1px solid {BORDER} !important;
+  border-radius: 14px !important;
+  padding: 6px !important;
+  box-shadow: 0 2px 14px rgba(4,12,136,0.07) !important;
+  margin-bottom: 6px !important;
+}}
+/* Dataframe — ombre douce */
+[data-testid="stDataFrame"] {{
+  box-shadow: 0 2px 14px rgba(4,12,136,0.07) !important;
+}}
+
+/* ── Sidebar — sections colorées ── */
+.sb-section {{
+  background: {GREY_BG};
+  border: 1px solid {BORDER};
+  border-radius: 10px;
+  padding: 10px 12px 12px;
+  margin-bottom: 10px;
+}}
+.sb-section-title {{
+  font-size: 0.68rem !important;
+  color: {BRAND} !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1.2px !important;
+  margin-bottom: 8px !important;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}}
+
+/* ── Forcer couleur texte visible partout dans sidebar ── */
+[data-testid="stSidebar"] p,
+[data-testid="stSidebar"] span:not([data-baseweb]),
+[data-testid="stSidebar"] div:not([data-baseweb]),
+[data-testid="stSidebar"] label {{
+  color: {TEXT} !important;
+}}
+[data-testid="stSidebar"] [data-testid="stSlider"] p {{
+  color: {TEXT_DIM} !important;
+}}
+[data-testid="stSidebar"] [data-testid="stSlider"] input {{
+  color: {BRAND} !important;
+}}
+[data-testid="stSidebar"] .stCheckbox label p,
+[data-testid="stSidebar"] .stRadio label p {{
+  color: {TEXT} !important;
+}}
+
+/* ── Caption ── */
+[data-testid="stCaptionContainer"],
+[data-testid="stCaptionContainer"] p,
+.stCaption, .stCaption p {{
+  color: {TEXT_DIM} !important;
+  font-size: 0.76rem !important;
+}}
+
+/* ── Boutons — texte blanc garanti ── */
+.stButton > button,
+.stButton > button p,
+.stButton > button span,
+.stButton > button div {{
+  color: {WHITE} !important;
+}}
+
+/* ── Texte global — anti blanc-sur-blanc ── */
+.stMarkdown p, .stMarkdown li, .stMarkdown h1,
+.stMarkdown h2, .stMarkdown h3, .stMarkdown span {{
+  color: {TEXT} !important;
+}}
+.stMarkdown a {{ color: {BRAND_MED} !important; }}
+
+/* ── Alerte / info boxes ── */
+[data-testid="stAlert"] {{
+  border-radius: 12px !important;
+}}
+
+/* ── Section card wrapper ── */
+.ec-section-wrap {{
+  background: {WHITE};
+  border: 1px solid {BORDER};
+  border-radius: 16px;
+  padding: 20px 22px;
+  margin-bottom: 18px;
+  box-shadow: 0 2px 14px rgba(4,12,136,0.06);
+}}
+
+/* ── Typographie hiérarchie ── */
+.h-section {{
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: {BRAND};
+  margin: 18px 0 10px;
+  letter-spacing: -0.2px;
+}}
+.h-subsection {{
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: {TEXT};
+  margin: 12px 0 6px;
+}}
+.t-body {{
+  font-size: 0.84rem;
+  color: {TEXT};
+  line-height: 1.7;
+}}
+.t-dim {{
+  font-size: 0.78rem;
+  color: {TEXT_DIM};
+  line-height: 1.6;
+}}
+
 /* ── Scrollbar ── */
 ::-webkit-scrollbar {{ width: 5px; height: 5px; }}
 ::-webkit-scrollbar-track {{ background: {GREY_BG}; }}
 ::-webkit-scrollbar-thumb {{ background: {BRAND_LT}; border-radius: 4px; }}
 ::-webkit-scrollbar-thumb:hover {{ background: {BRAND_MED}; }}
-
-/* ── Caption ── */
-[data-testid="stCaptionContainer"] {{
-  color: {TEXT_DIM} !important;
-  font-size: 0.76rem !important;
-}}
 </style>
 """, unsafe_allow_html=True)
 
@@ -487,10 +667,10 @@ st.markdown(f"""
       Business Plan V7 — Prédictions Financières
     </div>
     <div style="margin-top:10px;display:flex;gap:7px;flex-wrap:wrap">
-      <span class="badge-ok">VAN {fin['van_M']:.1f}M FCFA</span>
-      <span class="badge-ok">TRI {tri_val:.0f}%</span>
-      <span class="badge-ok">IP {fin['ip']:.1f}x</span>
-      <span class="badge-success">Break-even M{dr}</span>
+      <span class="badge-success">✓ VAN {fin['van_M']:.1f}M FCFA</span>
+      <span class="badge-success">✓ TRI {tri_val:.0f}%</span>
+      <span class="badge-purple">◆ IP {fin['ip']:.1f}x</span>
+      <span class="badge-ok">⏱ Break-even M{dr}</span>
     </div>
   </div>
   <div style="text-align:right;padding-left:16px;border-left:1px solid {BORDER}">
@@ -517,12 +697,15 @@ st.markdown("<div class='ec-divider'></div>", unsafe_allow_html=True)
 # ══════════════════════════════════════════════════════════════
 # ONGLETS
 # ══════════════════════════════════════════════════════════════
-tab1, tab2, tab3, tab4, tab5 = st.tabs([
+tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8 = st.tabs([
     "📊  Vue d'ensemble",
     "💰  Revenus & Coûts",
     "🌍  Données Terrain",
     "🔀  Scénarios",
     "🎲  Monte Carlo",
+    "💸  Charges & Trésorerie",
+    "📖  Glossaire & Guide",
+    "🗺️  À propos du Modèle",
 ])
 
 # ══════════════════════════════════════════════════════════════
@@ -967,6 +1150,47 @@ with tab5:
                    delta="robuste" if mc["van"]["pct_positive"] > 80 else "")
         mc5.metric("Simulations",   f"{mc['n_simulations']:,}")
 
+        # ── Interprétation automatique Monte Carlo ────────────────
+        st.markdown("<div class='ec-divider'></div>", unsafe_allow_html=True)
+        st.markdown("<p class='ec-label'>Interprétation des Résultats</p>",
+                    unsafe_allow_html=True)
+        pct_pos  = mc["van"]["pct_positive"]
+        ca5_p10  = mc["ca5"]["p10"] / 1e6
+        ca5_p50  = mc["ca5"]["p50"] / 1e6
+        ca5_p90  = mc["ca5"]["p90"] / 1e6
+        van_p50  = mc["van"].get("p50", 0) / 1e6 if "p50" in mc["van"] else None
+        if pct_pos >= 90:
+            verdict_icon, verdict_txt, verdict_col = "✅", "Très favorable — projet robuste", GREEN
+        elif pct_pos >= 70:
+            verdict_icon, verdict_txt, verdict_col = "🟢", "Favorable — bonne visibilité", TEAL2
+        elif pct_pos >= 50:
+            verdict_icon, verdict_txt, verdict_col = "🟡", "Neutre — incertitude modérée", GOLD
+        else:
+            verdict_icon, verdict_txt, verdict_col = "⚠️", "Risqué — forte incertitude", ORANGE
+        fourchette_ecart = ca5_p90 - ca5_p10
+        st.markdown(f"""
+        <div class="ec-card-accent">
+          <div style="font-size:1.1rem;font-weight:700;color:{verdict_col};margin-bottom:10px">
+            {verdict_icon} Verdict global : {verdict_txt}
+          </div>
+          <div style="font-size:0.88rem;color:{TEXT};line-height:1.8">
+            Sur <b>{mc['n_simulations']:,} simulations</b> avec des paramètres variés aléatoirement (±20-30%) :
+            <ul style="margin:8px 0;padding-left:20px">
+              <li><b style="color:{verdict_col}">{pct_pos:.0f}%</b> des scénarios donnent une VAN positive
+                — le projet est rentable dans <b>{pct_pos:.0f}%</b> des cas testés.</li>
+              <li>CA An 5 entre <b>{ca5_p10:.0f}M</b> (cas pessimiste P10)
+                et <b>{ca5_p90:.0f}M FCFA</b> (cas optimiste P90),
+                avec une valeur centrale (P50) de <b>{ca5_p50:.0f}M FCFA</b>.</li>
+              <li>L'écart P90–P10 est de <b>{fourchette_ecart:.0f}M FCFA</b>
+                — {'fourchette serrée, projections fiables' if fourchette_ecart < ca5_p50 else 'fourchette large, sensibilité élevée aux hypothèses'}.</li>
+            </ul>
+            <b>À retenir pour le jury :</b> même dans le scénario le plus défavorable (P10),
+            le CA An 5 atteint <b>{ca5_p10:.0f}M FCFA</b>.
+            La robustesse du modèle est confirmée par {pct_pos:.0f}% de VAN positive.
+          </div>
+        </div>
+        """, unsafe_allow_html=True)
+
     else:
         st.markdown(f"""
         <div class="ec-card" style="text-align:center;padding:40px 20px">
@@ -1037,16 +1261,549 @@ with tab5:
     </div>
     """, unsafe_allow_html=True)
 
+# ══════════════════════════════════════════════════════════════
+# TAB 6 — CHARGES & TRÉSORERIE
+# ══════════════════════════════════════════════════════════════
+with tab6:
+    ck = ["cout_salaires", "cout_marketing", "cout_tech", "cout_operations"]
+    cl = ["Salaires", "Marketing", "Tech/Infra", "Opérations"]
+    cc = [BRAND_MED, CYAN, TEAL2, GOLD]
+
+    col_ch1, col_ch2 = st.columns(2)
+
+    with col_ch1:
+        st.markdown("<p class='ec-label'>Charges empilées — 60 mois</p>",
+                    unsafe_allow_html=True)
+        fig = go.Figure()
+        for k, lbl, col in zip(ck, cl, cc):
+            fig.add_trace(go.Scatter(
+                x=MONTHS, y=[c[k] / 1e6 for c in cst_m],
+                name=lbl, mode="lines",
+                line=dict(color=col, width=1),
+                stackgroup="one",
+            ))
+        fig.update_layout(
+            **_layout("Décomposition des charges mensuelles (M FCFA)", BRAND, 320,
+                      y_title="M FCFA", legend=_LEG_H),
+        )
+        st.plotly_chart(fig, use_container_width=True)
+
+    with col_ch2:
+        st.markdown("<p class='ec-label'>Marge nette mensuelle</p>",
+                    unsafe_allow_html=True)
+        fig = go.Figure()
+        marge_vals = [c.get("marge_pct", 0) for c in cst_m]
+        colors_bar = [GREEN if v >= 0 else ORANGE for v in marge_vals]
+        fig.add_trace(go.Bar(
+            x=MONTHS, y=marge_vals,
+            marker=dict(color=colors_bar, line=dict(width=0)),
+            name="Marge nette %",
+        ))
+        fig.add_hline(y=0, line_dash="dot", line_color=TEXT_DIM, line_width=1)
+        if dr:
+            fig.add_vline(x=dr, line_dash="dash", line_color=GREEN, line_width=2,
+                          annotation_text=f"  Break-even M{dr}",
+                          annotation_font=dict(color=GREEN, size=11))
+        fig.update_layout(
+            **_layout("Marge nette mensuelle (%)", BRAND, 320,
+                      y_title="%", showlegend=False),
+        )
+        st.plotly_chart(fig, use_container_width=True)
+
+    # Plan de trésorerie cumulatif
+    st.markdown("<div class='ec-divider'></div>", unsafe_allow_html=True)
+    st.markdown("<p class='ec-label'>Plan de Trésorerie Cumulatif</p>",
+                unsafe_allow_html=True)
+
+    fig = go.Figure()
+    cumul_tres = [p["cumul"] / 1e6 for p in pft_m]
+    profit_m_vals = [p["profit_mensuel"] / 1e6 for p in pft_m]
+    # Zone rouge sous 0, verte au-dessus
+    fig.add_trace(go.Scatter(
+        x=MONTHS, y=cumul_tres,
+        mode="lines", name="Trésorerie cumulée",
+        line=dict(color=BRAND_MED, width=2.5),
+        fill="tozeroy",
+        fillcolor="rgba(26,47,255,0.08)",
+    ))
+    fig.add_trace(go.Bar(
+        x=MONTHS, y=profit_m_vals,
+        name="Profit mensuel",
+        marker=dict(
+            color=[GREEN if v >= 0 else ORANGE for v in profit_m_vals],
+            opacity=0.4, line=dict(width=0),
+        ),
+        yaxis="y2",
+    ))
+    fig.add_hline(y=0, line_dash="dot", line_color=ORANGE, line_width=1.5)
+    if dr:
+        fig.add_vline(x=dr, line_dash="dash", line_color=GREEN, line_width=2,
+                      annotation_text=f"  Break-even M{dr}",
+                      annotation_font=dict(color=GREEN, size=12))
+    fig.update_layout(
+        **_layout("Trésorerie cumulée & Profit mensuel (M FCFA)", BRAND, 320,
+                  y_title="Trésorerie cumulée (M)", legend=_LEG_H,
+                  yaxis2=dict(overlaying="y", side="right",
+                              title=dict(text="Profit mensuel (M)", font=dict(color=TEXT_DIM, size=11)),
+                              tickfont=dict(color=TEXT_DIM, size=10),
+                              gridcolor="rgba(0,0,0,0)")),
+    )
+    st.plotly_chart(fig, use_container_width=True)
+
+    # Tableaux annuels détaillés
+    st.markdown("<div class='ec-divider'></div>", unsafe_allow_html=True)
+    st.markdown("<p class='ec-label'>Charges annuelles détaillées vs CA</p>",
+                unsafe_allow_html=True)
+    rows_ch = []
+    for an in range(1, 6):
+        s, e = (an - 1) * 12, an * 12
+        rev_an  = sum(r["total_mensuel"]    for r in rev_m[s:e])
+        ch_tot  = sum(c["total_couts"]      for c in cst_m[s:e])
+        ch_sal  = sum(c["cout_salaires"]    for c in cst_m[s:e])
+        ch_mkt  = sum(c["cout_marketing"]   for c in cst_m[s:e])
+        ch_tec  = sum(c["cout_tech"]        for c in cst_m[s:e])
+        ch_ops  = sum(c["cout_operations"]  for c in cst_m[s:e])
+        res_an  = rev_an - ch_tot
+        rows_ch.append({
+            "Année":                  f"An {an} · {2026+an}",
+            "CA (M FCFA)":            f"{rev_an/1e6:.2f}",
+            "Total Charges (M)":      f"{ch_tot/1e6:.2f}",
+            "· Salaires (M)":         f"{ch_sal/1e6:.2f}",
+            "· Marketing (M)":        f"{ch_mkt/1e6:.2f}",
+            "· Tech/Infra (M)":       f"{ch_tec/1e6:.2f}",
+            "· Opérations (M)":       f"{ch_ops/1e6:.2f}",
+            "Résultat net (M)":       f"{res_an/1e6:.2f}",
+            "Marge nette":            f"{res_an/rev_an*100:.0f}%" if rev_an else "—",
+        })
+    st.dataframe(pd.DataFrame(rows_ch), use_container_width=True, hide_index=True)
+
+    st.markdown(f"""
+    <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;
+                padding:14px 18px;margin-top:8px;font-size:0.84rem;color:{TEXT}">
+      <b style="color:{BRAND}">Investissement initial :</b>
+      {fin['budget_fcfa']/1e6:.2f}M FCFA — récupéré au mois
+      <b style="color:{GREEN}">M{fin['delai_mois']}</b> (break-even cumulatif).<br>
+      <span style="color:{TEXT_DIM}">Taux d'actualisation utilisé pour la VAN : 15% (coût opportunité ISM/UEMOA).</span>
+    </div>
+    """, unsafe_allow_html=True)
+
+# ══════════════════════════════════════════════════════════════
+# TAB 7 — GLOSSAIRE & GUIDE
+# ══════════════════════════════════════════════════════════════
+with tab7:
+    st.markdown("<p class='ec-label'>Comprendre le Dashboard — Termes et Définitions</p>",
+                unsafe_allow_html=True)
+    st.markdown(f"""
+    <div style="font-size:0.82rem;color:{TEXT_DIM};margin-bottom:16px">
+      Ce guide explique chaque terme utilisé dans le dashboard en langage simple,
+      adapté à une présentation devant un jury académique.
+    </div>
+    """, unsafe_allow_html=True)
+
+    def _glossaire_card(emoji, titre, definition, exemple="", color=BRAND_MED):
+        ex_html = f'<div style="margin-top:6px;background:#f0f3ff;border-radius:8px;padding:8px 12px;font-size:0.8rem;color:{BRAND}"><b>Exemple :</b> {exemple}</div>' if exemple else ""
+        return f"""
+        <div class="ec-card" style="margin-bottom:10px">
+          <div style="display:flex;align-items:flex-start;gap:14px">
+            <div style="font-size:1.6rem;flex-shrink:0">{emoji}</div>
+            <div style="flex:1">
+              <div style="font-size:0.9rem;font-weight:700;color:{color};margin-bottom:5px">{titre}</div>
+              <div style="font-size:0.84rem;color:{TEXT};line-height:1.7">{definition}</div>
+              {ex_html}
+            </div>
+          </div>
+        </div>
+        """
+
+    col_g1, col_g2 = st.columns(2)
+
+    with col_g1:
+        st.markdown("<p class='ec-label'>Indicateurs Financiers</p>",
+                    unsafe_allow_html=True)
+        st.markdown(_glossaire_card(
+            "💰", "VAN — Valeur Actuelle Nette",
+            "C'est le gain total du projet en euros d'aujourd'hui, après avoir retiré l'investissement de départ. "
+            "Une VAN positive = le projet rapporte plus qu'il ne coûte. "
+            "On utilise un taux de 15% pour tenir compte du fait qu'1 000 FCFA aujourd'hui vaut plus que 1 000 FCFA dans 5 ans.",
+            f"VAN = {fin['van_M']:.1f}M FCFA → le projet crée {fin['van_M']:.1f}M de valeur nette en 5 ans.",
+            BRAND
+        ), unsafe_allow_html=True)
+
+        st.markdown(_glossaire_card(
+            "📈", "TRI — Taux de Rentabilité Interne",
+            "C'est le taux de rendement annuel que rapporte le projet. "
+            "Plus il est élevé, plus le projet est rentable. "
+            "Un TRI supérieur au taux bancaire (≈ 9%) signifie qu'il vaut mieux investir dans ce projet que de mettre l'argent en banque.",
+            f"TRI = {tri_val:.0f}% vs 9% bancaire → le projet est {tri_val/9:.1f}x plus rentable que la banque.",
+            PURPLE
+        ), unsafe_allow_html=True)
+
+        st.markdown(_glossaire_card(
+            "✖️", "IP — Indice de Profitabilité",
+            "C'est le rapport entre ce que le projet rapporte et ce qu'il coûte. "
+            "Un IP de 2 signifie que chaque franc investi en rapporte 2. "
+            "Au-dessus de 1 = projet rentable.",
+            f"IP = {fin['ip']:.2f}x → chaque franc investi rapporte {fin['ip']:.2f} FCFA.",
+            TEAL2
+        ), unsafe_allow_html=True)
+
+        st.markdown(_glossaire_card(
+            "⏱️", f"Break-even (Délai de Récupération)",
+            "C'est le moment où les revenus cumulés dépassent l'investissement initial. "
+            "Avant ce mois, le projet est encore en déficit cumulé. Après, il est bénéficiaire.",
+            f"Break-even au mois {fin['delai_mois']} ({2026 + fin['delai_mois']//12:.0f}) — l'investissement de {fin['budget_fcfa']/1e6:.2f}M FCFA est récupéré.",
+            GREEN
+        ), unsafe_allow_html=True)
+
+    with col_g2:
+        st.markdown("<p class='ec-label'>Modèle & Statistiques</p>",
+                    unsafe_allow_html=True)
+        st.markdown(_glossaire_card(
+            "👥", "MAU — Monthly Active Users",
+            "Le nombre d'utilisateurs actifs chaque mois sur la plateforme. "
+            "C'est l'indicateur principal de croissance d'une startup numérique. "
+            "Un utilisateur est 'actif' s'il a passé au moins une commande dans le mois.",
+            f"MAU An 1 = {m['central']['an1']:,} · MAU An 5 plateau = {mau_L:,}",
+            BRAND_MED
+        ), unsafe_allow_html=True)
+
+        st.markdown(_glossaire_card(
+            "📉", "Courbe S (Logistique)",
+            "Le modèle de croissance utilisé. Une startup grandit lentement au début (adoption), "
+            "puis très vite (viralité), puis ralentit quand le marché est saturé. "
+            "Cette courbe en forme de S est la plus réaliste pour les plateformes numériques.",
+            "Paramètre k = vitesse · t0 = point d'inflexion (accélération max) · L = plateau maximum.",
+            ORANGE
+        ), unsafe_allow_html=True)
+
+        st.markdown(_glossaire_card(
+            "🎲", "Monte Carlo",
+            "Une technique statistique qui simule des centaines ou milliers de scénarios possibles "
+            "en faisant varier les paramètres au hasard (panier moyen, nombre de commandes, etc.). "
+            "Le résultat montre la fourchette de résultats possibles avec leur probabilité.",
+            f"Sur {mc['n_simulations'] if mc else n_mc} simulations, {mc['van']['pct_positive']:.0f}% donnent une VAN positive." if mc else "Lance Monte Carlo pour voir les résultats.",
+            CYAN
+        ), unsafe_allow_html=True)
+
+        st.markdown(_glossaire_card(
+            "📊", "P10 / P50 / P90",
+            "Ce sont des percentiles issus du Monte Carlo. "
+            "<b>P10</b> = résultat dépassé dans 90% des simulations (cas pessimiste). "
+            "<b>P50</b> = résultat médian, 50% au-dessus, 50% en dessous. "
+            "<b>P90</b> = résultat atteint dans seulement 10% des cas (cas optimiste).",
+            f"CA An5 : P10={mc['ca5']['p10']/1e6:.0f}M · P50={mc['ca5']['p50']/1e6:.0f}M · P90={mc['ca5']['p90']/1e6:.0f}M FCFA" if mc else "",
+            GOLD
+        ), unsafe_allow_html=True)
+
+    st.markdown("<div class='ec-divider'></div>", unsafe_allow_html=True)
+    col_g3, col_g4 = st.columns(2)
+
+    with col_g3:
+        st.markdown("<p class='ec-label'>Données & Hypothèses</p>",
+                    unsafe_allow_html=True)
+        st.markdown(_glossaire_card(
+            "🌍", "Facteur Dakar 0.238",
+            "Le marché de Dakar est plus petit que Lagos (Nigeria). "
+            "Pour calibrer le modèle, on multiplie les benchmarks Chowdeck Nigeria "
+            "par 0.238, calculé selon : population Dakar / population Lagos × pouvoir d'achat × taux de pénétration mobile.",
+            "Chowdeck Lagos : 2M MAU × 0.238 = ~476K MAU pour Dakar au même stade.",
+            TEAL
+        ), unsafe_allow_html=True)
+
+        st.markdown(_glossaire_card(
+            "🌪️", "Analyse Tornado",
+            "Un graphique qui montre quels paramètres ont le plus d'impact sur le résultat. "
+            "Le paramètre en haut est le 'levier' le plus puissant : le faire varier de ±10% "
+            "change le résultat final plus que n'importe quel autre paramètre.",
+            "Si 'Panier moyen' est en tête → augmenter le panier moyen est la priorité stratégique n°1.",
+            PINK
+        ), unsafe_allow_html=True)
+
+    with col_g4:
+        st.markdown("<p class='ec-label'>Flux de Revenus</p>",
+                    unsafe_allow_html=True)
+        rev_cards = [
+            ("① Frais livraison (40% marge)", f"Frais payés par le client pour la livraison. E-cantine garde {marge_liv}% de marge."),
+            ("② Commission restaurant (1–2,5%)", "Pourcentage prélevé sur chaque commande passée via la plateforme."),
+            ("③ Abonnements restaurants", "Formule Pro (25K/mois) ou Premium (50K/mois) pour les restaurants partenaires."),
+            ("④ Publicité in-app", "Les restaurants ou marques paient pour être mis en avant dans l'application."),
+            ("⑤ B2B entreprises", "Contrats avec des entreprises pour livrer des repas à leurs employés (ex. déjeuners)."),
+            ("⑥ Sélection (5%)", "Commission sur les commandes passées via le menu 'Sélection du jour'."),
+            ("⑦ Livraisons propres (1,5%)", "Livraisons effectuées par les propres livreurs E-cantine, marge supplémentaire."),
+        ]
+        for titre, desc in rev_cards:
+            st.markdown(f"""
+            <div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:6px;
+                        background:#f8f9ff;border-radius:10px;padding:8px 12px;border:1px solid {BORDER}">
+              <div style="font-size:0.82rem;color:{TEXT};line-height:1.6;flex:1">
+                <b style="color:{BRAND_MED}">{titre}</b><br>
+                <span style="color:{TEXT_DIM}">{desc}</span>
+              </div>
+            </div>
+            """, unsafe_allow_html=True)
+
+# ══════════════════════════════════════════════════════════════
+# TAB 8 — À PROPOS DU MODÈLE
+# ══════════════════════════════════════════════════════════════
+with tab8:
+
+    # ── Intro ──────────────────────────────────────────────────
+    st.markdown(f"""
+    <div class="ec-card-accent" style="margin-bottom:18px">
+      <div style="font-size:1.1rem;font-weight:800;color:{BRAND};margin-bottom:8px">
+        🗺️ Pourquoi ce dashboard existe — et comment l'utiliser
+      </div>
+      <div class="t-body">
+        Ce tableau de bord est l'outil central du Business Plan V7 de <b>E-Cantine</b>,
+        une startup de livraison de repas à Dakar. Il remplace les tableaux Excel statiques
+        par un <b>modèle prédictif interactif</b> : chaque paramètre de la sidebar
+        recalcule instantanément toutes les projections.<br><br>
+        <b style="color:{BRAND_MED}">À qui s'adresse ce dashboard ?</b><br>
+        — Au <b>jury académique</b> (ISM Dakar) pour valider la rigueur du BP<br>
+        — Aux <b>investisseurs potentiels</b> pour tester la robustesse des projections<br>
+        — À l'<b>équipe fondatrice</b> pour piloter les décisions stratégiques
+      </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    col_a1, col_a2 = st.columns(2)
+
+    with col_a1:
+        # ── Ce que le modèle fait ──────────────────────────────
+        st.markdown(f"<div class='h-section'>🔧 Ce que le modèle calcule</div>",
+                    unsafe_allow_html=True)
+        items_model = [
+            ("📈 Croissance MAU sur 60 mois",
+             "Le modèle simule le nombre d'utilisateurs actifs chaque mois avec une "
+             "<b>courbe S logistique</b> — le standard des plateformes numériques. "
+             "Elle intègre une phase lente d'adoption, une phase rapide de viralité, "
+             "puis une stabilisation au plateau du marché."),
+            ("💰 Chiffre d'affaires multi-flux",
+             "Le CA est décomposé en <b>7 flux indépendants</b> : frais de livraison, "
+             "commissions restaurants, abonnements Pro/Premium, publicité in-app, "
+             "contrats B2B, sélection du jour, livraisons propres. Chaque flux a sa "
+             "propre logique de calcul liée aux MAU."),
+            ("💸 Structure de coûts réaliste",
+             "4 postes de charges modélisés mois par mois : <b>Salaires</b> (équipe), "
+             "<b>Marketing</b> (acquisition client), <b>Tech/Infra</b> (hébergement, développement), "
+             "<b>Opérations</b> (logistique, support). Les coûts croissent avec le volume "
+             "mais moins vite que les revenus — effet d'échelle."),
+            ("📊 Indicateurs financiers (VAN, TRI, IP)",
+             "À partir des flux nets mensuels, le modèle calcule automatiquement la "
+             "<b>Valeur Actuelle Nette</b> (gain total actualisé à 15%), le "
+             "<b>Taux de Rentabilité Interne</b> (rendement annuel du projet), "
+             "l'<b>Indice de Profitabilité</b> (rapport gain/investissement), "
+             "et le <b>délai de récupération</b> de l'investissement."),
+            ("🎲 Monte Carlo (incertitude)",
+             "Le modèle lance N simulations en faisant varier aléatoirement ±20-30% "
+             "tous les paramètres clés. Résultat : une <b>distribution de probabilités</b> "
+             "des résultats possibles — pas juste une valeur centrale, mais une fourchette "
+             "P10–P90 qui montre la robustesse des projections."),
+            ("🌪️ Analyse de sensibilité Tornado",
+             "Identifie les <b>paramètres les plus critiques</b> : quelle variable, "
+             "si elle varie de ±10%, change le plus le CA An 3 ? "
+             "Résultat direct : les leviers prioritaires de l'équipe fondatrice."),
+        ]
+        for titre, desc in items_model:
+            st.markdown(f"""
+            <div style="background:{GREY_BG};border:1px solid {BORDER};border-left:3px solid {BRAND_MED};
+                        border-radius:10px;padding:10px 14px;margin-bottom:8px">
+              <div style="font-size:0.84rem;font-weight:700;color:{BRAND};margin-bottom:4px">{titre}</div>
+              <div style="font-size:0.81rem;color:{TEXT};line-height:1.65">{desc}</div>
+            </div>
+            """, unsafe_allow_html=True)
+
+    with col_a2:
+        # ── Rôle de chaque onglet ──────────────────────────────
+        st.markdown(f"<div class='h-section'>📑 Rôle de chaque onglet</div>",
+                    unsafe_allow_html=True)
+        onglets = [
+            ("📊", "Vue d'ensemble",
+             "Tableau de bord synthétique : courbe de croissance MAU, CA annuel 3 scénarios, "
+             "tableau récapitulatif 5 ans, et 4 KPI financiers centraux. "
+             "<b>Usage : première slide à montrer au jury.</b>"),
+            ("💰", "Revenus & Coûts",
+             "Graphique revenus vs coûts mensuels avec point de break-even visuellement marqué, "
+             "répartition des 7 flux par donut chart, cash flow cumulatif, "
+             "décomposition des coûts An 1 et évolution du CA sur 5 ans. "
+             "<b>Usage : démontrer la viabilité économique.</b>"),
+            ("🌍", "Données Terrain",
+             "Visualisation des données primaires collectées : 20 clients, 23 livreurs, "
+             "5 restaurants — indicateurs clés (% intéressés, % Wave), freins identifiés, "
+             "tableau des concurrents. "
+             "<b>Usage : ancrer les projections dans la réalité du marché dakarois.</b>"),
+            ("🔀", "Scénarios",
+             "Comparaison côte-à-côte des 3 scénarios (pessimiste / central / optimiste) "
+             "sur MAU et CA, tableau détaillé par année, décomposition des 7 flux An 1. "
+             "<b>Usage : montrer la robustesse même dans le pire cas.</b>"),
+            ("🎲", "Monte Carlo",
+             "Distribution statistique du CA An 5 et de la VAN sur N simulations, "
+             "KPIs P10/P50/P90, interprétation automatique du verdict, "
+             "analyse tornado des leviers. "
+             "<b>Usage : argument de rigueur méthodologique pour le jury.</b>"),
+            ("💸", "Charges & Trésorerie",
+             "Aires empilées des 4 postes de coûts mensuels, évolution de la marge nette, "
+             "plan de trésorerie cumulatif avec axe double (tréso + profit mensuel), "
+             "tableau annuel détaillé charges vs CA. "
+             "<b>Usage : rassurer sur la gestion des coûts et la liquidité.</b>"),
+            ("📖", "Glossaire & Guide",
+             "Définitions simples de tous les termes financiers et statistiques utilisés "
+             "(VAN, TRI, MAU, Monte Carlo, P10/P90, Facteur Dakar, Tornado…). "
+             "<b>Usage : rendre le dashboard accessible à tout jury, même non-financier.</b>"),
+            ("🗺️", "À propos du Modèle",
+             "Ce que vous lisez maintenant — architecture complète du modèle, "
+             "sources de données, hypothèses clés, calibration sur les benchmarks africains, "
+             "limites et voies d'amélioration. "
+             "<b>Usage : transparence méthodologique pour les évaluateurs.</b>"),
+        ]
+        for ico, titre, desc in onglets:
+            st.markdown(f"""
+            <div style="background:{WHITE};border:1px solid {BORDER};
+                        border-radius:10px;padding:10px 14px;margin-bottom:7px;
+                        box-shadow:0 1px 6px rgba(4,12,136,0.05)">
+              <div style="font-size:0.84rem;font-weight:700;color:{BRAND};margin-bottom:3px">
+                {ico} {titre}</div>
+              <div style="font-size:0.80rem;color:{TEXT};line-height:1.6">{desc}</div>
+            </div>
+            """, unsafe_allow_html=True)
+
+    # ── Méthodologie & calibration ──────────────────────────────
+    st.markdown("<div class='ec-divider'></div>", unsafe_allow_html=True)
+    col_b1, col_b2 = st.columns([3, 2])
+
+    with col_b1:
+        st.markdown(f"<div class='h-section'>🔬 Méthodologie & Sources</div>",
+                    unsafe_allow_html=True)
+        st.markdown(f"""
+        <div class="ec-card">
+          <div class="t-body">
+            <b style="color:{BRAND}">Modèle de croissance :</b> Courbe logistique de Bass
+            (S-curve) — utilisée par Uber, Jumia, Chowdeck pour modéliser l'adoption d'une
+            plateforme dans un nouveau marché.<br><br>
+            <b style="color:{BRAND}">Calibration :</b>
+            Les paramètres de plateau (L) et de vitesse (k) sont calibrés sur
+            <b>Chowdeck Nigeria (Lagos)</b> — la plateforme africaine de référence la plus
+            comparable, ajustée par le <b>Facteur Dakar 0.238</b>.<br><br>
+            <b style="color:{BRAND}">Facteur Dakar 0.238 =</b>
+            <span style="color:{TEXT_DIM}">
+              population Dakar (3,7M) / population Lagos (15,6M)
+              × ratio PIB/habitant Sénégal/Nigeria (0.62)
+              × ratio pénétration mobile (0.87)
+            </span><br><br>
+            <b style="color:{BRAND}">Données terrain :</b>
+            {terr.get('clients',{{}}).get('n_repondants', 20)} clients (questionnaire),
+            {terr.get('livreurs',{{}}).get('n_entretiens', 23)} livreurs (entretiens),
+            {terr.get('restaurants',{{}}).get('n_discussions', 5)} restaurants (discussions).
+            Panel limité — projections à affiner à 300 répondants.<br><br>
+            <b style="color:{BRAND}">Taux d'actualisation :</b>
+            15% — coût du capital estimé dans le contexte UEMOA/ISM Dakar
+            (supérieur au taux bancaire BCAO ≈ 9% + prime de risque startup ≈ 6%).
+          </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with col_b2:
+        st.markdown(f"<div class='h-section'>⚠️ Hypothèses clés</div>",
+                    unsafe_allow_html=True)
+        hypos = [
+            ("Panier moyen", f"{params['avg_basket']:,} FCFA", "Modifiable sidebar"),
+            ("Commandes/MAU/mois", f"{params['avg_cmd_par_mau']:.1f}", "Modifiable sidebar"),
+            ("Marge livraison", f"{params['marge_livraison']*100:.0f}%", "Modifiable sidebar"),
+            ("MAU plateau", f"{params['mau_L']:,}", "Modifiable sidebar"),
+            ("Taux croissance k", f"{params['mau_k']:.2f}", "Modifiable sidebar"),
+            ("Investissement initial", f"{fin['budget_fcfa']/1e6:.2f}M FCFA", "Fixe modèle"),
+            ("Durée projection", "60 mois (5 ans)", "Standard BP"),
+            ("Facteur Dakar", "0.238", "Calculé terrain"),
+        ]
+        for label, valeur, note in hypos:
+            st.markdown(f"""
+            <div style="display:flex;justify-content:space-between;align-items:center;
+                        padding:7px 12px;border-bottom:1px solid {BORDER};font-size:0.81rem">
+              <span style="color:{TEXT};font-weight:600">{label}</span>
+              <span style="color:{BRAND_MED};font-weight:700">{valeur}</span>
+              <span style="color:{TEXT_DIM};font-size:0.74rem">{note}</span>
+            </div>
+            """, unsafe_allow_html=True)
+
+        st.markdown("<div style='height:14px'></div>", unsafe_allow_html=True)
+        st.markdown(f"<div class='h-section'>🚧 Limites connues</div>",
+                    unsafe_allow_html=True)
+        limites = [
+            "Panel terrain limité (20 clients) — à élargir à 300",
+            "Pas encore de données réelles de transactions",
+            "Facteur Dakar calculé, non validé empiriquement",
+            "Modèle déterministe de coûts (pas de choc externe)",
+            "Projections > 3 ans à prendre avec précaution",
+        ]
+        for lim in limites:
+            st.markdown(f"""
+            <div style="display:flex;gap:8px;align-items:flex-start;margin-bottom:6px;
+                        font-size:0.80rem;color:{TEXT}">
+              <span style="color:{ORANGE};flex-shrink:0">⚠</span>
+              <span>{lim}</span>
+            </div>
+            """, unsafe_allow_html=True)
+
+    # ── Interactivité sidebar ──────────────────────────────────
+    st.markdown("<div class='ec-divider'></div>", unsafe_allow_html=True)
+    st.markdown(f"<div class='h-section'>🎛️ Utiliser la sidebar pour tester des scénarios</div>",
+                unsafe_allow_html=True)
+    st.markdown(f"""
+    <div class="ec-card">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div>
+          <div class="h-subsection">Modèle Économique</div>
+          <div class="t-dim">
+            <b>Panier moyen :</b> valeur moyenne d'une commande — augmenter améliore toutes les marges.<br>
+            <b>Commandes/MAU/mois :</b> fréquence d'achat — clé pour le CA total.<br>
+            <b>Frais livraison :</b> prix affiché au client pour la livraison.<br>
+            <b>Marge livraison :</b> la part que E-cantine conserve sur ces frais.
+          </div>
+        </div>
+        <div>
+          <div class="h-subsection">Formules Restaurants</div>
+          <div class="t-dim">
+            <b>% Starter (gratuit) :</b> restaurants sans abonnement — E-cantine ne prend que la commission.<br>
+            <b>% Pro (25K/mois) :</b> restaurants payant un abonnement mensuel.<br>
+            <b>% Premium (50K/mois) :</b> calculé automatiquement = 100% - Starter - Pro.
+          </div>
+        </div>
+        <div>
+          <div class="h-subsection">Croissance MAU</div>
+          <div class="t-dim">
+            <b>MAU plateau :</b> le maximum d'utilisateurs actifs que le marché dakarois peut absorber.<br>
+            <b>Vitesse k :</b> à 0.10 = croissance modérée (réaliste). À 0.20 = croissance agressive.
+          </div>
+        </div>
+        <div>
+          <div class="h-subsection">Monte Carlo</div>
+          <div class="t-dim">
+            <b>Simulations :</b> 200 = rapide (aperçu), 1000+ = résultats statistiquement fiables.<br>
+            Cliquer sur <b>▶ Lancer Monte Carlo</b> pour générer les distributions de probabilités.
+          </div>
+        </div>
+      </div>
+    </div>
+    """, unsafe_allow_html=True)
+
 # ── Footer ───────────────────────────────────────────────────
 st.markdown("<div class='ec-divider'></div>", unsafe_allow_html=True)
 st.markdown(f"""
 <div style="display:flex;align-items:center;justify-content:space-between;
-            flex-wrap:wrap;gap:10px;padding:6px 4px">
-  <div>{logo_img(LOGO_BLUE_B64, width="100px", extra="opacity:0.7;")}</div>
-  <div style="color:{TEXT_DIM};font-size:0.73rem;text-align:center">
-    Business Plan V7 · ISM Dakar · 2025 ·
-    <b style="color:{BRAND}">Adote Mario-Giovani ADUAYI-AKUE</b>
+            flex-wrap:wrap;gap:10px;padding:8px 4px 14px">
+  <div>{logo_img(LOGO_BLUE_B64, width="80px", extra="opacity:0.65;")}</div>
+  <div style="text-align:center">
+    <div style="color:{TEXT_DIM};font-size:0.72rem;font-weight:500">
+      <b style="color:{BRAND};font-weight:700">E-Cantine · Business Plan V7</b>
+      &nbsp;·&nbsp; ISM Dakar &nbsp;·&nbsp; 2025
+    </div>
+    <div style="color:{TEXT_DIM};font-size:0.70rem;margin-top:2px">
+      Adote Mario-Giovani ADUAYI-AKUE
+    </div>
   </div>
-  <div style="font-size:0.7rem;color:{TEXT_DIM}">Modèle IA · Courbe S × Benchmarks Africains</div>
+  <div style="font-size:0.70rem;color:{TEXT_DIM};text-align:right;line-height:1.5">
+    Modèle IA · Courbe S logistique<br>
+    Benchmarks Africains × Facteur Dakar
+  </div>
 </div>
 """, unsafe_allow_html=True)
