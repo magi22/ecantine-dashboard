@@ -32,6 +32,7 @@ DEFAULT_PARAMS = {
     "marge_livraison":       0.40,    # 40% de marge nette sur les livraisons
     "avg_basket":            3000,    # FCFA — panier moyen hors livraison
     "avg_cmd_par_mau":       2.5,     # commandes/utilisateur actif/mois
+    "pct_app_orders":        0.85,    # 85% des commandes passées via app mobile (vs POS/tél.)
     # ── Mix restaurants ─────────────────────────────────────
     "pct_starter":           0.60,
     "pct_pro":               0.30,
@@ -214,11 +215,11 @@ def compute_revenues(mau_array, params=None):
         # ① Frais de livraison — revenue principal
         rev_livraison = cmd * p["frais_livraison_moy"] * pct_ecantine * p["marge_livraison"]
 
-        # ② Commission dégrésive par volume (pas par formule)
+        # ② Commission dégrésive par volume — sur commandes via app uniquement
         n_rest = max(1, min(mau / p.get("mau_par_rest", 35), p["nb_rest_cible_an1"]))
         cmd_par_rest = cmd / n_rest
         taux_comm = _commission_rate(cmd_par_rest)
-        rev_commission = cmd * p["avg_basket"] * taux_comm
+        rev_commission = cmd * p.get("pct_app_orders", 0.85) * p["avg_basket"] * taux_comm
 
         # ③ Abonnements restaurants Pro + Premium (inclut visibilité — pub absorbée)
         rev_abo = (n_rest * p["pct_pro"] * p["prix_pro"] +

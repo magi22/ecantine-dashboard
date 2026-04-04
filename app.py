@@ -61,9 +61,9 @@ GOLD       = "#f59e0b"
 PINK       = "#ec4899"
 TEAL2      = "#14b8a6"
 
-REV_COLORS = [BRAND_MED, CYAN, PURPLE, GOLD, ORANGE, TEAL2, PINK]
-REV_LABELS = ["① Livraison","② Commission","③ Abonnements","④ Pub","⑤ B2B","⑥ Vitrine","⑦ Propres"]
-REV_KEYS   = ["rev_livraison","rev_commission","rev_abonnements","rev_pub","rev_b2b","rev_selection","rev_propres"]
+REV_COLORS = [BRAND_MED, CYAN, PURPLE, TEAL2, GOLD, ORANGE]
+REV_LABELS = ["① Livraison","② Commission","③ Abonnements (pub incluse)","④ Vitrine","⑤ Propres","⑥ B2B"]
+REV_KEYS   = ["rev_livraison","rev_commission","rev_abonnements","rev_selection","rev_propres","rev_b2b"]
 YEARS      = ["An 1","An 2","An 3","An 4","An 5"]
 MONTHS     = list(range(1, 61))
 
@@ -637,7 +637,7 @@ with st.sidebar:
     mau_par_rest       = st.slider("MAU par restaurant", 10, 80, 35, 5)
 
     st.markdown(f"<p class='ec-label'>Monte Carlo</p>", unsafe_allow_html=True)
-    n_mc       = st.slider("Simulations", 200, 2000, 500, 100)
+    n_mc       = st.slider("Simulations", 200, 2000, 1000, 100)
     run_mc_btn = st.button("▶  Lancer Monte Carlo", use_container_width=True)
 
     st.markdown("<div class='ec-divider'></div>", unsafe_allow_html=True)
@@ -949,7 +949,7 @@ with tab2:
 
     with col_b:
         d    = ca["decomp_an1"]
-        keys = ["livraison","commission","abonnements","pub","b2b","selection","propres"]
+        keys = ["livraison","commission","abonnements","selection","propres","b2b"]
         vals = [d[k] for k in keys]
         total_donut = sum(vals)
         fig = go.Figure(go.Pie(
@@ -960,7 +960,7 @@ with tab2:
             hovertemplate="<b>%{label}</b><br>%{value:,.0f} FCFA<br>%{percent}<extra></extra>",
         ))
         fig.update_layout(
-            **_layout("7 flux revenus — An 1", BRAND, 310,
+            **_layout("6 flux revenus nets — An 1", BRAND, 310,
                       legend=_LEG_V, showlegend=True,
                       margin=dict(l=0, r=115, t=42, b=0), pie=True),
         )
@@ -1049,7 +1049,9 @@ with tab3:
             {n_rep} clients · {liv.get('n_entretiens',0)} livreurs · {rest.get('n_discussions',0)} restaurants
           </div>
           <div style="font-size:0.82rem;color:{TEXT_DIM};margin-top:3px">
-            Extrapolé via benchmarks Chowdeck Nigeria × Facteur Dakar <b style="color:{BRAND_MED}">0.238</b>
+            Réseau de connaissance du fondateur — personnes commandant régulièrement à Dakar.<br>
+            Modèle calibré sur Chowdeck Nigeria × Facteur Dakar <b style="color:{BRAND_MED}">0.238</b>
+            (Chowdeck = benchmark calibration uniquement — hors Sénégal)
           </div>
         </div>
         <div style="text-align:right;flex-shrink:0">
@@ -1205,16 +1207,15 @@ with tab4:
     st.dataframe(pd.DataFrame(rows_s), use_container_width=True, hide_index=True)
 
     st.markdown("<div class='ec-divider'></div>", unsafe_allow_html=True)
-    st.markdown("<p class='ec-label'>Décomposition CA An 1 — 7 flux nets E-cantine</p>",
+    st.markdown("<p class='ec-label'>Décomposition CA An 1 — 6 flux nets E-cantine</p>",
                 unsafe_allow_html=True)
-    total_an1 = sum(ca["decomp_an1"].values())
-    lmap = {"livraison":"① Frais livraison (40%)",
-            "commission":"② Commission 1–2,5%",
-            "abonnements":"③ Abonnements",
-            "pub":"④ Publicité in-app",
-            "b2b":"⑤ B2B entreprises",
-            "selection":"⑥ E-cantine Vitrine (5%)",
-            "propres":"⑦ Livr. propres (1,5%)"}
+    total_an1 = sum(v for k, v in ca["decomp_an1"].items() if k != "pub")
+    lmap = {"livraison":"① Frais livraison (marge 40%)",
+            "commission":"② Commission dégrésive 1–2,5%",
+            "abonnements":"③ Abonnements Pro/Premium (pub incluse)",
+            "selection":"④ E-cantine Vitrine (5%)",
+            "propres":"⑤ Livr. propres (2,5%)",
+            "b2b":"⑥ B2B cantines entreprises"}
     drows = []
     for k, lbl in lmap.items():
         v = ca["decomp_an1"][k]
@@ -1229,7 +1230,7 @@ with tab4:
       <span style="color:{TEXT_DIM};font-size:0.82rem">TOTAL NET An 1 : </span>
       <span style="color:{BRAND};font-size:1.2rem;font-weight:800">{total_an1/1e6:.2f}M FCFA</span>
       <span style="color:{TEXT_DIM};font-size:0.74rem;margin-left:8px">
-        (Frais Wave 1% exclus — revenu Wave, pas E-cantine)
+        (Frais BCEAO 1% max 5 000 FCFA — reversés à Wave / Orange Money / Mix by Yass — pas un revenu E-cantine)
       </span>
     </div>
     """, unsafe_allow_html=True)
@@ -1385,14 +1386,15 @@ with tab5:
                       text-transform:uppercase;letter-spacing:0.8px;margin-bottom:6px">
             Note Méthodologique</div>
           <div style="font-size:0.83rem;color:{TEXT_DIM};line-height:1.7">
-            Modèle de prédiction statistique <b style="color:{TEXT}">courbe S logistique</b>
-            calibré sur <b style="color:{TEXT}">Chowdeck Nigeria (Lagos)</b>
+            100 entretiens réseau de connaissance + 23 livreurs terrain + 8 restaurants (Trophet, Chez Mervi, Chez Maman Gaga…).
+            Modèle calibré sur <b style="color:{TEXT}">Chowdeck Nigeria</b>
             × Facteur Dakar <b style="color:{BRAND_MED}">0.238</b>
-            (population × pouvoir d'achat × pénétration mobile).<br>
-            Le Monte Carlo simule <b style="color:{TEXT}">{mc['n_simulations'] if mc else n_mc} variantes</b>
-            avec perturbation aléatoire ±20–30% des paramètres clés → intervalles P10–P90.<br>
-            <span style="color:{ORANGE}">Panel terrain limité</span> —
-            projections affinées à <b style="color:{TEXT}">1 000 répondants clients</b> (objectif fin An 1 commercial).
+            (Chowdeck = benchmark calibration — non présent au Sénégal).<br>
+            Monte Carlo : <b style="color:{TEXT}">{mc['n_simulations'] if mc else n_mc} variantes</b>
+            avec perturbation aléatoire ±20–30% → intervalles P10–P90.<br>
+            Objectif : <b style="color:{TEXT}">1 000 répondants</b> via formulaire in-app An 1
+            (IC 95%, marge ±3,1%).
+            Dashboard : <a href="https://ecantine-dash.streamlit.app/" style="color:{BRAND_MED}">ecantine-dash.streamlit.app</a>
           </div>
         </div>
       </div>
