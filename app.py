@@ -701,9 +701,8 @@ tri_val = fin["tri"] or 0
 
 st.markdown(f"""
 <div class="ec-header-bar">
-  <div style="flex-shrink:0;display:flex;align-items:center;gap:10px">
-    {logo_img(LOGO_ICON_B64, width="48px")}
-    {logo_img(LOGO_BLUE_B64, width="120px")}
+  <div style="flex-shrink:0">
+    {logo_img(LOGO_BLUE_B64, width="180px")}
   </div>
   <div style="flex:1;padding-left:8px">
     <div style="font-size:0.68rem;color:{TEXT_DIM};letter-spacing:1.5px;
