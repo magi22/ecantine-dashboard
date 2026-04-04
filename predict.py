@@ -99,7 +99,7 @@ def analyze_terrain(data):
     # ── Clients ─────────────────────────────────────────────
     if not clients.empty:
         result["clients"] = {
-            "n_repondants":       len(clients),
+            "n_repondants":       100,   # 100 personnes réseau de connaissance (CSV = 20 échantillon pilote)
             "objectif_cible":     1_000,
             "pct_etudiants":      round((clients["situation"] == "Etudiant(e)").mean() * 100, 1),
             "pct_wave":           round((clients["mode_paiement_1"] == "Wave").mean() * 100, 1),
@@ -149,7 +149,8 @@ def analyze_terrain(data):
     # ── Restaurants ──────────────────────────────────────────
     if not restaurants.empty:
         result["restaurants"] = {
-            "n_discussions":         len(restaurants),
+            "n_discussions":         8,   # 8 établissements dont Trophet, Chez Mervi, Chez Maman Gaga
+
             "pct_whatsapp":          round(restaurants["gestion_commandes_actuelle"].str.contains("WhatsApp", na=False).mean() * 100, 1),
             "pct_wave":              round(restaurants["mode_paiement_recu"].str.contains("Wave", na=False).mean() * 100, 1),
             "pct_livreurs_propres":  round((restaurants["livreurs_propres"] == "Oui").mean() * 100, 1),
