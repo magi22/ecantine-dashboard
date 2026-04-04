@@ -1691,9 +1691,9 @@ with tab8:
               × ratio pénétration mobile (0.87)
             </span><br><br>
             <b style="color:{BRAND}">Données terrain :</b>
-            {terr.get('clients',{{}}).get('n_repondants', 20)} clients (questionnaire),
-            {terr.get('livreurs',{{}}).get('n_entretiens', 23)} livreurs (entretiens),
-            {terr.get('restaurants',{{}}).get('n_discussions', 5)} restaurants (discussions).
+            {terr.get('clients', {}).get('n_repondants', 20)} clients (questionnaire),
+            {terr.get('livreurs', {}).get('n_entretiens', 23)} livreurs (entretiens),
+            {terr.get('restaurants', {}).get('n_discussions', 5)} restaurants (discussions).
             Panel limité — projections à affiner à 300 répondants.<br><br>
             <b style="color:{BRAND}">Taux d'actualisation :</b>
             15% — coût du capital estimé dans le contexte UEMOA/ISM Dakar
