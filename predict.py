@@ -56,11 +56,16 @@ DEFAULT_PARAMS = {
     "prix_premium":          50_000,
     "nb_rest_cible_an1":     150,
     # ── Flotte motos E-cantine ──────────────────────────────
-    "livreurs_modele":            "flotte_propre_uniquement",
-    "livreurs_externes_an1":      False,
-    "livreurs_externes_an2":      False,
-    "livreurs_externes_an3_plus": True,
-    "commission_livreurs_externes": 0.10,
+    "livreurs_modele":                  "flotte_propre_prioritaire",
+    "livreurs_activite_parallele":      True,   # peuvent gérer leur activité perso
+    "livreurs_priorite_ecantine":       True,   # mais E-cantine passe en premier
+    "livreurs_nourriture_only":         True,   # uniquement nourriture — pas colis
+    "livreurs_formation_obligatoire":   True,
+    "livreurs_externes_an1":            False,
+    "livreurs_externes_an2":            False,
+    "livreurs_externes_an3_plus":       True,
+    "commission_livreurs_externes":     0.10,
+    "cout_suivi_qualite_livreurs":      150_000,  # superviseur + outils/mois
     "flotte_motos": {
         "an1": 30, "an2": 80, "an3": 100, "plafond_max": 100,
     },
@@ -98,6 +103,19 @@ DEFAULT_PARAMS = {
         "cout_formation_an1": 1_500_000,
         "note": "30 livreurs An1 × 50 000 FCFA = 1,5M FCFA formation",
     },
+    # ── Cercle vertueux client → restaurant ─────────────────
+    "taux_conversion_client_to_rest": 0.08,
+    # 8% des MAU actifs génèrent une demande restaurant non inscrit
+    # ── Satisfaction & rétention client ──────────────────────
+    "nps_cible":          60,    # Net Promoter Score objectif
+    "taux_retention_j30": 0.45,  # 45% reviennent après J30
+    "taux_churn_mensuel": 0.12,  # 12% d'inactifs par mois
+    # ── Données terrain ──────────────────────────────────────
+    "n_repondants_clients":         100,
+    "n_repondants_livreurs":        23,
+    "n_discussions_restaurants":    8,
+    "objectif_repondants":          1000,
+    "frustrations_livreurs_analyse": "En cours — intégration version suivante",
     # ── Croissance MAU (courbe S) — Paramètres finalisés BP ────
     "mau_L":                 60_000,   # Central — conservateur, break-even An 3
     "mau_k":                 0.07,
@@ -316,7 +334,11 @@ def compute_revenues(mau_array, params=None):
         rev_livraison = cmd * p["frais_livraison_moy"] * pct_ecantine * p["marge_livraison"]
 
         # ② Commission dégrésive par volume — sur commandes via app uniquement
-        n_rest = max(1, min(mau / p.get("mau_par_rest", 35), p["nb_rest_cible_an1"]))
+        # Cercle vertueux : clients actifs attirent restaurants supplémentaires (mois 6+)
+        bonus_rest = 0
+        if i >= 6:
+            bonus_rest = min((mau / 500) * p.get("taux_conversion_client_to_rest", 0.08), 20)
+        n_rest = max(1, min(mau / p.get("mau_par_rest", 35) + bonus_rest, p["nb_rest_cible_an1"]))
         cmd_par_rest = cmd / n_rest
         taux_comm = _commission_rate(cmd_par_rest)
         rev_commission = cmd * p.get("pct_app_orders", 0.85) * p["avg_basket"] * taux_comm
@@ -397,19 +419,30 @@ def compute_costs(mau_array, revenues, params=None):
         cout_par_moto = p.get("cout_operationnel_moto_mensuel", {}).get("total_par_moto", 33_000)
         cout_flotte = nb_motos * cout_par_moto
 
-        total_couts = salaires + marketing + tech + operations + cout_flotte
+        # Formation livreurs — coût one-shot par phase
+        if i == 0:    cout_formation = p.get("criteres_selection_livreurs", {}).get("cout_formation_an1", 1_500_000)
+        elif i == 12: cout_formation = 50_000 * 50   # An2 — 50 livreurs supplémentaires
+        elif i == 24: cout_formation = 50_000 * 20   # An3 — 20 livreurs supplémentaires
+        else:         cout_formation = 0
+
+        # Suivi qualité livreurs — coût mensuel récurrent
+        cout_qualite = p.get("cout_suivi_qualite_livreurs", 150_000)
+
+        total_couts = salaires + marketing + tech + operations + cout_flotte + cout_formation + cout_qualite
         marge_nette = rev_total - total_couts
 
         result.append({
-            "mois":             i + 1,
-            "cout_salaires":    int(salaires),
-            "cout_marketing":   int(marketing),
-            "cout_tech":        int(tech),
-            "cout_operations":  int(operations),
-            "cout_flotte":      int(cout_flotte),
-            "total_couts":      int(total_couts),
-            "marge_nette":      int(marge_nette),
-            "marge_pct":        round(marge_nette / rev_total * 100, 1) if rev_total > 0 else -100.0,
+            "mois":              i + 1,
+            "cout_salaires":     int(salaires),
+            "cout_marketing":    int(marketing),
+            "cout_tech":         int(tech),
+            "cout_operations":   int(operations),
+            "cout_flotte":       int(cout_flotte),
+            "cout_formation":    int(cout_formation),
+            "cout_qualite":      int(cout_qualite),
+            "total_couts":       int(total_couts),
+            "marge_nette":       int(marge_nette),
+            "marge_pct":         round(marge_nette / rev_total * 100, 1) if rev_total > 0 else -100.0,
         })
     return result
 
@@ -678,8 +711,12 @@ def run_model(params=None, run_mc=False, n_mc=1000):
     result = {
         "metadata": {
             "projet":           "E-cantine",
-            "version_bp":       "V8",
-            "date_generation":  datetime.now().strftime("%Y-%m-%d %H:%M"),
+            "version_bp":           "V9",
+            "livreurs_modele":      "Flotte propre prioritaire — activité parallèle autorisée — nourriture uniquement",
+            "cercle_vertueux":      "Client fidèle → demande restaurant → intégration naturelle",
+            "frustrations_livreurs": "Analyse en cours — intégration version suivante",
+            "client_obsession":     "Client = satisfaction centrale · Restaurant = revenu central",
+            "date_generation":      datetime.now().strftime("%Y-%m-%d %H:%M"),
             "methode": (
                 "Données terrain (100 clients réseau de connaissance, 23 entretiens livreurs, "
                 "8 discussions restaurants) + Benchmarks publics concurrents + "
@@ -707,8 +744,12 @@ def run_model(params=None, run_mc=False, n_mc=1000):
             "budget_lancement_fcfa", "budget_detail",
             "starter_mois_gratuits", "starter_facturation_debut", "starter_note",
             "flotte_motos", "cout_moto", "cout_operationnel_moto_mensuel",
-            "livreurs_modele", "livreurs_externes_an1", "livreurs_externes_an2",
+            "livreurs_modele", "livreurs_activite_parallele", "livreurs_nourriture_only",
+            "livreurs_externes_an1", "livreurs_externes_an2",
             "livreurs_externes_an3_plus", "commission_livreurs_externes",
+            "cout_suivi_qualite_livreurs",
+            "taux_conversion_client_to_rest", "nps_cible",
+            "taux_retention_j30", "taux_churn_mensuel",
             "criteres_selection_livreurs",
             "n_repondants_clients", "n_repondants_livreurs", "n_discussions_restaurants",
             "frais_bceao_taux", "frais_bceao_operateurs", "frais_bceao_note",

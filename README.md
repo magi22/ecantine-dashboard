@@ -120,11 +120,16 @@ Perturbe aléatoirement ±20–30% les paramètres clés → distributions P10/P
 ## MODÈLE ÉCONOMIQUE — PARAMÈTRES CLÉS
 
 ```python
-avg_basket        = 3 000 FCFA  # panier moyen hors livraison
-frais_livraison   = 1 200 FCFA  # frais de livraison moyens
-marge_livraison   = 40%         # marge nette sur livraisons
-avg_cmd_par_mau   = 2.5         # commandes/utilisateur actif/mois
-pct_app_orders    = 85%         # commandes via app (pour commission)
+avg_basket                    = 3 000 FCFA  # panier moyen hors livraison
+frais_livraison               = 1 200 FCFA  # frais de livraison moyens
+marge_livraison               = 40%         # marge nette sur livraisons
+avg_cmd_par_mau               = 2.5         # commandes/utilisateur actif/mois
+pct_app_orders                = 85%         # commandes via app (pour commission)
+taux_conversion_client_to_rest= 8%          # clients actifs → restaurant rejoint (cercle vertueux, mois 6+)
+taux_retention_j30            = 45%         # clients qui reviennent après J30
+taux_churn_mensuel            = 12%         # taux d'inactifs par mois
+nps_cible                     = 60          # Net Promoter Score objectif
+cout_suivi_qualite_livreurs   = 150 000 FCFA/mois  # superviseur + outils
 ```
 
 **Mix restaurants :**
@@ -162,6 +167,10 @@ pct_app_orders    = 85%         # commandes via app (pour commission)
 **Flotte E-cantine :**
 - Prix moto : 525 000 FCFA + 25 000 FCFA porte-bagage = 550 000 FCFA
 - Coût opérationnel : 33 000 FCFA/moto/mois (essence ~15L + entretien + réparations)
+- Suivi qualité livreurs : 150 000 FCFA/mois (superviseur + outils)
+- Formation one-shot : An1 = 1,5M · An2 = 2,5M · An3 = 1M FCFA
+- Modèle : **flotte propre prioritaire** — activité parallèle autorisée, E-cantine passe en premier
+- **Nourriture uniquement** — pas de colis
 - An 1–2 : flotte propre uniquement (pas de livreurs externes)
 - An 3+ : livreurs externes autorisés (max 15% des livraisons, commission 10%)
 
