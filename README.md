@@ -1,5 +1,5 @@
 # E-Cantine — Modèle de Prédiction IA
-## Business Plan · ISM Dakar · 2026
+## Business Plan V8 · ISM Dakar · 2026
 **Auteur :** Adote Mario-Giovani ADUAYI-AKUE · contact@ecantine.sn
 
 ---
@@ -133,9 +133,9 @@ pct_app_orders    = 85%         # commandes via app (pour commission)
 - Premium (50 000 FCFA/mois) : 10%
 
 **Offre Starter :**
-- 3 mois gratuits par défaut
-- +1 mois bonus si contrat partenariat signé avant J90
-- = jusqu'à **4 mois gratuits** au lancement
+- **3 mois gratuits, sans engagement**
+- Commission 2,5% activée au 4ème mois uniquement si le restaurant continue
+- Aucune obligation après les 3 mois
 
 ---
 
@@ -237,4 +237,15 @@ Les frais de paiement électronique de **1%** (max 5 000 FCFA) sont réglementai
 
 ---
 
-*Dernière mise à jour : avril 2026*
+---
+
+## JOURNAL DES VERSIONS
+
+| Version | Date | Modifications principales |
+|---|---|---|
+| **V8** | Avril 2026 | Starter 3 mois sans bonus · MC 1 000 simulations · budget 49,5M · flotte motos · livreurs externes An3+ · budget_detail 10 postes |
+| V7 | Avril 2026 | Budget 22,56M · commission dégrésive · 6 flux (pub absorbée) · Facteur Dakar 0.238 |
+
+---
+
+*Dernière mise à jour : V8 · avril 2026*
