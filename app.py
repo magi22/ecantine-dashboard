@@ -1149,8 +1149,8 @@ with tab3:
     <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;
                 padding:12px 16px;margin-top:10px;font-size:0.82rem;color:{TEXT}">
       <b style="color:{BRAND}">Offre Starter E-cantine :</b>
-      <b style="color:{BRAND_MED}">3 mois gratuits</b> + 1 mois bonus si contrat partenariat signé avant J90
-      = <b>jusqu'à 4 mois gratuits</b> pour démarrer.<br>
+      <b style="color:{BRAND_MED}">3 mois gratuits, sans engagement.</b>
+      La commission de 2,5% s'active uniquement au 4ème mois si le restaurant souhaite continuer.<br>
       <span style="color:{TEXT_DIM}">100% des restaurants interrogés ont exprimé un intérêt immédiat pour cette offre.
       Tous gèrent leurs commandes via WhatsApp ou téléphone — pas de caisse connectée.</span>
     </div>
@@ -2198,7 +2198,7 @@ with tab9:
         <div>
           <div class="h-subsection">Formules Restaurants</div>
           <div class="t-dim">
-            <b>% Starter (3 mois gratuits + 1 bonus si contrat signé) :</b> restaurants sans abonnement les 3-4 premiers mois — E-cantine ne prend que la commission.<br>
+            <b>% Starter (3 mois gratuits, sans engagement) :</b> commission 2,5% activée au 4ème mois uniquement si le restaurant continue.<br>
             <b>% Pro (25K/mois) :</b> restaurants payant un abonnement mensuel.<br>
             <b>% Premium (50K/mois) :</b> calculé automatiquement = 100% - Starter - Pro.
           </div>

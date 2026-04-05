@@ -43,11 +43,10 @@ DEFAULT_PARAMS = {
     "pub_dans_abonnements":  True,    # pub n'est pas un flux séparé — absorbée dans abonnements
     # ── Offre Starter ───────────────────────────────────────
     "starter_mois_gratuits":     3,
-    "starter_bonus_contrat":     1,
-    "starter_total_max_gratuit": 4,
+    "starter_facturation_debut": 4,
     "starter_note": (
-        "3 mois gratuits par défaut + 1 mois offert si contrat partenariat signé avant J90. "
-        "Soit jusqu'à 4 mois gratuits au lancement."
+        "Starter gratuit pour toujours. 0 commission pendant les 3 premiers mois. "
+        "Commission 2,5% activée au 4ème mois si le restaurant continue."
     ),
     # ── Mix restaurants ─────────────────────────────────────
     "pct_starter":           0.60,
@@ -679,6 +678,7 @@ def run_model(params=None, run_mc=False, n_mc=1000):
     result = {
         "metadata": {
             "projet":           "E-cantine",
+            "version_bp":       "V8",
             "date_generation":  datetime.now().strftime("%Y-%m-%d %H:%M"),
             "methode": (
                 "Données terrain (100 clients réseau de connaissance, 23 entretiens livreurs, "
@@ -705,8 +705,7 @@ def run_model(params=None, run_mc=False, n_mc=1000):
             "frais_livraison_moy", "marge_livraison", "avg_basket",
             "avg_cmd_par_mau", "investissement", "taux_actualisation",
             "budget_lancement_fcfa", "budget_detail",
-            "starter_mois_gratuits", "starter_bonus_contrat",
-            "starter_total_max_gratuit", "starter_note",
+            "starter_mois_gratuits", "starter_facturation_debut", "starter_note",
             "flotte_motos", "cout_moto", "cout_operationnel_moto_mensuel",
             "livreurs_modele", "livreurs_externes_an1", "livreurs_externes_an2",
             "livreurs_externes_an3_plus", "commission_livreurs_externes",
@@ -772,7 +771,7 @@ if __name__ == "__main__":
     titre("E-CANTINE · Modèle de Prédiction IA · V7")
     print(f"\n  Lancement du modèle...\n")
 
-    res = run_model(run_mc=True, n_mc=500)
+    res = run_model(run_mc=True, n_mc=1000)
 
     t   = res["terrain"]
     m   = res["mau"]
