@@ -1529,12 +1529,15 @@ with tab6:
     rows_ch = []
     for an in range(1, 6):
         s, e = (an - 1) * 12, an * 12
-        rev_an  = sum(r["total_mensuel"]    for r in rev_m[s:e])
-        ch_tot  = sum(c["total_couts"]      for c in cst_m[s:e])
-        ch_sal  = sum(c["cout_salaires"]    for c in cst_m[s:e])
-        ch_mkt  = sum(c["cout_marketing"]   for c in cst_m[s:e])
-        ch_tec  = sum(c["cout_tech"]        for c in cst_m[s:e])
-        ch_ops  = sum(c["cout_operations"]  for c in cst_m[s:e])
+        rev_an  = sum(r["total_mensuel"]            for r in rev_m[s:e])
+        ch_tot  = sum(c["total_couts"]              for c in cst_m[s:e])
+        ch_sal  = sum(c["cout_salaires"]            for c in cst_m[s:e])
+        ch_mkt  = sum(c["cout_marketing"]           for c in cst_m[s:e])
+        ch_tec  = sum(c["cout_tech"]                for c in cst_m[s:e])
+        ch_ops  = sum(c["cout_operations"]          for c in cst_m[s:e])
+        ch_flo  = sum(c.get("cout_flotte", 0)       for c in cst_m[s:e])
+        ch_frm  = sum(c.get("cout_formation", 0)    for c in cst_m[s:e])
+        ch_qua  = sum(c.get("cout_qualite", 0)      for c in cst_m[s:e])
         res_an  = rev_an - ch_tot
         rows_ch.append({
             "Année":                  f"An {an} · {2026+an}",
@@ -1544,6 +1547,9 @@ with tab6:
             "· Marketing (M)":        f"{ch_mkt/1e6:.2f}",
             "· Tech/Infra (M)":       f"{ch_tec/1e6:.2f}",
             "· Opérations (M)":       f"{ch_ops/1e6:.2f}",
+            "· Flotte motos (M)":     f"{ch_flo/1e6:.2f}",
+            "· Formation (M)":        f"{ch_frm/1e6:.2f}",
+            "· Suivi qualité (M)":    f"{ch_qua/1e6:.2f}",
             "Résultat net (M)":       f"{res_an/1e6:.2f}",
             "Marge nette":            f"{res_an/rev_an*100:.0f}%" if rev_an else "—",
         })
