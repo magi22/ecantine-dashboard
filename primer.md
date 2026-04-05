@@ -50,7 +50,7 @@ ecantine_vscode/
 
 1. ① Frais livraison (marge 40%)
 2. ② Commission dégrésive par volume : <100 cmd→2.5% | 100-500→2.0% | 500-1500→1.5% | >1500→1.0%
-3. ③ Abonnements restaurants (Starter gratuit / Pro 25K / Premium 50K FCFA/mois) — pub incluse
+3. ③ Abonnements restaurants (Starter **3 mois gratuits sans engagement** → commission 2.5% dès mois 4 / Pro 25K / Premium 50K FCFA/mois) — pub incluse
 4. ④ Vitrine E-cantine (mise en avant restaurants)
 5. ⑤ Livraisons propres (2.5% dispatch)
 6. ⑥ B2B entreprises
@@ -66,6 +66,11 @@ ecantine_vscode/
 - Point d'inflexion (t0) = 44 mois
 - Calibration : Chowdeck Nigeria × Facteur Dakar **0.238**
 - Simulation Monte Carlo : 1 000 itérations
+- Cercle vertueux : taux_conversion_client_to_rest = 8% (mois 6+)
+- Rétention J30 = 45% · Churn mensuel = 12% · NPS cible = 60
+- Budget lancement : **49 500 000 FCFA** (30 motos × 550K + app + marketing + infra)
+- Flotte motos : An1=30 · An2=80 · An3+=100 (33 000 FCFA/moto/mois opérationnel)
+- Indicateurs centraux : VAN ~380,8M FCFA · TRI ~99,6% · Délai récupération ~28 mois
 
 ---
 
