@@ -75,7 +75,7 @@ Calculés à partir du MAU, mois par mois sur 60 mois.
 **An 3+ uniquement** : livreurs externes autorisés → commission 10% sur 15% des livraisons.
 
 ### Étape 3 — Coûts Mensuels
-4 postes de coûts + flotte motos :
+7 postes de coûts (4 variables + flotte motos + formation + suivi qualité) :
 
 | Poste | Formule |
 |---|---|
@@ -84,6 +84,8 @@ Calculés à partir du MAU, mois par mois sur 60 mois.
 | Tech & infra | `250 000 + MAU/1000 × 10 000` |
 | Opérations | `200 000 + MAU/1000 × 30 000` |
 | **Flotte motos** | `nb_motos × 33 000` FCFA/mois (essence + entretien + réparations) |
+| **Formation livreurs** | One-shot : 1 500 000 mois 0 · 2 500 000 mois 12 · 1 000 000 mois 24 |
+| **Suivi qualité** | 150 000 FCFA/mois (superviseur + outils) |
 
 **Flotte motos :**
 - An 1 : 30 motos → 990 000 FCFA/mois

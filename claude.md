@@ -38,7 +38,7 @@
 | 3 | Données Terrain | Clients/livreurs/restaurants (hardcodé 100/23/8), benchmarks actifs Dakar uniquement |
 | 4 | Scénarios | Comparaison 3 scénarios, décomposition 6 flux An 1 |
 | 5 | Monte Carlo | Distribution CA/VAN, P10/P50/P90, verdict automatique, tornado |
-| 6 | Charges & Trésorerie | Aires empilées coûts, marge nette, trésorerie cumulée |
+| 6 | Charges & Trésorerie | Aires empilées coûts, marge nette, trésorerie cumulée, **tableau 7 postes complets** |
 | 7 | Opérationnel | Commandes/livreurs/restaurants simulés, **flotte motos**, **critères sélection livreurs** |
 | 8 | Glossaire & Guide | Définitions VAN/TRI/MAU/Monte Carlo/P10-P90/Tornado/Facteur Dakar |
 | 9 | À propos du Modèle | Architecture, méthodologie, hypothèses, limites, guide sidebar |
@@ -67,6 +67,7 @@
 | Glovo affiché dans concurrents Dakar | Pas de filtre marche_dakar | `df_b[df_b["marche_dakar"].astype(str)=="TRUE"]` | 1fd2f7c |
 | Terrain affichait 20 clients / 5 restaurants | Streamlit Cloud lit CSV → valeurs anciennes | Hardcoder `n_rep=100, n_liv=23, n_rest=8` dans app.py | 1fd2f7c |
 | CLI 500 simulations au lieu de 1000 | `run_model(n_mc=500)` dans main | Changé en `n_mc=1000` | 1fd2f7c |
+| Tab6 charges — écart total vs détail (~15M An1) | Colonnes flotte/formation/qualité absentes du tableau | Ajout de `cout_flotte`, `cout_formation`, `cout_qualite` dans rows_ch | a4f5954 |
 
 ---
 
@@ -257,6 +258,9 @@ Glovo, Jumia, Chowdeck → affichés uniquement dans une note stylisée sous la 
 ---
 
 ## Architecture predict.py — fonctions clés
+
+> **Règle importante** : `total_couts` = 7 postes. Le tableau tab6 doit afficher les 7 postes —
+> ne jamais en omettre (flotte/formation/qualité représentent ~15M An1 invisible si manquants).
 
 ### `compute_revenues(p, scenarios)`
 - Calcule les 6 flux mois par mois sur 60 mois
