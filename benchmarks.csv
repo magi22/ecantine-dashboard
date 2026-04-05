@@ -1,10 +1,13 @@
-plateforme,pays,annee_lancement,statut,mau_estime,restaurants_partenaires,note_appstore,commission_pct,frais_livraison_moy_fcfa,creneaux_forts,point_fort,point_faible,source
-Dakar Food Delivery,Sénégal,2019,Actif,Inconnu,80+,3.4,Non communiqué,700-1500,Midi;Soir,Ancienneté marché dakarois,Pas de Wave natif,dakarfooddelivery.com 2026
-Ayda App,Sénégal,2023,Actif,Inconnu,30+,Non communiqué,Non communiqué,500-1200,Matin;Midi,Niche petit-déjeuner dès 8h,Récent peu connu,aydaapp.com 2026
-Yango Food,Sénégal,2025,Actif,Inconnu,Non communiqué,Non communiqué,0 (temporaire),Non communiqué,Soir,Commission 0% attraction restaurants,Non rentable à terme,AITN fev 2025
-Yassir,Sénégal,2022,Actif,$150M levés,Non communiqué,Non communiqué,Non communiqué,Non communiqué,Midi;Soir,$150M Série B nov.2022 - DG locale sénégalaise,Multi-services dilué,TechCrunch nov 2022
-Bring Me SN,Sénégal,Non documenté,Actif,Inconnu,100+,4.5,Non communiqué,Non communiqué,Midi;Soir,Délai 20 min annoncé - 4.5 étoiles,Peu connu,Google Play 2026
-KonectFood,Sénégal,Non documenté,Actif,Inconnu,Non communiqué,Non communiqué,Non communiqué,Non communiqué,Midi;Soir,Multi-villes Sénégal,Peu de données publiques,konectfood.sn 2026
-Wajeez,Sénégal,Non documenté,Actif,Inconnu,Non communiqué,Non communiqué,Non communiqué,Non communiqué,Midi;Soir,Multi-services ex FoodBeeper,Récent Dakar,wajeez.com 2026
-Togalma,Sénégal,2025,Actif,Inconnu,Non communiqué,3.0,Non communiqué,Non communiqué,Matin;Midi,B2B pro dès 7h - fondatrices locales,Très niche,Google Play 2026
-Jumia Food Sénégal,Sénégal,2018,Fermé décembre 2023,Inconnu,200+ au pic,Non communiqué,25-30,800-1500,Midi;Soir,Notoriété forte 389K fans FB,Non rentable - fermé,TechCabal 14/12/2023
+plateforme,pays,statut,restaurants,note_app,commission_pct,frais_livraison_moy_fcfa,point_fort,point_faible,source,marche_dakar
+Dakar Food Delivery,Sénégal,Actif,80+,3.4/5,Non communiqué,700-1500,Ancienneté marché dakarois,Pas de Wave natif,dakarfooddelivery.com 2026,TRUE
+Ayda App,Sénégal,Actif,30+,Non communiqué,Non communiqué,500-1200,Niche petit-déjeuner dès 8h,Récent peu connu,aydaapp.com 2026,TRUE
+Yango Food,Sénégal,Actif (fév. 2025),Non communiqué,Non communiqué,0 (temporaire),Non communiqué,Commission 0% attraction restaurants,Non rentable à terme,senego.com fév. 2025,TRUE
+Yassir,Sénégal,Actif (2022),Non communiqué,88 avis Google,Non communiqué,Non communiqué,Multi-services VTC+livraison — $150M levés,Peu spécialisé cuisine locale,wikipedia + dakaractu 2022,TRUE
+Bring Me SN,Sénégal,Actif,100+,4.5/5 (58 avis),Non communiqué,Non communiqué,Délai 20min annoncé,Peu connu,bringme.sn 2026,TRUE
+KonectFood,Sénégal,Actif,Non communiqué,Non communiqué,Non communiqué,Non communiqué,Multi-villes Sénégal,Peu de données publiques,play.google.com 2026,TRUE
+Togalma,Sénégal,Actif (2025),Non communiqué,3.0/5 (4 avis),Non communiqué,Non communiqué,Niche B2B pro dès 7h,Très niche,togalma.com 2026,TRUE
+Wajeez,Algérie/Sénégal,Actif,Non communiqué,Non communiqué,Non communiqué,Non communiqué,Multi-services ex FoodBeeper,Récent au Sénégal,wajeez.io 2026,TRUE
+Jumia Food,Nigeria/Pan-Afrique,Fermé décembre 2023,200+ au pic,Non communiqué,25-30,800-1500,Notoriété forte (389K fans FB),Non rentable — fermé,TechCabal déc. 2023,FALSE
+Glovo,Espagne,Jamais officiellement lancé au SN,N/A,Non communiqué,N/A,N/A,Fort en Côte d'Ivoire et Maroc,Jamais au Sénégal — pas un concurrent,Wikipedia + glovoapp.com avril 2026,FALSE
+Chowdeck,Nigeria,Actif profitable (hors Sénégal),10000+,4.6/5,10-15,800-1500 équivalent,Rentable local — référence africaine,Hors Sénégal,Techpoint Africa août 2025,BENCHMARK_ONLY
+PAPS Logistique,Sénégal,Actif (logistique B2B),N/A,3.9/5 (127 avis),N/A,N/A,$4.5M levés 2022 — logistique B2B,Pas food delivery pur,financialafrik.com 2022,INDIRECT

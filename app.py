@@ -716,7 +716,7 @@ st.markdown(f"""
       <span class="badge-success">✓ VAN {fin['van_M']:.1f}M FCFA</span>
       <span class="badge-success">✓ TRI {tri_val:.0f}%</span>
       <span class="badge-purple">◆ IP {fin['ip']:.1f}x</span>
-      <span class="badge-ok">⏱ Break-even M{dr}</span>
+      <span class="badge-ok">⏱ Seuil rentabilité M{dr}</span>
     </div>
   </div>
   <div style="text-align:right;padding-left:16px;border-left:1px solid {BORDER}">
@@ -866,7 +866,7 @@ with tab1:
         mau_msg = f"Objectif MAU plateau <b>{mau_L:,}</b> — cohérent avec la population cible (étudiants + actifs)."
         mau_col = GREEN
     else:
-        mau_msg = f"Objectif MAU plateau <b>{mau_L:,}</b> — scénario prudent, atteint plus tôt (break-even accéléré)."
+        mau_msg = f"Objectif MAU plateau <b>{mau_L:,}</b> — scénario prudent, atteint plus tôt (seuil de rentabilité atteint plus tôt)."
         mau_col = TEAL2
 
     # Verdict croissance
@@ -940,7 +940,7 @@ with tab2:
         ))
         if dr:
             fig.add_vline(x=dr, line_dash="dash", line_color=GREEN, line_width=2,
-                          annotation_text=f"  Break-even M{dr}",
+                          annotation_text=f"  Seuil M{dr}",
                           annotation_font=dict(color=GREEN, size=12))
         fig.update_layout(
             **_layout("Revenus vs Coûts mensuels (M FCFA)", BRAND, 310, y_title="M FCFA", legend=_LEG_H),
@@ -983,10 +983,10 @@ with tab2:
     fig.add_hline(y=0, line_dash="dot", line_color=TEXT_DIM, line_width=1)
     if dr:
         fig.add_vline(x=dr, line_dash="dash", line_color=GREEN, line_width=2,
-                      annotation_text=f"  Break-even M{dr}",
+                      annotation_text=f"  Seuil M{dr}",
                       annotation_font=dict(color=GREEN, size=12))
     fig.update_layout(
-        **_layout("Cash Flow Cumulatif depuis investissement (M FCFA)", BRAND, 260, y_title="M FCFA", legend=_LEG_H),
+        **_layout("Trésorerie Cumulée depuis investissement (M FCFA)", BRAND, 260, y_title="M FCFA", legend=_LEG_H),
     )
     st.plotly_chart(fig, use_container_width=True)
 
@@ -1149,11 +1149,28 @@ with tab3:
         st.markdown("<p class='ec-label'>Concurrents — Marché Dakar</p>",
                     unsafe_allow_html=True)
         df_b = pd.DataFrame(bench)
+        # Filtrer uniquement les acteurs du marché Dakar (marche_dakar == TRUE)
+        if "marche_dakar" in df_b.columns:
+            df_dakar = df_b[df_b["marche_dakar"].astype(str) == "TRUE"].copy()
+        else:
+            df_dakar = df_b.copy()
         cols = [c for c in ["plateforme","statut","commission_pct",
                              "frais_livraison_moy_fcfa","point_fort","point_faible"]
-                if c in df_b.columns]
-        if cols:
-            st.dataframe(df_b[cols], use_container_width=True, hide_index=True)
+                if c in df_dakar.columns]
+        if cols and not df_dakar.empty:
+            st.dataframe(df_dakar[cols], use_container_width=True, hide_index=True)
+        # Note sur les acteurs hors marché Dakar
+        st.markdown(f"""
+        <div style="background:#f5f7ff;border-radius:8px;padding:10px 14px;
+                    margin-top:10px;font-size:0.80rem;color:{TEXT_DIM}">
+          <b style="color:{BRAND}">Note</b> —
+          <b>Jumia Food</b> : fermé décembre 2023 (TechCabal) — non actif au Sénégal. ·
+          <b>Glovo</b> : jamais officiellement lancé au Sénégal (Wikipedia + glovoapp.com, avril 2026) —
+          fort en Côte d'Ivoire et Maroc, pas un concurrent Dakar. ·
+          <b>Chowdeck</b> : actif au Nigeria uniquement — utilisé comme benchmark de calibration
+          (×Facteur Dakar 0.238).
+        </div>
+        """, unsafe_allow_html=True)
 
 # ══════════════════════════════════════════════════════════════
 # TAB 4 — SCÉNARIOS
@@ -1445,7 +1462,7 @@ with tab6:
         fig.add_hline(y=0, line_dash="dot", line_color=TEXT_DIM, line_width=1)
         if dr:
             fig.add_vline(x=dr, line_dash="dash", line_color=GREEN, line_width=2,
-                          annotation_text=f"  Break-even M{dr}",
+                          annotation_text=f"  Seuil M{dr}",
                           annotation_font=dict(color=GREEN, size=11))
         fig.update_layout(
             **_layout("Marge nette mensuelle (%)", BRAND, 320,
@@ -1481,7 +1498,7 @@ with tab6:
     fig.add_hline(y=0, line_dash="dot", line_color=ORANGE, line_width=1.5)
     if dr:
         fig.add_vline(x=dr, line_dash="dash", line_color=GREEN, line_width=2,
-                      annotation_text=f"  Break-even M{dr}",
+                      annotation_text=f"  Seuil M{dr}",
                       annotation_font=dict(color=GREEN, size=12))
     fig.update_layout(
         **_layout("Trésorerie cumulée & Profit mensuel (M FCFA)", BRAND, 320,
@@ -1525,7 +1542,7 @@ with tab6:
                 padding:14px 18px;margin-top:8px;font-size:0.84rem;color:{TEXT}">
       <b style="color:{BRAND}">Investissement initial :</b>
       {fin['budget_fcfa']/1e6:.2f}M FCFA — récupéré au mois
-      <b style="color:{GREEN}">M{fin['delai_mois']}</b> (break-even cumulatif).<br>
+      <b style="color:{GREEN}">M{fin['delai_mois']}</b> (seuil de rentabilité cumulatif).<br>
       <span style="color:{TEXT_DIM}">Taux d'actualisation utilisé pour la VAN : 15% (coût opportunité ISM/UEMOA).</span><br>
       <span style="color:{TEXT_DIM}"><b>Frais BCEAO 1%</b> (max 5 000 FCFA) : réglementaires, reversés à Wave / Orange Money / Mix by Yass — <b>pas un revenu E-cantine</b>.</span>
     </div>
@@ -1722,11 +1739,11 @@ with tab7:
 # TAB 8 — GLOSSAIRE & GUIDE
 # ══════════════════════════════════════════════════════════════
 with tab8:
-    st.markdown("<p class='ec-label'>Comprendre le Dashboard — Termes et Définitions</p>",
+    st.markdown("<p class='ec-label'>Comprendre le Tableau de Bord — Termes et Définitions</p>",
                 unsafe_allow_html=True)
     st.markdown(f"""
     <div style="font-size:0.82rem;color:{TEXT_DIM};margin-bottom:16px">
-      Ce guide explique chaque terme utilisé dans le dashboard en langage simple,
+      Ce guide explique chaque terme utilisé dans le tableau de bord en langage simple,
       adapté à une présentation devant un jury académique.
     </div>
     """, unsafe_allow_html=True)
@@ -1779,10 +1796,10 @@ with tab8:
         ), unsafe_allow_html=True)
 
         st.markdown(_glossaire_card(
-            "⏱️", f"Break-even (Délai de Récupération)",
+            "⏱️", f"Seuil de Rentabilité (Point Mort)",
             "C'est le moment où les revenus cumulés dépassent l'investissement initial. "
             "Avant ce mois, le projet est encore en déficit cumulé. Après, il est bénéficiaire.",
-            f"Break-even au mois {fin['delai_mois'] or '?'} ({(2026 + fin['delai_mois']//12) if fin['delai_mois'] else 'N/A'}) — l'investissement de {fin['budget_fcfa']/1e6:.2f}M FCFA est récupéré.",
+            f"Seuil de rentabilité atteint au mois {fin['delai_mois'] or '?'} ({(2026 + fin['delai_mois']//12) if fin['delai_mois'] else 'N/A'}) — l'investissement de {fin['budget_fcfa']/1e6:.2f}M FCFA est récupéré.",
             GREEN
         ), unsafe_allow_html=True)
 
@@ -1790,7 +1807,7 @@ with tab8:
         st.markdown("<p class='ec-label'>Modèle & Statistiques</p>",
                     unsafe_allow_html=True)
         st.markdown(_glossaire_card(
-            "👥", "MAU — Monthly Active Users",
+            "👥", "MAU — Utilisateurs Actifs Mensuels",
             "Le nombre d'utilisateurs actifs chaque mois sur la plateforme. "
             "C'est l'indicateur principal de croissance d'une startup numérique. "
             "Un utilisateur est 'actif' s'il a passé au moins une commande dans le mois.",
@@ -1954,14 +1971,14 @@ with tab9:
              "tableau récapitulatif 5 ans, et 4 KPI financiers centraux. "
              "<b>Usage : première slide à montrer au jury.</b>"),
             ("💰", "Revenus & Coûts",
-             "Graphique revenus vs coûts mensuels avec point de break-even visuellement marqué, "
-             "répartition des 7 flux par donut chart, cash flow cumulatif, "
+             "Graphique revenus vs coûts mensuels avec point de seuil de rentabilité visuellement marqué, "
+             "répartition des 6 flux par donut, trésorerie cumulée, "
              "décomposition des coûts An 1 et évolution du CA sur 5 ans. "
              "<b>Usage : démontrer la viabilité économique.</b>"),
             ("🌍", "Données Terrain",
-             "Visualisation des données primaires collectées : 20 clients, 23 livreurs, "
-             "5 restaurants — indicateurs clés (% intéressés, % Wave), freins identifiés, "
-             "tableau des concurrents. "
+             "Visualisation des données primaires collectées : 100 clients, 23 livreurs, "
+             "8 restaurants — indicateurs clés (% intéressés, % Wave), freins identifiés, "
+             "tableau des concurrents actifs sur le marché dakarois. "
              "<b>Usage : ancrer les projections dans la réalité du marché dakarois.</b>"),
             ("🔀", "Scénarios",
              "Comparaison côte-à-côte des 3 scénarios (pessimiste / central / optimiste) "

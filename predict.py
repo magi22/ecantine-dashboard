@@ -1,7 +1,7 @@
 """
 ╔══════════════════════════════════════════════════════════════╗
 ║         E-CANTINE — MODÈLE DE PRÉDICTION IA                ║
-║         Business Plan V7 · ISM Dakar · 2025                ║
+║         Business Plan · ISM Dakar · 2026                   ║
 ║         Auteur : Adote Mario-Giovani ADUAYI-AKUE            ║
 ╚══════════════════════════════════════════════════════════════╝
 
@@ -33,6 +33,14 @@ DEFAULT_PARAMS = {
     "avg_basket":            3000,    # FCFA — panier moyen hors livraison
     "avg_cmd_par_mau":       2.5,     # commandes/utilisateur actif/mois
     "pct_app_orders":        0.85,    # 85% des commandes passées via app mobile (vs POS/tél.)
+    # ── Commission dégrésive par volume (pas par formule) ───
+    "commission_mode":       "degressif_volume",
+    # seuils : <100 cmd/mois → 2.5% | 100-500 → 2.0% | 500-1500 → 1.5% | >1500 → 1.0%
+    # ── Livraisons propres ──────────────────────────────────
+    "dispatch_fee_propres":  0.025,   # 2.5% des commandes propres (restaurants avec livreurs)
+    # ── Publication in-app ──────────────────────────────────
+    "n_flux_revenus":        6,
+    "pub_dans_abonnements":  True,    # pub n'est pas un flux séparé — absorbée dans abonnements
     # ── Mix restaurants ─────────────────────────────────────
     "pct_starter":           0.60,
     "pct_pro":               0.30,
@@ -62,6 +70,33 @@ DEFAULT_PARAMS = {
     "tech_par_kmau":         10_000,     # coûts infra variables
     "operations_base":       200_000,    # admin, bureau, divers
     "operations_par_kmau":   30_000,     # support client variable
+    # ── Données terrain (métadonnées) ───────────────────────
+    "n_repondants_clients":       100,
+    "n_repondants_livreurs":      23,
+    "n_discussions_restaurants":  8,
+    "objectif_repondants":        1000,
+    "lieux_terrain": [
+        "Réseau de connaissance du fondateur et entourage élargi",
+        "Plusieurs quartiers de Dakar",
+    ],
+    "restaurants_terrain": [
+        "Restaurant International 1", "Restaurant International 2",
+        "Restaurant International 3", "Restaurant International 4",
+        "Swice Palace", "Trophet", "Chez Mervi", "Chez Maman Gaga",
+    ],
+    "livreurs_sources": [
+        "Moaye (5)", "Swice Palace (4)", "Bazof (4)",
+        "Yum Yum (4)", "Indépendants colis (6)",
+    ],
+    # ── Frais BCEAO — réglementaires, reversés aux opérateurs ─
+    "frais_bceao_taux":       0.01,
+    "frais_bceao_plafond":    5000,
+    "frais_bceao_operateurs": ["Wave", "Orange Money", "Mix by Yass"],
+    "frais_bceao_note":       "Réglementaires BCEAO — reversés aux opérateurs — PAS un revenu E-cantine",
+    # ── Liens officiels ─────────────────────────────────────
+    "dashboard_url":   "https://ecantine-dash.streamlit.app/",
+    "github_url":      "https://github.com/magi22/ecantine-dashboard",
+    "formulaire_url":  "https://forms.gle/FMQqysZSYWC7Phhp9",
 }
 
 # ══════════════════════════════════════════════════════════════
