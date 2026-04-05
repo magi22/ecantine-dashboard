@@ -41,6 +41,14 @@ DEFAULT_PARAMS = {
     # ── Publication in-app ──────────────────────────────────
     "n_flux_revenus":        6,
     "pub_dans_abonnements":  True,    # pub n'est pas un flux séparé — absorbée dans abonnements
+    # ── Offre Starter ───────────────────────────────────────
+    "starter_mois_gratuits":     3,
+    "starter_bonus_contrat":     1,
+    "starter_total_max_gratuit": 4,
+    "starter_note": (
+        "3 mois gratuits par défaut + 1 mois offert si contrat partenariat signé avant J90. "
+        "Soit jusqu'à 4 mois gratuits au lancement."
+    ),
     # ── Mix restaurants ─────────────────────────────────────
     "pct_starter":           0.60,
     "pct_pro":               0.30,
@@ -48,6 +56,49 @@ DEFAULT_PARAMS = {
     "prix_pro":              25_000,
     "prix_premium":          50_000,
     "nb_rest_cible_an1":     150,
+    # ── Flotte motos E-cantine ──────────────────────────────
+    "livreurs_modele":            "flotte_propre_uniquement",
+    "livreurs_externes_an1":      False,
+    "livreurs_externes_an2":      False,
+    "livreurs_externes_an3_plus": True,
+    "commission_livreurs_externes": 0.10,
+    "flotte_motos": {
+        "an1": 30, "an2": 80, "an3": 100, "plafond_max": 100,
+    },
+    "cout_moto": {
+        "prix_min_fcfa":      350_000,
+        "prix_max_fcfa":      600_000,
+        "prix_moyen_fcfa":    525_000,
+        "porte_bagage_fcfa":   25_000,
+        "cout_total_an1":  16_500_000,
+        "note": "30 motos An1 × (525 000 + 25 000) = 16,5M FCFA",
+    },
+    "cout_operationnel_moto_mensuel": {
+        "essence_fcfa":     15_000,
+        "entretien_fcfa":   10_000,
+        "reparations_fcfa":  8_000,
+        "total_par_moto":   33_000,
+        "total_flotte_an1": 990_000,
+        "note": "Essence ~1 000 FCFA/L × 15L/mois + entretien + réparations",
+    },
+    # ── Critères sélection livreurs ─────────────────────────
+    "criteres_selection_livreurs": {
+        "langues_requises":    ["Wolof", "Français"],
+        "note_min_active":     4.0,
+        "note_suspension":     3.5,
+        "formation_jours":     2,
+        "cout_formation_fcfa": 50_000,
+        "formation_contenu": [
+            "Protocole de livraison et courtoisie client",
+            "Utilisation application livreur E-cantine",
+            "Navigation GPS Dakar zones prioritaires",
+            "Gestion des incidents et réclamations",
+            "Normes d'hygiène alimentaire",
+            "Communication bilingue Wolof/Français",
+        ],
+        "cout_formation_an1": 1_500_000,
+        "note": "30 livreurs An1 × 50 000 FCFA = 1,5M FCFA formation",
+    },
     # ── Croissance MAU (courbe S) — Paramètres finalisés BP ────
     "mau_L":                 60_000,   # Central — conservateur, break-even An 3
     "mau_k":                 0.07,
@@ -59,7 +110,21 @@ DEFAULT_PARAMS = {
     "mau_k_opt":             0.10,
     "mau_t0_opt":            36,
     # ── Financier ───────────────────────────────────────────
-    "investissement":        22_560_000,
+    "budget_lancement_fcfa": 49_500_000,
+    "budget_detail": {
+        "developpement_v1":       9_100_000,
+        "motos_30_an1":          16_500_000,
+        "marketing_lancement":    9_000_000,
+        "materiel_informatique":  6_500_000,
+        "bureau_coworking_12m":   4_200_000,
+        "formation_livreurs":     1_500_000,
+        "licences_ia_outils":     1_440_000,
+        "hebergement_cloud_12m":    840_000,
+        "frais_juridiques":         500_000,
+        "fonds_roulement":          920_000,
+        "total":                 49_500_000,
+    },
+    "investissement":        49_500_000,
     "taux_actualisation":    0.15,
     # ── Coûts ───────────────────────────────────────────────
     "salaires_base":         1_500_000,  # équipe fondateurs (mois 1-6)
@@ -270,11 +335,18 @@ def compute_revenues(mau_array, params=None):
         # ⑥ E-cantine Vitrine — commission 5% sur menus prix fixe (mois 4+)
         rev_selection = cmd * p["avg_basket"] * 0.08 * 0.05 if i > 3 else 0
 
-        # ⑦ Livraisons propres restaurants — 2,5% de dispatch (corrigé de 1,5%)
+        # ⑦ Livraisons propres restaurants — 2,5% de dispatch
         rev_propres = cmd * p["avg_basket"] * (1 - pct_ecantine) * 0.025
 
+        # ⑦b Livreurs externes An3+ (mois 25+) — commission 10% sur 15% des livraisons
+        if i >= 24 and p.get("livreurs_externes_an3_plus", True):
+            pct_externes = 0.15
+            rev_externes = cmd * p["frais_livraison_moy"] * pct_externes * p.get("commission_livreurs_externes", 0.10)
+        else:
+            rev_externes = 0
+
         total = (rev_livraison + rev_commission + rev_abo +
-                 rev_pub + rev_b2b + rev_selection + rev_propres)
+                 rev_pub + rev_b2b + rev_selection + rev_propres + rev_externes)
 
         result.append({
             "mois":              i + 1,
@@ -289,6 +361,7 @@ def compute_revenues(mau_array, params=None):
             "rev_b2b":           int(rev_b2b),
             "rev_selection":     int(rev_selection),
             "rev_propres":       int(rev_propres),
+            "rev_externes":      int(rev_externes),
             "total_mensuel":     int(total),
         })
     return result
@@ -317,7 +390,15 @@ def compute_costs(mau_array, revenues, params=None):
         # Opérations & admin
         operations = p["operations_base"] + mau_k * p["operations_par_kmau"]
 
-        total_couts = salaires + marketing + tech + operations
+        # Flotte motos — coût opérationnel mensuel (essence + entretien + réparations)
+        flotte = p.get("flotte_motos", {"an1": 30, "an2": 80, "an3": 100})
+        if i < 12:      nb_motos = flotte.get("an1", 30)
+        elif i < 24:    nb_motos = flotte.get("an2", 80)
+        else:           nb_motos = flotte.get("an3", 100)
+        cout_par_moto = p.get("cout_operationnel_moto_mensuel", {}).get("total_par_moto", 33_000)
+        cout_flotte = nb_motos * cout_par_moto
+
+        total_couts = salaires + marketing + tech + operations + cout_flotte
         marge_nette = rev_total - total_couts
 
         result.append({
@@ -326,6 +407,7 @@ def compute_costs(mau_array, revenues, params=None):
             "cout_marketing":   int(marketing),
             "cout_tech":        int(tech),
             "cout_operations":  int(operations),
+            "cout_flotte":      int(cout_flotte),
             "total_couts":      int(total_couts),
             "marge_nette":      int(marge_nette),
             "marge_pct":        round(marge_nette / rev_total * 100, 1) if rev_total > 0 else -100.0,
@@ -597,17 +679,16 @@ def run_model(params=None, run_mc=False, n_mc=1000):
     result = {
         "metadata": {
             "projet":           "E-cantine",
-            "version_bp":       "V7",
             "date_generation":  datetime.now().strftime("%Y-%m-%d %H:%M"),
             "methode": (
-                "Données terrain (formulaire clients, 23 entretiens livreurs, "
-                "5 discussions restaurants) + Benchmarks publics concurrents + "
+                "Données terrain (100 clients réseau de connaissance, 23 entretiens livreurs, "
+                "8 discussions restaurants) + Benchmarks publics concurrents + "
                 "Modèle prédiction IA (courbe S logistique, calibrée Chowdeck Nigeria "
                 "× Facteur Dakar 0.238)"
             ),
             "note": (
-                "Panel limité — projections produites par modèle statistique. "
-                "Estimations affinées dès 300 répondants clients."
+                "Panel exploratoire — projections produites par modèle statistique. "
+                "Objectif : 1 000 répondants via formulaire in-app An 1 (IC 95%, marge 3,1%)."
             ),
             "sources": [
                 "ANSD RGPH-5 2023", "ARTP 2023", "The Africa Report 2023 (Wave 8M)",
@@ -623,7 +704,16 @@ def run_model(params=None, run_mc=False, n_mc=1000):
             "commission_starter", "commission_pro", "commission_premium",
             "frais_livraison_moy", "marge_livraison", "avg_basket",
             "avg_cmd_par_mau", "investissement", "taux_actualisation",
-        ]},
+            "budget_lancement_fcfa", "budget_detail",
+            "starter_mois_gratuits", "starter_bonus_contrat",
+            "starter_total_max_gratuit", "starter_note",
+            "flotte_motos", "cout_moto", "cout_operationnel_moto_mensuel",
+            "livreurs_modele", "livreurs_externes_an1", "livreurs_externes_an2",
+            "livreurs_externes_an3_plus", "commission_livreurs_externes",
+            "criteres_selection_livreurs",
+            "n_repondants_clients", "n_repondants_livreurs", "n_discussions_restaurants",
+            "frais_bceao_taux", "frais_bceao_operateurs", "frais_bceao_note",
+        ] if k in p},
         "mau": {
             "central_series":    [int(x) for x in mau_c],
             "pessimiste_series": [int(x) for x in mau_p],

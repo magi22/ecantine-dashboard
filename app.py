@@ -1144,6 +1144,18 @@ with tab3:
         )
         st.plotly_chart(fig, use_container_width=True)
 
+    # Offre Starter — info terrain
+    st.markdown(f"""
+    <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;
+                padding:12px 16px;margin-top:10px;font-size:0.82rem;color:{TEXT}">
+      <b style="color:{BRAND}">Offre Starter E-cantine :</b>
+      <b style="color:{BRAND_MED}">3 mois gratuits</b> + 1 mois bonus si contrat partenariat signé avant J90
+      = <b>jusqu'à 4 mois gratuits</b> pour démarrer.<br>
+      <span style="color:{TEXT_DIM}">100% des restaurants interrogés ont exprimé un intérêt immédiat pour cette offre.
+      Tous gèrent leurs commandes via WhatsApp ou téléphone — pas de caisse connectée.</span>
+    </div>
+    """, unsafe_allow_html=True)
+
     if bench:
         st.markdown("<div class='ec-divider'></div>", unsafe_allow_html=True)
         st.markdown("<p class='ec-label'>Concurrents — Marché Dakar</p>",
@@ -1735,6 +1747,81 @@ with tab7:
         </div>
         """, unsafe_allow_html=True)
 
+    # ── Flotte motos & critères livreurs ──────────────────────
+    st.markdown("<div class='ec-divider'></div>", unsafe_allow_html=True)
+    col_fl1, col_fl2 = st.columns(2)
+
+    with col_fl1:
+        st.markdown(f"""
+        <div class="ec-card">
+          <p class="ec-label" style="margin-bottom:10px">Flotte Motos E-cantine</p>
+          <table style="width:100%;font-size:0.82rem;border-collapse:collapse">
+            <tr style="background:{GREY_BG}">
+              <th style="padding:6px 10px;text-align:left;color:{BRAND}">Période</th>
+              <th style="padding:6px 10px;text-align:center;color:{BRAND}">Motos</th>
+              <th style="padding:6px 10px;text-align:right;color:{BRAND}">Coût opérationnel/mois</th>
+            </tr>
+            <tr>
+              <td style="padding:6px 10px">An 1 (2027)</td>
+              <td style="padding:6px 10px;text-align:center;font-weight:700">30</td>
+              <td style="padding:6px 10px;text-align:right">990 000 FCFA</td>
+            </tr>
+            <tr style="background:{GREY_BG}">
+              <td style="padding:6px 10px">An 2 (2028)</td>
+              <td style="padding:6px 10px;text-align:center;font-weight:700">80</td>
+              <td style="padding:6px 10px;text-align:right">2 640 000 FCFA</td>
+            </tr>
+            <tr>
+              <td style="padding:6px 10px">An 3+ (2029+)</td>
+              <td style="padding:6px 10px;text-align:center;font-weight:700">100 (plafond)</td>
+              <td style="padding:6px 10px;text-align:right">3 300 000 FCFA</td>
+            </tr>
+          </table>
+          <div style="font-size:0.78rem;color:{TEXT_DIM};margin-top:8px">
+            Prix moto : 525 000 FCFA + 25 000 FCFA porte-bagage =
+            <b style="color:{BRAND_MED}">550 000 FCFA/moto</b><br>
+            Coût opérationnel : 33 000 FCFA/moto/mois
+            (essence + entretien + réparations)<br>
+            <b>An 1-2 : flotte propre uniquement.</b>
+            An 3+ : livreurs externes autorisés à 10% commission (max 15% des livraisons).
+          </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with col_fl2:
+        st.markdown(f"""
+        <div class="ec-card">
+          <p class="ec-label" style="margin-bottom:10px">Sélection & Formation Livreurs</p>
+          <div style="font-size:0.82rem;color:{TEXT}">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+              <div style="background:{GREY_BG};border-radius:8px;padding:8px 10px">
+                <div style="font-size:0.7rem;color:{TEXT_DIM};text-transform:uppercase;letter-spacing:1px">Langues requises</div>
+                <div style="font-weight:700;color:{BRAND};margin-top:3px">Wolof + Français</div>
+              </div>
+              <div style="background:{GREY_BG};border-radius:8px;padding:8px 10px">
+                <div style="font-size:0.7rem;color:{TEXT_DIM};text-transform:uppercase;letter-spacing:1px">Note minimum active</div>
+                <div style="font-weight:700;color:{GREEN};margin-top:3px">4.0 / 5</div>
+              </div>
+              <div style="background:{GREY_BG};border-radius:8px;padding:8px 10px">
+                <div style="font-size:0.7rem;color:{TEXT_DIM};text-transform:uppercase;letter-spacing:1px">Suspension si note &lt;</div>
+                <div style="font-weight:700;color:{ORANGE};margin-top:3px">3.5 / 5</div>
+              </div>
+              <div style="background:{GREY_BG};border-radius:8px;padding:8px 10px">
+                <div style="font-size:0.7rem;color:{TEXT_DIM};text-transform:uppercase;letter-spacing:1px">Formation obligatoire</div>
+                <div style="font-weight:700;color:{BRAND_MED};margin-top:3px">2 jours · 50 000 FCFA</div>
+              </div>
+            </div>
+            <div style="font-size:0.79rem;color:{TEXT_DIM}">
+              <b style="color:{TEXT}">Programme formation (2 jours) :</b><br>
+              Protocole livraison · Application livreur · GPS Dakar ·
+              Incidents & réclamations · Hygiène alimentaire · Wolof/Français<br>
+              <b>Budget formation An 1 :</b> 30 livreurs × 50 000 FCFA =
+              <b style="color:{BRAND_MED}">1 500 000 FCFA</b>
+            </div>
+          </div>
+        </div>
+        """, unsafe_allow_html=True)
+
 # ══════════════════════════════════════════════════════════════
 # TAB 8 — GLOSSAIRE & GUIDE
 # ══════════════════════════════════════════════════════════════
@@ -2111,7 +2198,7 @@ with tab9:
         <div>
           <div class="h-subsection">Formules Restaurants</div>
           <div class="t-dim">
-            <b>% Starter (gratuit) :</b> restaurants sans abonnement — E-cantine ne prend que la commission.<br>
+            <b>% Starter (3 mois gratuits + 1 bonus si contrat signé) :</b> restaurants sans abonnement les 3-4 premiers mois — E-cantine ne prend que la commission.<br>
             <b>% Pro (25K/mois) :</b> restaurants payant un abonnement mensuel.<br>
             <b>% Premium (50K/mois) :</b> calculé automatiquement = 100% - Starter - Pro.
           </div>
