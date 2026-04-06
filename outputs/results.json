@@ -1,10 +1,17 @@
 {
   "metadata": {
     "projet": "E-cantine",
-    "version_bp": "V7",
-    "date_generation": "2026-04-04 14:55",
-    "methode": "Données terrain (formulaire clients, 23 entretiens livreurs, 5 discussions restaurants) + Benchmarks publics concurrents + Modèle prédiction IA (courbe S logistique, calibrée Chowdeck Nigeria × Facteur Dakar 0.238)",
-    "note": "Panel limité — projections produites par modèle statistique. Estimations affinées dès 300 répondants clients.",
+    "version_bp": "V10",
+    "salaires_revises": true,
+    "tva_integree": true,
+    "amortissements_calcules": true,
+    "livreurs_modele": "Flotte propre prioritaire — activité parallèle autorisée — nourriture uniquement",
+    "cercle_vertueux": "Client fidèle → demande restaurant → intégration naturelle",
+    "frustrations_livreurs": "Analyse en cours — intégration version suivante",
+    "client_obsession": "Client = satisfaction centrale · Restaurant = revenu central",
+    "date_generation": "2026-04-06 11:26",
+    "methode": "Données terrain (100 clients réseau de connaissance, 23 entretiens livreurs, 8 discussions restaurants) + Benchmarks publics concurrents + Modèle prédiction IA (courbe S logistique, calibrée Chowdeck Nigeria × Facteur Dakar 0.238)",
+    "note": "Panel exploratoire — projections produites par modèle statistique. Objectif : 1 000 répondants via formulaire in-app An 1 (IC 95%, marge 3,1%).",
     "sources": [
       "ANSD RGPH-5 2023",
       "ARTP 2023",
@@ -22,41 +29,42 @@
     "clients": {
       "n_repondants": 100,
       "objectif_cible": 1000,
-      "pct_etudiants": 70.0,
+      "pct_etudiants": 65.0,
       "pct_wave": 100.0,
       "pct_interesse_total": 100.0,
-      "pct_tres_interesse": 75.0,
+      "pct_tres_interesse": 82.0,
       "age_dist": {
-        "18-24": 14,
-        "25-34": 5,
-        "35-44": 1
+        "18-24": 65,
+        "25-34": 26,
+        "35-44": 9
       },
       "quartiers": {
-        "Sacré-Cœur": 3,
-        "Grand Yoff": 3,
-        "Médina": 3,
-        "Ouakam": 2,
-        "Pikine": 2,
-        "Almadies": 2
+        "Grand Yoff": 13,
+        "Sacré-Cœur": 12,
+        "Médina": 12,
+        "Plateau": 10,
+        "Ouakam": 10,
+        "Almadies": 10
       },
       "freins": {
-        "Délai livraison incertain": 8,
-        "Doute qualité des plats": 5,
-        "Manque confiance nouvelle app": 3,
-        "Je préfère me déplacer": 3,
-        "Aucun frein": 1
+        "Délai livraison incertain": 41,
+        "Doute qualité des plats": 20,
+        "Je préfère me déplacer": 12,
+        "Manque confiance nouvelle app": 11,
+        "Aucun frein": 10,
+        "Prix livraison trop élevé": 6
       },
       "fonctions": {
-        "Paiement Wave ou Orange Money": 9,
-        "Suivi GPS temps réel": 4,
-        "Rapidité livraison moins 35min": 3,
-        "Commande groupée amis collègues": 3,
-        "Choix restaurants locaux africains": 1
+        "Paiement Wave ou Orange Money": 33,
+        "Rapidité livraison moins 35min": 23,
+        "Suivi GPS temps réel": 19,
+        "Commande groupée amis collègues": 16,
+        "Choix restaurants locaux africains": 9
       },
       "prix_livraison": {
-        "500-1000": 12,
-        "1000-1500": 7,
-        "1500-2500": 1
+        "500-1000": 56,
+        "1000-1500": 33,
+        "1500-2500": 11
       }
     },
     "livreurs": {
@@ -87,145 +95,166 @@
     "restaurants": {
       "n_discussions": 8,
       "pct_whatsapp": 100.0,
-      "pct_wave": 80.0,
-      "pct_livreurs_propres": 40.0,
-      "pct_internet_stable": 60.0
+      "pct_wave": 100.0,
+      "pct_livreurs_propres": 37.5,
+      "pct_internet_stable": 100.0
     },
     "benchmarks": [
       {
         "plateforme": "Dakar Food Delivery",
         "pays": "Sénégal",
-        "annee_lancement": "2019",
         "statut": "Actif",
-        "mau_estime": "Inconnu",
-        "restaurants_partenaires": "80+",
-        "note_appstore": "3.4",
+        "restaurants": "80+",
+        "note_app": "3.4/5",
         "commission_pct": "Non communiqué",
         "frais_livraison_moy_fcfa": "700-1500",
-        "creneaux_forts": "Midi;Soir",
         "point_fort": "Ancienneté marché dakarois",
         "point_faible": "Pas de Wave natif",
-        "source": "dakarfooddelivery.com 2026"
+        "source": "dakarfooddelivery.com 2026",
+        "marche_dakar": "TRUE"
       },
       {
         "plateforme": "Ayda App",
         "pays": "Sénégal",
-        "annee_lancement": "2023",
         "statut": "Actif",
-        "mau_estime": "Inconnu",
-        "restaurants_partenaires": "30+",
-        "note_appstore": "Non communiqué",
+        "restaurants": "30+",
+        "note_app": "Non communiqué",
         "commission_pct": "Non communiqué",
         "frais_livraison_moy_fcfa": "500-1200",
-        "creneaux_forts": "Matin;Midi",
         "point_fort": "Niche petit-déjeuner dès 8h",
         "point_faible": "Récent peu connu",
-        "source": "aydaapp.com 2026"
+        "source": "aydaapp.com 2026",
+        "marche_dakar": "TRUE"
       },
       {
         "plateforme": "Yango Food",
         "pays": "Sénégal",
-        "annee_lancement": "2025",
-        "statut": "Actif",
-        "mau_estime": "Inconnu",
-        "restaurants_partenaires": "Non communiqué",
-        "note_appstore": "Non communiqué",
+        "statut": "Actif (fév. 2025)",
+        "restaurants": "Non communiqué",
+        "note_app": "Non communiqué",
         "commission_pct": "0 (temporaire)",
         "frais_livraison_moy_fcfa": "Non communiqué",
-        "creneaux_forts": "Soir",
         "point_fort": "Commission 0% attraction restaurants",
         "point_faible": "Non rentable à terme",
-        "source": "AITN fev 2025"
+        "source": "senego.com fév. 2025",
+        "marche_dakar": "TRUE"
       },
       {
         "plateforme": "Yassir",
         "pays": "Sénégal",
-        "annee_lancement": "2022",
-        "statut": "Actif",
-        "mau_estime": "$150M levés",
-        "restaurants_partenaires": "Non communiqué",
-        "note_appstore": "Non communiqué",
+        "statut": "Actif (2022)",
+        "restaurants": "Non communiqué",
+        "note_app": "88 avis Google",
         "commission_pct": "Non communiqué",
         "frais_livraison_moy_fcfa": "Non communiqué",
-        "creneaux_forts": "Midi;Soir",
-        "point_fort": "$150M Série B nov.2022 - DG locale sénégalaise",
-        "point_faible": "Multi-services dilué",
-        "source": "TechCrunch nov 2022"
+        "point_fort": "Multi-services VTC+livraison — $150M levés",
+        "point_faible": "Peu spécialisé cuisine locale",
+        "source": "wikipedia + dakaractu 2022",
+        "marche_dakar": "TRUE"
       },
       {
         "plateforme": "Bring Me SN",
         "pays": "Sénégal",
-        "annee_lancement": "Non documenté",
         "statut": "Actif",
-        "mau_estime": "Inconnu",
-        "restaurants_partenaires": "100+",
-        "note_appstore": "4.5",
+        "restaurants": "100+",
+        "note_app": "4.5/5 (58 avis)",
         "commission_pct": "Non communiqué",
         "frais_livraison_moy_fcfa": "Non communiqué",
-        "creneaux_forts": "Midi;Soir",
-        "point_fort": "Délai 20 min annoncé - 4.5 étoiles",
+        "point_fort": "Délai 20min annoncé",
         "point_faible": "Peu connu",
-        "source": "Google Play 2026"
+        "source": "bringme.sn 2026",
+        "marche_dakar": "TRUE"
       },
       {
         "plateforme": "KonectFood",
         "pays": "Sénégal",
-        "annee_lancement": "Non documenté",
         "statut": "Actif",
-        "mau_estime": "Inconnu",
-        "restaurants_partenaires": "Non communiqué",
-        "note_appstore": "Non communiqué",
+        "restaurants": "Non communiqué",
+        "note_app": "Non communiqué",
         "commission_pct": "Non communiqué",
         "frais_livraison_moy_fcfa": "Non communiqué",
-        "creneaux_forts": "Midi;Soir",
         "point_fort": "Multi-villes Sénégal",
         "point_faible": "Peu de données publiques",
-        "source": "konectfood.sn 2026"
-      },
-      {
-        "plateforme": "Wajeez",
-        "pays": "Sénégal",
-        "annee_lancement": "Non documenté",
-        "statut": "Actif",
-        "mau_estime": "Inconnu",
-        "restaurants_partenaires": "Non communiqué",
-        "note_appstore": "Non communiqué",
-        "commission_pct": "Non communiqué",
-        "frais_livraison_moy_fcfa": "Non communiqué",
-        "creneaux_forts": "Midi;Soir",
-        "point_fort": "Multi-services ex FoodBeeper",
-        "point_faible": "Récent Dakar",
-        "source": "wajeez.com 2026"
+        "source": "play.google.com 2026",
+        "marche_dakar": "TRUE"
       },
       {
         "plateforme": "Togalma",
         "pays": "Sénégal",
-        "annee_lancement": "2025",
-        "statut": "Actif",
-        "mau_estime": "Inconnu",
-        "restaurants_partenaires": "Non communiqué",
-        "note_appstore": "3.0",
+        "statut": "Actif (2025)",
+        "restaurants": "Non communiqué",
+        "note_app": "3.0/5 (4 avis)",
         "commission_pct": "Non communiqué",
         "frais_livraison_moy_fcfa": "Non communiqué",
-        "creneaux_forts": "Matin;Midi",
-        "point_fort": "B2B pro dès 7h - fondatrices locales",
+        "point_fort": "Niche B2B pro dès 7h",
         "point_faible": "Très niche",
-        "source": "Google Play 2026"
+        "source": "togalma.com 2026",
+        "marche_dakar": "TRUE"
       },
       {
-        "plateforme": "Jumia Food Sénégal",
-        "pays": "Sénégal",
-        "annee_lancement": "2018",
+        "plateforme": "Wajeez",
+        "pays": "Algérie/Sénégal",
+        "statut": "Actif",
+        "restaurants": "Non communiqué",
+        "note_app": "Non communiqué",
+        "commission_pct": "Non communiqué",
+        "frais_livraison_moy_fcfa": "Non communiqué",
+        "point_fort": "Multi-services ex FoodBeeper",
+        "point_faible": "Récent au Sénégal",
+        "source": "wajeez.io 2026",
+        "marche_dakar": "TRUE"
+      },
+      {
+        "plateforme": "Jumia Food",
+        "pays": "Nigeria/Pan-Afrique",
         "statut": "Fermé décembre 2023",
-        "mau_estime": "Inconnu",
-        "restaurants_partenaires": "200+ au pic",
-        "note_appstore": "Non communiqué",
+        "restaurants": "200+ au pic",
+        "note_app": "Non communiqué",
         "commission_pct": "25-30",
         "frais_livraison_moy_fcfa": "800-1500",
-        "creneaux_forts": "Midi;Soir",
-        "point_fort": "Notoriété forte 389K fans FB",
-        "point_faible": "Non rentable - fermé",
-        "source": "TechCabal 14/12/2023"
+        "point_fort": "Notoriété forte (389K fans FB)",
+        "point_faible": "Non rentable — fermé",
+        "source": "TechCabal déc. 2023",
+        "marche_dakar": "FALSE"
+      },
+      {
+        "plateforme": "Glovo",
+        "pays": "Espagne",
+        "statut": "Jamais officiellement lancé au SN",
+        "restaurants": NaN,
+        "note_app": "Non communiqué",
+        "commission_pct": NaN,
+        "frais_livraison_moy_fcfa": NaN,
+        "point_fort": "Fort en Côte d'Ivoire et Maroc",
+        "point_faible": "Jamais au Sénégal — pas un concurrent",
+        "source": "Wikipedia + glovoapp.com avril 2026",
+        "marche_dakar": "FALSE"
+      },
+      {
+        "plateforme": "Chowdeck",
+        "pays": "Nigeria",
+        "statut": "Actif profitable (hors Sénégal)",
+        "restaurants": "10000+",
+        "note_app": "4.6/5",
+        "commission_pct": "10-15",
+        "frais_livraison_moy_fcfa": "800-1500 équivalent",
+        "point_fort": "Rentable local — référence africaine",
+        "point_faible": "Hors Sénégal",
+        "source": "Techpoint Africa août 2025",
+        "marche_dakar": "BENCHMARK_ONLY"
+      },
+      {
+        "plateforme": "PAPS Logistique",
+        "pays": "Sénégal",
+        "statut": "Actif (logistique B2B)",
+        "restaurants": NaN,
+        "note_app": "3.9/5 (127 avis)",
+        "commission_pct": NaN,
+        "frais_livraison_moy_fcfa": NaN,
+        "point_fort": "$4.5M levés 2022 — logistique B2B",
+        "point_faible": "Pas food delivery pur",
+        "source": "financialafrik.com 2022",
+        "marche_dakar": "INDIRECT"
       }
     ]
   },
@@ -237,8 +266,114 @@
     "marge_livraison": 0.4,
     "avg_basket": 3000,
     "avg_cmd_par_mau": 2.5,
-    "investissement": 22560000,
-    "taux_actualisation": 0.15
+    "investissement": 49500000,
+    "taux_actualisation": 0.15,
+    "budget_lancement_fcfa": 49500000,
+    "budget_detail": {
+      "developpement_v1": 9100000,
+      "motos_30_an1": 16500000,
+      "marketing_lancement": 9000000,
+      "materiel_informatique": 6500000,
+      "bureau_coworking_12m": 4200000,
+      "formation_livreurs": 1500000,
+      "licences_ia_outils": 1440000,
+      "hebergement_cloud_12m": 840000,
+      "frais_juridiques": 500000,
+      "fonds_roulement": 920000,
+      "total": 49500000
+    },
+    "starter_mois_gratuits": 3,
+    "starter_facturation_debut": 4,
+    "starter_note": "Starter gratuit pour toujours. 0 commission pendant les 3 premiers mois. Commission 2,5% activée au 4ème mois si le restaurant continue.",
+    "flotte_motos": {
+      "an1": 30,
+      "an2": 80,
+      "an3": 100,
+      "plafond_max": 100
+    },
+    "cout_moto": {
+      "prix_min_fcfa": 350000,
+      "prix_max_fcfa": 600000,
+      "prix_moyen_fcfa": 525000,
+      "porte_bagage_fcfa": 25000,
+      "cout_total_an1": 16500000,
+      "note": "30 motos An1 × (525 000 + 25 000) = 16,5M FCFA"
+    },
+    "cout_operationnel_moto_mensuel": {
+      "essence_fcfa": 15000,
+      "entretien_fcfa": 10000,
+      "reparations_fcfa": 8000,
+      "total_par_moto": 33000,
+      "total_flotte_an1": 990000,
+      "note": "Essence ~1 000 FCFA/L × 15L/mois + entretien + réparations"
+    },
+    "livreurs_modele": "flotte_propre_prioritaire",
+    "livreurs_activite_parallele": true,
+    "livreurs_nourriture_only": true,
+    "livreurs_externes_an1": false,
+    "livreurs_externes_an2": false,
+    "livreurs_externes_an3_plus": true,
+    "commission_livreurs_externes": 0.1,
+    "cout_suivi_qualite_livreurs": 150000,
+    "taux_conversion_client_to_rest": 0.08,
+    "nps_cible": 60,
+    "taux_retention_j30": 0.45,
+    "taux_churn_mensuel": 0.12,
+    "criteres_selection_livreurs": {
+      "langues_requises": [
+        "Wolof",
+        "Français"
+      ],
+      "note_min_active": 4.0,
+      "note_suspension": 3.5,
+      "formation_jours": 2,
+      "cout_formation_fcfa": 50000,
+      "formation_contenu": [
+        "Protocole de livraison et courtoisie client",
+        "Utilisation application livreur E-cantine",
+        "Navigation GPS Dakar zones prioritaires",
+        "Gestion des incidents et réclamations",
+        "Normes d'hygiène alimentaire",
+        "Communication bilingue Wolof/Français"
+      ],
+      "cout_formation_an1": 1500000,
+      "note": "30 livreurs An1 × 50 000 FCFA = 1,5M FCFA formation"
+    },
+    "n_repondants_clients": 100,
+    "n_repondants_livreurs": 23,
+    "n_discussions_restaurants": 8,
+    "frais_bceao_taux": 0.01,
+    "frais_bceao_operateurs": [
+      "Wave",
+      "Orange Money",
+      "Mix by Yass"
+    ],
+    "frais_bceao_note": "Réglementaires BCEAO — reversés aux opérateurs — PAS un revenu E-cantine",
+    "salaires_detail": {
+      "ceo_adote": 500000,
+      "cto_tito_wiicode": 650000,
+      "devops_espoir": 500000,
+      "ux_ui_designer": 300000,
+      "developpeur_backend": 380000,
+      "marketing_digital": 320000,
+      "commercial_terrain": 200000,
+      "account_manager": 220000,
+      "support_client_x2": 300000,
+      "livreurs_base_moy": 2700000,
+      "total_mensuel_brut": 5970000,
+      "charges_sociales_pct": 0.25,
+      "total_mensuel_charge": 7462500,
+      "total_annuel_charge": 89550000
+    },
+    "tva_taux": 0.18,
+    "amortissement_motos_ans": 3,
+    "amortissement_developpement_ans": 5,
+    "amortissement_materiel_ans": 4,
+    "frais_financiers_taux": 0.09,
+    "emprunt_montant": 14850000,
+    "emprunt_duree_ans": 5,
+    "is_taux": 0.3,
+    "capital_social": 1000000
   },
   "mau": {
     "central_series": [
@@ -451,30 +586,30 @@
   },
   "ca_annuel": {
     "central": {
-      "an1": 54203626,
+      "an1": 54240634,
       "an2": 110367510,
-      "an3": 216765099,
-      "an4": 384395581,
-      "an5": 566995337
+      "an3": 225916492,
+      "an4": 399758021,
+      "an5": 588822665
     },
     "pessimiste": {
-      "an1": 53976758,
+      "an1": 54032866,
       "an2": 92150473,
-      "an3": 148604100,
-      "an4": 233119108,
-      "an5": 330731300
+      "an3": 154548777,
+      "an4": 241931783,
+      "an5": 342732377
     },
     "optimiste": {
-      "an1": 59507813,
+      "an1": 59527519,
       "an2": 161045317,
-      "an3": 395333436,
-      "an4": 757271241,
-      "an5": 1063168358
+      "an3": 413289153,
+      "an4": 789003046,
+      "an5": 1104919163
     },
     "decomp_an1": {
       "livraison": 21665569,
       "commission": 7933860,
-      "abonnements": 17532244,
+      "abonnements": 17569252,
       "pub": 0,
       "b2b": 4500,
       "selection": 1118727,
@@ -482,322 +617,322 @@
     }
   },
   "financiers": {
-    "van": 497659321,
-    "van_M": 497.66,
-    "tri": 203.9,
-    "ip": 23.06,
-    "delai_mois": 14,
+    "van": 735757,
+    "van_M": 0.74,
+    "tri": 15.1,
+    "ip": 1.01,
+    "delai_mois": 55,
     "flux_annuels": [
-      -22560000,
-      18325464,
-      61088614,
-      142949584,
-      273901610,
-      417349698
+      -49500000,
+      -64389480,
+      -71468186,
+      -22128052,
+      88831563,
+      249461883
     ],
     "monthly_profit": [
       {
         "mois": 1,
-        "profit_mensuel": 211379,
-        "cumul": -22348621
+        "profit_mensuel": -8165636,
+        "cumul": -57665636
       },
       {
         "mois": 2,
-        "profit_mensuel": 387071,
-        "cumul": -21961550
+        "profit_mensuel": -6474415,
+        "cumul": -64140051
       },
       {
         "mois": 3,
-        "profit_mensuel": 576120,
-        "cumul": -21385430
+        "profit_mensuel": -6268828,
+        "cumul": -70408879
       },
       {
         "mois": 4,
-        "profit_mensuel": 779431,
-        "cumul": -20605999
+        "profit_mensuel": -6047913,
+        "cumul": -76456792
       },
       {
         "mois": 5,
-        "profit_mensuel": 1094933,
-        "cumul": -19511066
+        "profit_mensuel": -5713681,
+        "cumul": -82170473
       },
       {
         "mois": 6,
-        "profit_mensuel": 1336231,
-        "cumul": -18174835
+        "profit_mensuel": -5452467,
+        "cumul": -87622940
       },
       {
         "mois": 7,
-        "profit_mensuel": 1595188,
-        "cumul": -16579647
+        "profit_mensuel": -5164976,
+        "cumul": -92787916
       },
       {
         "mois": 8,
-        "profit_mensuel": 1872912,
-        "cumul": -14706735
+        "profit_mensuel": -4864278,
+        "cumul": -97652194
       },
       {
         "mois": 9,
-        "profit_mensuel": 2170552,
-        "cumul": -12536183
+        "profit_mensuel": -4542254,
+        "cumul": -102194448
       },
       {
         "mois": 10,
-        "profit_mensuel": 2489304,
-        "cumul": -10046879
+        "profit_mensuel": -4197641,
+        "cumul": -106392089
       },
       {
         "mois": 11,
-        "profit_mensuel": 2778952,
-        "cumul": -7267927
+        "profit_mensuel": -3890117,
+        "cumul": -110282206
       },
       {
         "mois": 12,
-        "profit_mensuel": 3033391,
-        "cumul": -4234536
+        "profit_mensuel": -3607274,
+        "cumul": -113889480
       },
       {
         "mois": 13,
-        "profit_mensuel": 3133785,
-        "cumul": -1100751
+        "profit_mensuel": -10414326,
+        "cumul": -124303806
       },
       {
         "mois": 14,
-        "profit_mensuel": 3414986,
-        "cumul": 2314235
+        "profit_mensuel": -7601349,
+        "cumul": -131905155
       },
       {
         "mois": 15,
-        "profit_mensuel": 3716126,
-        "cumul": 6030361
+        "profit_mensuel": -7266648,
+        "cumul": -139171803
       },
       {
         "mois": 16,
-        "profit_mensuel": 4038280,
-        "cumul": 10068641
+        "profit_mensuel": -6909078,
+        "cumul": -146080881
       },
       {
         "mois": 17,
-        "profit_mensuel": 4382541,
-        "cumul": 14451182
+        "profit_mensuel": -6527486,
+        "cumul": -152608367
       },
       {
         "mois": 18,
-        "profit_mensuel": 4750007,
-        "cumul": 19201189
+        "profit_mensuel": -6120711,
+        "cumul": -158729078
       },
       {
         "mois": 19,
-        "profit_mensuel": 5141778,
-        "cumul": 24342967
+        "profit_mensuel": -5687596,
+        "cumul": -164416674
       },
       {
         "mois": 20,
-        "profit_mensuel": 5558942,
-        "cumul": 29901909
+        "profit_mensuel": -5226999,
+        "cumul": -169643673
       },
       {
         "mois": 21,
-        "profit_mensuel": 6002574,
-        "cumul": 35904483
+        "profit_mensuel": -4737801,
+        "cumul": -174381474
       },
       {
         "mois": 22,
-        "profit_mensuel": 6473716,
-        "cumul": 42378199
+        "profit_mensuel": -4218914,
+        "cumul": -178600388
       },
       {
         "mois": 23,
-        "profit_mensuel": 6973375,
-        "cumul": 49351574
+        "profit_mensuel": -3669300,
+        "cumul": -182269688
       },
       {
         "mois": 24,
-        "profit_mensuel": 7502504,
-        "cumul": 56854078
+        "profit_mensuel": -3087978,
+        "cumul": -185357666
       },
       {
         "mois": 25,
-        "profit_mensuel": 8061996,
-        "cumul": 64916074
+        "profit_mensuel": -7137076,
+        "cumul": -192494742
       },
       {
         "mois": 26,
-        "profit_mensuel": 8652664,
-        "cumul": 73568738
+        "profit_mensuel": -5461627,
+        "cumul": -197956369
       },
       {
         "mois": 27,
-        "profit_mensuel": 9275233,
-        "cumul": 82843971
+        "profit_mensuel": -4750900,
+        "cumul": -202707269
       },
       {
         "mois": 28,
-        "profit_mensuel": 9930326,
-        "cumul": 92774297
+        "profit_mensuel": -4004298,
+        "cumul": -206711567
       },
       {
         "mois": 29,
-        "profit_mensuel": 10618445,
-        "cumul": 103392742
+        "profit_mensuel": -3221356,
+        "cumul": -209932923
       },
       {
         "mois": 30,
-        "profit_mensuel": 11339965,
-        "cumul": 114732707
+        "profit_mensuel": -2401764,
+        "cumul": -212334687
       },
       {
         "mois": 31,
-        "profit_mensuel": 12095117,
-        "cumul": 126827824
+        "profit_mensuel": -1545372,
+        "cumul": -213880059
       },
       {
         "mois": 32,
-        "profit_mensuel": 12883978,
-        "cumul": 139711802
+        "profit_mensuel": -652209,
+        "cumul": -214532268
       },
       {
         "mois": 33,
-        "profit_mensuel": 13706458,
-        "cumul": 153418260
+        "profit_mensuel": 277511,
+        "cumul": -214254757
       },
       {
         "mois": 34,
-        "profit_mensuel": 14562293,
-        "cumul": 167980553
+        "profit_mensuel": 1243377,
+        "cumul": -213011380
       },
       {
         "mois": 35,
-        "profit_mensuel": 15451040,
-        "cumul": 183431593
+        "profit_mensuel": 2244776,
+        "cumul": -210766604
       },
       {
         "mois": 36,
-        "profit_mensuel": 16372069,
-        "cumul": 199803662
+        "profit_mensuel": 3280886,
+        "cumul": -207485718
       },
       {
         "mois": 37,
-        "profit_mensuel": 17324560,
-        "cumul": 217128222
+        "profit_mensuel": 1225677,
+        "cumul": -206260041
       },
       {
         "mois": 38,
-        "profit_mensuel": 18307505,
-        "cumul": 235435727
+        "profit_mensuel": 2327909,
+        "cumul": -203932132
       },
       {
         "mois": 39,
-        "profit_mensuel": 19319709,
-        "cumul": 254755436
+        "profit_mensuel": 3461142,
+        "cumul": -200470990
       },
       {
         "mois": 40,
-        "profit_mensuel": 20359800,
-        "cumul": 275115236
+        "profit_mensuel": 4623736,
+        "cumul": -195847254
       },
       {
         "mois": 41,
-        "profit_mensuel": 21426230,
-        "cumul": 296541466
+        "profit_mensuel": 5813868,
+        "cumul": -190033386
       },
       {
         "mois": 42,
-        "profit_mensuel": 22517293,
-        "cumul": 319058759
+        "profit_mensuel": 7029543,
+        "cumul": -183003843
       },
       {
         "mois": 43,
-        "profit_mensuel": 23631138,
-        "cumul": 342689897
+        "profit_mensuel": 8268609,
+        "cumul": -174735234
       },
       {
         "mois": 44,
-        "profit_mensuel": 23924280,
-        "cumul": 366614177
+        "profit_mensuel": 8687280,
+        "cumul": -166047954
       },
       {
         "mois": 45,
-        "profit_mensuel": 25048185,
-        "cumul": 391662362
+        "profit_mensuel": 9936714,
+        "cumul": -156111240
       },
       {
         "mois": 46,
-        "profit_mensuel": 26188680,
-        "cumul": 417851042
+        "profit_mensuel": 11202431,
+        "cumul": -144908809
       },
       {
         "mois": 47,
-        "profit_mensuel": 27343580,
-        "cumul": 445194622
+        "profit_mensuel": 12481941,
+        "cumul": -132426868
       },
       {
         "mois": 48,
-        "profit_mensuel": 28510650,
-        "cumul": 473705272
+        "profit_mensuel": 13772713,
+        "cumul": -118654155
       },
       {
         "mois": 49,
-        "profit_mensuel": 29687631,
-        "cumul": 503392903
+        "profit_mensuel": 15072199,
+        "cumul": -103581956
       },
       {
         "mois": 50,
-        "profit_mensuel": 30872259,
-        "cumul": 534265162
+        "profit_mensuel": 16377855,
+        "cumul": -87204101
       },
       {
         "mois": 51,
-        "profit_mensuel": 32062286,
-        "cumul": 566327448
+        "profit_mensuel": 17687169,
+        "cumul": -69516932
       },
       {
         "mois": 52,
-        "profit_mensuel": 32915254,
-        "cumul": 599242702
+        "profit_mensuel": 18657437,
+        "cumul": -50859495
       },
       {
         "mois": 53,
-        "profit_mensuel": 33752113,
-        "cumul": 632994815
+        "profit_mensuel": 19609378,
+        "cumul": -31250117
       },
       {
         "mois": 54,
-        "profit_mensuel": 34571331,
-        "cumul": 667566146
+        "profit_mensuel": 20541247,
+        "cumul": -10708870
       },
       {
         "mois": 55,
-        "profit_mensuel": 35371522,
-        "cumul": 702937668
+        "profit_mensuel": 21451468,
+        "cumul": 10742598
       },
       {
         "mois": 56,
-        "profit_mensuel": 36151456,
-        "cumul": 739089124
+        "profit_mensuel": 22338642,
+        "cumul": 33081240
       },
       {
         "mois": 57,
-        "profit_mensuel": 36910062,
-        "cumul": 775999186
+        "profit_mensuel": 23201550,
+        "cumul": 56282790
       },
       {
         "mois": 58,
-        "profit_mensuel": 37646425,
-        "cumul": 813645611
+        "profit_mensuel": 24039154,
+        "cumul": 80321944
       },
       {
         "mois": 59,
-        "profit_mensuel": 38359793,
-        "cumul": 852005404
+        "profit_mensuel": 24850594,
+        "cumul": 105172538
       },
       {
         "mois": 60,
-        "profit_mensuel": 39049566,
-        "cumul": 891054970
+        "profit_mensuel": 25635190,
+        "cumul": 130807728
       }
     ],
-    "budget_fcfa": 22560000,
+    "budget_fcfa": 49500000,
     "taux_actualisation": 0.15
   },
   "monthly": {
@@ -815,6 +950,7 @@
         "rev_b2b": 0,
         "rev_selection": 0,
         "rev_propres": 369937,
+        "rev_externes": 0,
         "total_mensuel": 2840462
       },
       {
@@ -830,6 +966,7 @@
         "rev_b2b": 0,
         "rev_selection": 0,
         "rev_propres": 389765,
+        "rev_externes": 0,
         "total_mensuel": 3066581
       },
       {
@@ -845,6 +982,7 @@
         "rev_b2b": 0,
         "rev_selection": 0,
         "rev_propres": 410473,
+        "rev_externes": 0,
         "total_mensuel": 3309599
       },
       {
@@ -860,6 +998,7 @@
         "rev_b2b": 0,
         "rev_selection": 0,
         "rev_propres": 432080,
+        "rev_externes": 0,
         "total_mensuel": 3570641
       },
       {
@@ -875,6 +1014,7 @@
         "rev_b2b": 0,
         "rev_selection": 110207,
         "rev_propres": 454604,
+        "rev_externes": 0,
         "total_mensuel": 3961092
       },
       {
@@ -890,6 +1030,7 @@
         "rev_b2b": 0,
         "rev_selection": 117675,
         "rev_propres": 478057,
+        "rev_externes": 0,
         "total_mensuel": 4269242
       },
       {
@@ -900,12 +1041,13 @@
         "pct_ecantine_liv": 36.0,
         "rev_livraison": 1808821,
         "rev_commission": 667316,
-        "rev_abonnements": 1495388,
+        "rev_abonnements": 1503762,
         "rev_pub": 0,
         "rev_b2b": 0,
         "rev_selection": 125612,
         "rev_propres": 502450,
-        "total_mensuel": 4599589
+        "rev_externes": 0,
+        "total_mensuel": 4607963
       },
       {
         "mois": 8,
@@ -915,42 +1057,45 @@
         "pct_ecantine_liv": 37.0,
         "rev_livraison": 1983826,
         "rev_commission": 712099,
-        "rev_abonnements": 1595741,
+        "rev_abonnements": 1604677,
         "rev_pub": 0,
         "rev_b2b": 0,
         "rev_selection": 134042,
         "rev_propres": 527791,
-        "total_mensuel": 4953501
+        "rev_externes": 0,
+        "total_mensuel": 4962437
       },
       {
         "mois": 9,
         "mau": 4766,
         "commandes": 11915,
-        "n_restaurants": 136,
+        "n_restaurants": 137,
         "pct_ecantine_liv": 38.0,
         "rev_livraison": 2173438,
         "rev_commission": 759631,
-        "rev_abonnements": 1702254,
+        "rev_abonnements": 1711787,
         "rev_pub": 0,
         "rev_b2b": 0,
         "rev_selection": 142989,
         "rev_propres": 554083,
-        "total_mensuel": 5332397
+        "rev_externes": 0,
+        "total_mensuel": 5341930
       },
       {
         "mois": 10,
         "mau": 5082,
         "commandes": 12706,
-        "n_restaurants": 145,
+        "n_restaurants": 146,
         "pct_ecantine_liv": 39.0,
         "rev_livraison": 2378672,
         "rev_commission": 810044,
-        "rev_abonnements": 1815226,
+        "rev_abonnements": 1825391,
         "rev_pub": 0,
         "rev_b2b": 0,
         "rev_selection": 152479,
         "rev_propres": 581326,
-        "total_mensuel": 5737749
+        "rev_externes": 0,
+        "total_mensuel": 5747914
       },
       {
         "mois": 11,
@@ -965,6 +1110,7 @@
         "rev_b2b": 1500,
         "rev_selection": 162536,
         "rev_propres": 609512,
+        "rev_externes": 0,
         "total_mensuel": 6112611
       },
       {
@@ -980,6 +1126,7 @@
         "rev_b2b": 3000,
         "rev_selection": 173187,
         "rev_propres": 638630,
+        "rev_externes": 0,
         "total_mensuel": 6450162
       },
       {
@@ -995,6 +1142,7 @@
         "rev_b2b": 4500,
         "rev_selection": 184458,
         "rev_propres": 668662,
+        "rev_externes": 0,
         "total_mensuel": 6615476
       },
       {
@@ -1010,6 +1158,7 @@
         "rev_b2b": 6000,
         "rev_selection": 196374,
         "rev_propres": 699583,
+        "rev_externes": 0,
         "total_mensuel": 6989185
       },
       {
@@ -1025,6 +1174,7 @@
         "rev_b2b": 7500,
         "rev_selection": 208960,
         "rev_propres": 731360,
+        "rev_externes": 0,
         "total_mensuel": 7388597
       },
       {
@@ -1040,6 +1190,7 @@
         "rev_b2b": 9000,
         "rev_selection": 222240,
         "rev_propres": 763952,
+        "rev_externes": 0,
         "total_mensuel": 7815048
       },
       {
@@ -1055,6 +1206,7 @@
         "rev_b2b": 10500,
         "rev_selection": 236240,
         "rev_propres": 797310,
+        "rev_externes": 0,
         "total_mensuel": 8269887
       },
       {
@@ -1070,6 +1222,7 @@
         "rev_b2b": 12000,
         "rev_selection": 250980,
         "rev_propres": 831374,
+        "rev_externes": 0,
         "total_mensuel": 8754466
       },
       {
@@ -1085,6 +1238,7 @@
         "rev_b2b": 13500,
         "rev_selection": 266484,
         "rev_propres": 866076,
+        "rev_externes": 0,
         "total_mensuel": 9270133
       },
       {
@@ -1100,6 +1254,7 @@
         "rev_b2b": 15000,
         "rev_selection": 282771,
         "rev_propres": 901335,
+        "rev_externes": 0,
         "total_mensuel": 9818215
       },
       {
@@ -1115,6 +1270,7 @@
         "rev_b2b": 16500,
         "rev_selection": 299859,
         "rev_propres": 937060,
+        "rev_externes": 0,
         "total_mensuel": 10400013
       },
       {
@@ -1130,6 +1286,7 @@
         "rev_b2b": 18000,
         "rev_selection": 317763,
         "rev_propres": 973150,
+        "rev_externes": 0,
         "total_mensuel": 11016784
       },
       {
@@ -1145,6 +1302,7 @@
         "rev_b2b": 19500,
         "rev_selection": 336496,
         "rev_propres": 1009490,
+        "rev_externes": 0,
         "total_mensuel": 11669729
       },
       {
@@ -1160,6 +1318,7 @@
         "rev_b2b": 21000,
         "rev_selection": 356069,
         "rev_propres": 1045952,
+        "rev_externes": 0,
         "total_mensuel": 12359977
       },
       {
@@ -1175,7 +1334,8 @@
         "rev_b2b": 22500,
         "rev_selection": 376486,
         "rev_propres": 1082399,
-        "total_mensuel": 13088571
+        "rev_externes": 564730,
+        "total_mensuel": 13653302
       },
       {
         "mois": 26,
@@ -1190,7 +1350,8 @@
         "rev_b2b": 24000,
         "rev_selection": 397753,
         "rev_propres": 1118680,
-        "total_mensuel": 13856449
+        "rev_externes": 596629,
+        "total_mensuel": 14453079
       },
       {
         "mois": 27,
@@ -1205,7 +1366,8 @@
         "rev_b2b": 25500,
         "rev_selection": 419866,
         "rev_propres": 1154631,
-        "total_mensuel": 14664428
+        "rev_externes": 629799,
+        "total_mensuel": 15294228
       },
       {
         "mois": 28,
@@ -1220,7 +1382,8 @@
         "rev_b2b": 27000,
         "rev_selection": 442820,
         "rev_propres": 1190079,
-        "total_mensuel": 15513189
+        "rev_externes": 664230,
+        "total_mensuel": 16177419
       },
       {
         "mois": 29,
@@ -1235,7 +1398,8 @@
         "rev_b2b": 28500,
         "rev_selection": 466605,
         "rev_propres": 1224838,
-        "total_mensuel": 16403256
+        "rev_externes": 699907,
+        "total_mensuel": 17103163
       },
       {
         "mois": 30,
@@ -1250,7 +1414,8 @@
         "rev_b2b": 30000,
         "rev_selection": 491205,
         "rev_propres": 1258713,
-        "total_mensuel": 17334983
+        "rev_externes": 736807,
+        "total_mensuel": 18071791
       },
       {
         "mois": 31,
@@ -1265,7 +1430,8 @@
         "rev_b2b": 31500,
         "rev_selection": 516599,
         "rev_propres": 1291499,
-        "total_mensuel": 18308540
+        "rev_externes": 774899,
+        "total_mensuel": 19083440
       },
       {
         "mois": 32,
@@ -1280,7 +1446,8 @@
         "rev_b2b": 33000,
         "rev_selection": 542762,
         "rev_propres": 1322983,
-        "total_mensuel": 19323895
+        "rev_externes": 814143,
+        "total_mensuel": 20138039
       },
       {
         "mois": 33,
@@ -1295,7 +1462,8 @@
         "rev_b2b": 34500,
         "rev_selection": 569662,
         "rev_propres": 1352948,
-        "total_mensuel": 20380803
+        "rev_externes": 854493,
+        "total_mensuel": 21235296
       },
       {
         "mois": 34,
@@ -1310,7 +1478,8 @@
         "rev_b2b": 36000,
         "rev_selection": 597262,
         "rev_propres": 1381168,
-        "total_mensuel": 21478796
+        "rev_externes": 895893,
+        "total_mensuel": 22374689
       },
       {
         "mois": 35,
@@ -1325,7 +1494,8 @@
         "rev_b2b": 37500,
         "rev_selection": 625518,
         "rev_propres": 1407417,
-        "total_mensuel": 22617177
+        "rev_externes": 938278,
+        "total_mensuel": 23555456
       },
       {
         "mois": 36,
@@ -1340,7 +1510,8 @@
         "rev_b2b": 39000,
         "rev_selection": 654385,
         "rev_propres": 1431468,
-        "total_mensuel": 23795012
+        "rev_externes": 981578,
+        "total_mensuel": 24776590
       },
       {
         "mois": 37,
@@ -1355,7 +1526,8 @@
         "rev_b2b": 40500,
         "rev_selection": 683808,
         "rev_propres": 1453092,
-        "total_mensuel": 25011129
+        "rev_externes": 1025712,
+        "total_mensuel": 26036842
       },
       {
         "mois": 38,
@@ -1370,7 +1542,8 @@
         "rev_b2b": 42000,
         "rev_selection": 713730,
         "rev_propres": 1472068,
-        "total_mensuel": 26264119
+        "rev_externes": 1070595,
+        "total_mensuel": 27334714
       },
       {
         "mois": 39,
@@ -1385,7 +1558,8 @@
         "rev_b2b": 43500,
         "rev_selection": 744088,
         "rev_propres": 1488176,
-        "total_mensuel": 27552343
+        "rev_externes": 1116132,
+        "total_mensuel": 28668476
       },
       {
         "mois": 40,
@@ -1400,7 +1574,8 @@
         "rev_b2b": 45000,
         "rev_selection": 774816,
         "rev_propres": 1501207,
-        "total_mensuel": 28873939
+        "rev_externes": 1162225,
+        "total_mensuel": 30036164
       },
       {
         "mois": 41,
@@ -1415,7 +1590,8 @@
         "rev_b2b": 46500,
         "rev_selection": 805845,
         "rev_propres": 1510960,
-        "total_mensuel": 30226832
+        "rev_externes": 1208768,
+        "total_mensuel": 31435601
       },
       {
         "mois": 42,
@@ -1430,7 +1606,8 @@
         "rev_b2b": 48000,
         "rev_selection": 837102,
         "rev_propres": 1517248,
-        "total_mensuel": 31608754
+        "rev_externes": 1255654,
+        "total_mensuel": 32864408
       },
       {
         "mois": 43,
@@ -1445,7 +1622,8 @@
         "rev_b2b": 49500,
         "rev_selection": 868512,
         "rev_propres": 1519897,
-        "total_mensuel": 33017260
+        "rev_externes": 1302769,
+        "total_mensuel": 34320029
       },
       {
         "mois": 44,
@@ -1460,7 +1638,8 @@
         "rev_b2b": 51000,
         "rev_selection": 900000,
         "rev_propres": 1518750,
-        "total_mensuel": 33493500
+        "rev_externes": 1350000,
+        "total_mensuel": 34843500
       },
       {
         "mois": 45,
@@ -1475,7 +1654,8 @@
         "rev_b2b": 52500,
         "rev_selection": 931487,
         "rev_propres": 1513666,
-        "total_mensuel": 34913788
+        "rev_externes": 1397230,
+        "total_mensuel": 36311019
       },
       {
         "mois": 46,
@@ -1490,7 +1670,8 @@
         "rev_b2b": 54000,
         "rev_selection": 962897,
         "rev_propres": 1504527,
-        "total_mensuel": 36352578
+        "rev_externes": 1444345,
+        "total_mensuel": 37796924
       },
       {
         "mois": 47,
@@ -1505,7 +1686,8 @@
         "rev_b2b": 55500,
         "rev_selection": 994154,
         "rev_propres": 1491231,
-        "total_mensuel": 37807041
+        "rev_externes": 1491231,
+        "total_mensuel": 39298272
       },
       {
         "mois": 48,
@@ -1520,7 +1702,8 @@
         "rev_b2b": 57000,
         "rev_selection": 1025183,
         "rev_propres": 1473700,
-        "total_mensuel": 39274298
+        "rev_externes": 1537774,
+        "total_mensuel": 40812072
       },
       {
         "mois": 49,
@@ -1535,7 +1718,8 @@
         "rev_b2b": 58500,
         "rev_selection": 1055911,
         "rev_propres": 1451878,
-        "total_mensuel": 40751451
+        "rev_externes": 1583867,
+        "total_mensuel": 42335319
       },
       {
         "mois": 50,
@@ -1550,7 +1734,8 @@
         "rev_b2b": 60000,
         "rev_selection": 1086269,
         "rev_propres": 1425729,
-        "total_mensuel": 42235611
+        "rev_externes": 1629404,
+        "total_mensuel": 43865016
       },
       {
         "mois": 51,
@@ -1565,7 +1750,8 @@
         "rev_b2b": 61500,
         "rev_selection": 1116191,
         "rev_propres": 1395239,
-        "total_mensuel": 43723922
+        "rev_externes": 1674287,
+        "total_mensuel": 45398209
       },
       {
         "mois": 52,
@@ -1580,7 +1766,8 @@
         "rev_b2b": 63000,
         "rev_selection": 1145614,
         "rev_propres": 1432018,
-        "total_mensuel": 44826945
+        "rev_externes": 1718421,
+        "total_mensuel": 46545367
       },
       {
         "mois": 53,
@@ -1595,7 +1782,8 @@
         "rev_b2b": 64500,
         "rev_selection": 1174481,
         "rev_propres": 1468101,
-        "total_mensuel": 45909133
+        "rev_externes": 1761721,
+        "total_mensuel": 47670855
       },
       {
         "mois": 54,
@@ -1610,7 +1798,8 @@
         "rev_b2b": 66000,
         "rev_selection": 1202737,
         "rev_propres": 1503422,
-        "total_mensuel": 46968503
+        "rev_externes": 1804106,
+        "total_mensuel": 48772610
       },
       {
         "mois": 55,
@@ -1625,7 +1814,8 @@
         "rev_b2b": 67500,
         "rev_selection": 1230337,
         "rev_propres": 1537922,
-        "total_mensuel": 48003264
+        "rev_externes": 1845506,
+        "total_mensuel": 49848770
       },
       {
         "mois": 56,
@@ -1640,7 +1830,8 @@
         "rev_b2b": 69000,
         "rev_selection": 1257237,
         "rev_propres": 1571546,
-        "total_mensuel": 49011824
+        "rev_externes": 1885856,
+        "total_mensuel": 50897680
       },
       {
         "mois": 57,
@@ -1655,7 +1846,8 @@
         "rev_b2b": 70500,
         "rev_selection": 1283400,
         "rev_propres": 1604250,
-        "total_mensuel": 49992798
+        "rev_externes": 1925100,
+        "total_mensuel": 51917898
       },
       {
         "mois": 58,
@@ -1670,7 +1862,8 @@
         "rev_b2b": 72000,
         "rev_selection": 1308794,
         "rev_propres": 1635993,
-        "total_mensuel": 50945004
+        "rev_externes": 1963192,
+        "total_mensuel": 52908197
       },
       {
         "mois": 59,
@@ -1685,7 +1878,8 @@
         "rev_b2b": 73500,
         "rev_selection": 1333394,
         "rev_propres": 1666743,
-        "total_mensuel": 51867468
+        "rev_externes": 2000092,
+        "total_mensuel": 53867560
       },
       {
         "mois": 60,
@@ -1700,911 +1894,1092 @@
         "rev_b2b": 75000,
         "rev_selection": 1357179,
         "rev_propres": 1696474,
-        "total_mensuel": 52759414
+        "rev_externes": 2035769,
+        "total_mensuel": 54795184
       }
     ],
     "costs": [
       {
         "mois": 1,
-        "cout_salaires": 1725485,
+        "cout_salaires": 7462500,
         "cout_marketing": 340855,
         "cout_tech": 278185,
         "cout_operations": 284557,
-        "total_couts": 2629083,
-        "marge_nette": 211378,
-        "marge_pct": 7.4
+        "cout_flotte": 990000,
+        "cout_formation": 1500000,
+        "cout_qualite": 150000,
+        "total_couts": 11006098,
+        "marge_nette": -8165636,
+        "marge_pct": -287.5
       },
       {
         "mois": 2,
-        "cout_salaires": 1741014,
+        "cout_salaires": 7462500,
         "cout_marketing": 367989,
         "cout_tech": 280126,
         "cout_operations": 290380,
-        "total_couts": 2679510,
-        "marge_nette": 387070,
-        "marge_pct": 12.6
+        "cout_flotte": 990000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 9540996,
+        "marge_nette": -6474415,
+        "marge_pct": -211.1
       },
       {
         "mois": 3,
-        "cout_salaires": 1757551,
+        "cout_salaires": 7462500,
         "cout_marketing": 397151,
         "cout_tech": 282193,
         "cout_operations": 296581,
-        "total_couts": 2733479,
-        "marge_nette": 576119,
-        "marge_pct": 17.4
+        "cout_flotte": 990000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 9578427,
+        "marge_nette": -6268828,
+        "marge_pct": -189.4
       },
       {
         "mois": 4,
-        "cout_salaires": 1775156,
+        "cout_salaires": 7462500,
         "cout_marketing": 428476,
         "cout_tech": 284394,
         "cout_operations": 303183,
-        "total_couts": 2791210,
-        "marge_nette": 779430,
-        "marge_pct": 21.8
+        "cout_flotte": 990000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 9618554,
+        "marge_nette": -6047913,
+        "marge_pct": -169.4
       },
       {
         "mois": 5,
-        "cout_salaires": 1793885,
+        "cout_salaires": 7462500,
         "cout_marketing": 475331,
         "cout_tech": 286735,
         "cout_operations": 310207,
-        "total_couts": 2866159,
-        "marge_nette": 1094932,
-        "marge_pct": 27.6
+        "cout_flotte": 990000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 9674773,
+        "marge_nette": -5713681,
+        "marge_pct": -144.2
       },
       {
         "mois": 6,
-        "cout_salaires": 1813801,
+        "cout_salaires": 7462500,
         "cout_marketing": 512309,
         "cout_tech": 289225,
         "cout_operations": 317675,
-        "total_couts": 2933011,
-        "marge_nette": 1336230,
-        "marge_pct": 31.3
+        "cout_flotte": 990000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 9721709,
+        "marge_nette": -5452467,
+        "marge_pct": -127.7
       },
       {
         "mois": 7,
-        "cout_salaires": 1834966,
-        "cout_marketing": 551950,
+        "cout_salaires": 7462500,
+        "cout_marketing": 552955,
         "cout_tech": 291870,
         "cout_operations": 325612,
-        "total_couts": 3004401,
-        "marge_nette": 1595187,
-        "marge_pct": 34.7
+        "cout_flotte": 990000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 9772939,
+        "marge_nette": -5164976,
+        "marge_pct": -112.1
       },
       {
         "mois": 8,
-        "cout_salaires": 1857446,
-        "cout_marketing": 594420,
+        "cout_salaires": 7462500,
+        "cout_marketing": 595492,
         "cout_tech": 294680,
         "cout_operations": 334042,
-        "total_couts": 3080589,
-        "marge_nette": 1872911,
-        "marge_pct": 37.8
+        "cout_flotte": 990000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 9826715,
+        "marge_nette": -4864278,
+        "marge_pct": -98.0
       },
       {
         "mois": 9,
-        "cout_salaires": 1881305,
-        "cout_marketing": 639887,
+        "cout_salaires": 7462500,
+        "cout_marketing": 641031,
         "cout_tech": 297663,
         "cout_operations": 342989,
-        "total_couts": 3161845,
-        "marge_nette": 2170551,
-        "marge_pct": 40.7
+        "cout_flotte": 990000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 9884184,
+        "marge_nette": -4542254,
+        "marge_pct": -85.0
       },
       {
         "mois": 10,
-        "cout_salaires": 1906610,
-        "cout_marketing": 688529,
+        "cout_salaires": 7462500,
+        "cout_marketing": 689749,
         "cout_tech": 300826,
         "cout_operations": 352479,
-        "total_couts": 3248445,
-        "marge_nette": 2489303,
-        "marge_pct": 43.4
+        "cout_flotte": 990000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 9945555,
+        "marge_nette": -4197641,
+        "marge_pct": -73.0
       },
       {
         "mois": 11,
-        "cout_salaires": 1933431,
+        "cout_salaires": 7462500,
         "cout_marketing": 733513,
         "cout_tech": 304178,
         "cout_operations": 362536,
-        "total_couts": 3333659,
-        "marge_nette": 2778951,
-        "marge_pct": 45.5
+        "cout_flotte": 990000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 10002728,
+        "marge_nette": -3890117,
+        "marge_pct": -63.6
       },
       {
         "mois": 12,
-        "cout_salaires": 1961834,
+        "cout_salaires": 7462500,
         "cout_marketing": 774019,
         "cout_tech": 307729,
         "cout_operations": 373187,
-        "total_couts": 3416771,
-        "marge_nette": 3033390,
-        "marge_pct": 47.0
+        "cout_flotte": 990000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 10057436,
+        "marge_nette": -3607274,
+        "marge_pct": -55.9
       },
       {
         "mois": 13,
-        "cout_salaires": 1991889,
+        "cout_salaires": 10250000,
         "cout_marketing": 793857,
         "cout_tech": 311486,
         "cout_operations": 384458,
-        "total_couts": 3481691,
-        "marge_nette": 3133784,
-        "marge_pct": 47.4
+        "cout_flotte": 2640000,
+        "cout_formation": 2500000,
+        "cout_qualite": 150000,
+        "total_couts": 17029802,
+        "marge_nette": -10414326,
+        "marge_pct": -157.4
       },
       {
         "mois": 14,
-        "cout_salaires": 2023664,
+        "cout_salaires": 10250000,
         "cout_marketing": 838702,
         "cout_tech": 315458,
         "cout_operations": 396374,
-        "total_couts": 3574199,
-        "marge_nette": 3414985,
-        "marge_pct": 48.9
+        "cout_flotte": 2640000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 14590534,
+        "marge_nette": -7601349,
+        "marge_pct": -108.8
       },
       {
         "mois": 15,
-        "cout_salaires": 2057226,
+        "cout_salaires": 10250000,
         "cout_marketing": 886631,
         "cout_tech": 319653,
         "cout_operations": 408960,
-        "total_couts": 3672471,
-        "marge_nette": 3716125,
-        "marge_pct": 50.3
+        "cout_flotte": 2640000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 14655245,
+        "marge_nette": -7266648,
+        "marge_pct": -98.3
       },
       {
         "mois": 16,
-        "cout_salaires": 2092641,
+        "cout_salaires": 10250000,
         "cout_marketing": 937805,
         "cout_tech": 324080,
         "cout_operations": 422240,
-        "total_couts": 3776768,
-        "marge_nette": 4038279,
-        "marge_pct": 51.7
+        "cout_flotte": 2640000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 14724126,
+        "marge_nette": -6909078,
+        "marge_pct": -88.4
       },
       {
         "mois": 17,
-        "cout_salaires": 2129973,
+        "cout_salaires": 10250000,
         "cout_marketing": 992386,
         "cout_tech": 328746,
         "cout_operations": 436240,
-        "total_couts": 3887346,
-        "marge_nette": 4382540,
-        "marge_pct": 53.0
+        "cout_flotte": 2640000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 14797373,
+        "marge_nette": -6527486,
+        "marge_pct": -78.9
       },
       {
         "mois": 18,
-        "cout_salaires": 2169282,
+        "cout_salaires": 10250000,
         "cout_marketing": 1050535,
         "cout_tech": 333660,
         "cout_operations": 450980,
-        "total_couts": 4004459,
-        "marge_nette": 4750006,
-        "marge_pct": 54.3
+        "cout_flotte": 2640000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 14875177,
+        "marge_nette": -6120711,
+        "marge_pct": -69.9
       },
       {
         "mois": 19,
-        "cout_salaires": 2210626,
+        "cout_salaires": 10250000,
         "cout_marketing": 1112415,
         "cout_tech": 338828,
         "cout_operations": 466484,
-        "total_couts": 4128355,
-        "marge_nette": 5141777,
-        "marge_pct": 55.5
+        "cout_flotte": 2640000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 14957729,
+        "marge_nette": -5687596,
+        "marge_pct": -61.4
       },
       {
         "mois": 20,
-        "cout_salaires": 2254058,
+        "cout_salaires": 10250000,
         "cout_marketing": 1178185,
         "cout_tech": 344257,
         "cout_operations": 482771,
-        "total_couts": 4259273,
-        "marge_nette": 5558941,
-        "marge_pct": 56.6
+        "cout_flotte": 2640000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 15045214,
+        "marge_nette": -5226999,
+        "marge_pct": -53.2
       },
       {
         "mois": 21,
-        "cout_salaires": 2299625,
+        "cout_salaires": 10250000,
         "cout_marketing": 1248001,
         "cout_tech": 349953,
         "cout_operations": 499859,
-        "total_couts": 4397439,
-        "marge_nette": 6002573,
-        "marge_pct": 57.7
+        "cout_flotte": 2640000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 15137814,
+        "marge_nette": -4737801,
+        "marge_pct": -45.6
       },
       {
         "mois": 22,
-        "cout_salaires": 2347369,
+        "cout_salaires": 10250000,
         "cout_marketing": 1322014,
         "cout_tech": 355921,
         "cout_operations": 517763,
-        "total_couts": 4543068,
-        "marge_nette": 6473715,
-        "marge_pct": 58.8
+        "cout_flotte": 2640000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 15235698,
+        "marge_nette": -4218914,
+        "marge_pct": -38.3
       },
       {
         "mois": 23,
-        "cout_salaires": 2397324,
+        "cout_salaires": 10250000,
         "cout_marketing": 1400367,
         "cout_tech": 362165,
         "cout_operations": 536496,
-        "total_couts": 4696354,
-        "marge_nette": 6973374,
-        "marge_pct": 59.8
+        "cout_flotte": 2640000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 15339029,
+        "marge_nette": -3669300,
+        "marge_pct": -31.4
       },
       {
         "mois": 24,
-        "cout_salaires": 2449517,
+        "cout_salaires": 10250000,
         "cout_marketing": 1483197,
         "cout_tech": 368689,
         "cout_operations": 556069,
-        "total_couts": 4857473,
-        "marge_nette": 7502503,
-        "marge_pct": 60.7
+        "cout_flotte": 2640000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 15447955,
+        "marge_nette": -3087978,
+        "marge_pct": -25.0
       },
       {
         "mois": 25,
-        "cout_salaires": 2503964,
-        "cout_marketing": 1570628,
+        "cout_salaires": 13750000,
+        "cout_marketing": 1638396,
         "cout_tech": 375495,
         "cout_operations": 576486,
-        "total_couts": 5026575,
-        "marge_nette": 8061995,
-        "marge_pct": 61.6
+        "cout_flotte": 3300000,
+        "cout_formation": 1000000,
+        "cout_qualite": 150000,
+        "total_couts": 20790378,
+        "marge_nette": -7137076,
+        "marge_pct": -52.3
       },
       {
         "mois": 26,
-        "cout_salaires": 2560674,
-        "cout_marketing": 1662773,
+        "cout_salaires": 13750000,
+        "cout_marketing": 1734369,
         "cout_tech": 382584,
         "cout_operations": 597753,
-        "total_couts": 5203785,
-        "marge_nette": 8652663,
-        "marge_pct": 62.4
+        "cout_flotte": 3300000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 19914706,
+        "marge_nette": -5461627,
+        "marge_pct": -37.8
       },
       {
         "mois": 27,
-        "cout_salaires": 2619642,
-        "cout_marketing": 1759731,
+        "cout_salaires": 13750000,
+        "cout_marketing": 1835307,
         "cout_tech": 389955,
         "cout_operations": 619866,
-        "total_couts": 5389195,
-        "marge_nette": 9275232,
-        "marge_pct": 63.2
+        "cout_flotte": 3300000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 20045128,
+        "marge_nette": -4750900,
+        "marge_pct": -31.1
       },
       {
         "mois": 28,
-        "cout_salaires": 2680854,
-        "cout_marketing": 1861582,
+        "cout_salaires": 13750000,
+        "cout_marketing": 1941290,
         "cout_tech": 397606,
         "cout_operations": 642820,
-        "total_couts": 5582863,
-        "marge_nette": 9930325,
-        "marge_pct": 64.0
+        "cout_flotte": 3300000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 20181717,
+        "marge_nette": -4004298,
+        "marge_pct": -24.8
       },
       {
         "mois": 29,
-        "cout_salaires": 2744280,
-        "cout_marketing": 1968390,
+        "cout_salaires": 13750000,
+        "cout_marketing": 2052379,
         "cout_tech": 405535,
         "cout_operations": 666605,
-        "total_couts": 5784811,
-        "marge_nette": 10618444,
-        "marge_pct": 64.7
+        "cout_flotte": 3300000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 20324519,
+        "marge_nette": -3221356,
+        "marge_pct": -18.8
       },
       {
         "mois": 30,
-        "cout_salaires": 2809880,
-        "cout_marketing": 2080197,
+        "cout_salaires": 13750000,
+        "cout_marketing": 2168614,
         "cout_tech": 413735,
         "cout_operations": 691205,
-        "total_couts": 5995018,
-        "marge_nette": 11339964,
-        "marge_pct": 65.4
+        "cout_flotte": 3300000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 20473555,
+        "marge_nette": -2401764,
+        "marge_pct": -13.3
       },
       {
         "mois": 31,
-        "cout_salaires": 2877599,
-        "cout_marketing": 2197024,
+        "cout_salaires": 13750000,
+        "cout_marketing": 2290012,
         "cout_tech": 422199,
         "cout_operations": 716599,
-        "total_couts": 6213423,
-        "marge_nette": 12095116,
-        "marge_pct": 66.1
+        "cout_flotte": 3300000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 20628812,
+        "marge_nette": -1545372,
+        "marge_pct": -8.1
       },
       {
         "mois": 32,
-        "cout_salaires": 2947366,
-        "cout_marketing": 2318867,
+        "cout_salaires": 13750000,
+        "cout_marketing": 2416564,
         "cout_tech": 430920,
         "cout_operations": 742762,
-        "total_couts": 6439917,
-        "marge_nette": 12883977,
-        "marge_pct": 66.7
+        "cout_flotte": 3300000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 20790248,
+        "marge_nette": -652209,
+        "marge_pct": -3.2
       },
       {
         "mois": 33,
-        "cout_salaires": 3019099,
-        "cout_marketing": 2445696,
+        "cout_salaires": 13750000,
+        "cout_marketing": 2548235,
         "cout_tech": 439887,
         "cout_operations": 769662,
-        "total_couts": 6674345,
-        "marge_nette": 13706457,
-        "marge_pct": 67.3
+        "cout_flotte": 3300000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 20957785,
+        "marge_nette": 277510,
+        "marge_pct": 1.3
       },
       {
         "mois": 34,
-        "cout_salaires": 3092698,
-        "cout_marketing": 2577455,
+        "cout_salaires": 13750000,
+        "cout_marketing": 2684962,
         "cout_tech": 449087,
         "cout_operations": 797262,
-        "total_couts": 6916503,
-        "marge_nette": 14562292,
-        "marge_pct": 67.8
+        "cout_flotte": 3300000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 21131312,
+        "marge_nette": 1243376,
+        "marge_pct": 5.6
       },
       {
         "mois": 35,
-        "cout_salaires": 3168050,
-        "cout_marketing": 2714061,
+        "cout_salaires": 13750000,
+        "cout_marketing": 2826654,
         "cout_tech": 458506,
         "cout_operations": 825518,
-        "total_couts": 7166137,
-        "marge_nette": 15451039,
-        "marge_pct": 68.3
+        "cout_flotte": 3300000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 21310680,
+        "marge_nette": 2244775,
+        "marge_pct": 9.5
       },
       {
         "mois": 36,
-        "cout_salaires": 3245027,
-        "cout_marketing": 2855401,
+        "cout_salaires": 13750000,
+        "cout_marketing": 2973190,
         "cout_tech": 468128,
         "cout_operations": 854385,
-        "total_couts": 7422943,
-        "marge_nette": 16372068,
-        "marge_pct": 68.8
+        "cout_flotte": 3300000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 21495704,
+        "marge_nette": 3280885,
+        "marge_pct": 13.2
       },
       {
         "mois": 37,
-        "cout_salaires": 3323489,
-        "cout_marketing": 3001335,
+        "cout_salaires": 16875000,
+        "cout_marketing": 3124421,
         "cout_tech": 477936,
         "cout_operations": 883808,
-        "total_couts": 7686569,
-        "marge_nette": 17324559,
-        "marge_pct": 69.3
+        "cout_flotte": 3300000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 24811165,
+        "marge_nette": 1225676,
+        "marge_pct": 4.7
       },
       {
         "mois": 38,
-        "cout_salaires": 3403280,
-        "cout_marketing": 3151694,
+        "cout_salaires": 16875000,
+        "cout_marketing": 3280165,
         "cout_tech": 487910,
         "cout_operations": 913730,
-        "total_couts": 7956614,
-        "marge_nette": 18307504,
-        "marge_pct": 69.7
+        "cout_flotte": 3300000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 25006805,
+        "marge_nette": 2327908,
+        "marge_pct": 8.5
       },
       {
         "mois": 39,
-        "cout_salaires": 3484235,
-        "cout_marketing": 3306281,
+        "cout_salaires": 16875000,
+        "cout_marketing": 3440217,
         "cout_tech": 498029,
         "cout_operations": 944088,
-        "total_couts": 8232634,
-        "marge_nette": 19319708,
-        "marge_pct": 70.1
+        "cout_flotte": 3300000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 25207334,
+        "marge_nette": 3461141,
+        "marge_pct": 12.1
       },
       {
         "mois": 40,
-        "cout_salaires": 3566178,
-        "cout_marketing": 3464872,
+        "cout_salaires": 16875000,
+        "cout_marketing": 3604339,
         "cout_tech": 508272,
         "cout_operations": 974816,
-        "total_couts": 8514139,
-        "marge_nette": 20359799,
-        "marge_pct": 70.5
+        "cout_flotte": 3300000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 25412428,
+        "marge_nette": 4623735,
+        "marge_pct": 15.4
       },
       {
         "mois": 41,
-        "cout_salaires": 3648922,
-        "cout_marketing": 3627219,
+        "cout_salaires": 16875000,
+        "cout_marketing": 3772272,
         "cout_tech": 518615,
         "cout_operations": 1005845,
-        "total_couts": 8800602,
-        "marge_nette": 21426229,
-        "marge_pct": 70.9
+        "cout_flotte": 3300000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 25621733,
+        "marge_nette": 5813867,
+        "marge_pct": 18.5
       },
       {
         "mois": 42,
-        "cout_salaires": 3732273,
-        "cout_marketing": 3793050,
+        "cout_salaires": 16875000,
+        "cout_marketing": 3943728,
         "cout_tech": 529034,
         "cout_operations": 1037102,
-        "total_couts": 9091461,
-        "marge_nette": 22517292,
-        "marge_pct": 71.2
+        "cout_flotte": 3300000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 25834865,
+        "marge_nette": 7029542,
+        "marge_pct": 21.4
       },
       {
         "mois": 43,
-        "cout_salaires": 3816034,
-        "cout_marketing": 3962071,
+        "cout_salaires": 16875000,
+        "cout_marketing": 4118403,
         "cout_tech": 539504,
         "cout_operations": 1068512,
-        "total_couts": 9386122,
-        "marge_nette": 23631137,
-        "marge_pct": 71.6
+        "cout_flotte": 3300000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 26051420,
+        "marge_nette": 8268608,
+        "marge_pct": 24.1
       },
       {
         "mois": 44,
-        "cout_salaires": 3900000,
-        "cout_marketing": 4019220,
+        "cout_salaires": 16875000,
+        "cout_marketing": 4181220,
         "cout_tech": 550000,
         "cout_operations": 1100000,
-        "total_couts": 9569220,
-        "marge_nette": 23924280,
-        "marge_pct": 71.4
+        "cout_flotte": 3300000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 26156220,
+        "marge_nette": 8687280,
+        "marge_pct": 24.9
       },
       {
         "mois": 45,
-        "cout_salaires": 3983965,
-        "cout_marketing": 4189654,
+        "cout_salaires": 16875000,
+        "cout_marketing": 4357322,
         "cout_tech": 560495,
         "cout_operations": 1131487,
-        "total_couts": 9865603,
-        "marge_nette": 25048184,
-        "marge_pct": 71.7
+        "cout_flotte": 3300000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 26374305,
+        "marge_nette": 9936713,
+        "marge_pct": 27.4
       },
       {
         "mois": 46,
-        "cout_salaires": 4067726,
-        "cout_marketing": 4362309,
+        "cout_salaires": 16875000,
+        "cout_marketing": 4535630,
         "cout_tech": 570965,
         "cout_operations": 1162897,
-        "total_couts": 10163898,
-        "marge_nette": 26188679,
-        "marge_pct": 72.0
+        "cout_flotte": 3300000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 26594493,
+        "marge_nette": 11202430,
+        "marge_pct": 29.6
       },
       {
         "mois": 47,
-        "cout_salaires": 4151077,
-        "cout_marketing": 4536844,
+        "cout_salaires": 16875000,
+        "cout_marketing": 4715792,
         "cout_tech": 581384,
         "cout_operations": 1194154,
-        "total_couts": 10463461,
-        "marge_nette": 27343579,
-        "marge_pct": 72.3
+        "cout_flotte": 3300000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 26816331,
+        "marge_nette": 12481940,
+        "marge_pct": 31.8
       },
       {
         "mois": 48,
-        "cout_salaires": 4233821,
-        "cout_marketing": 4712915,
+        "cout_salaires": 16875000,
+        "cout_marketing": 4897448,
         "cout_tech": 591727,
         "cout_operations": 1225183,
-        "total_couts": 10763648,
-        "marge_nette": 28510649,
-        "marge_pct": 72.6
+        "cout_flotte": 3300000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 27039359,
+        "marge_nette": 13772712,
+        "marge_pct": 33.7
       },
       {
         "mois": 49,
-        "cout_salaires": 4315764,
-        "cout_marketing": 4890174,
+        "cout_salaires": 16875000,
+        "cout_marketing": 5080238,
         "cout_tech": 601970,
         "cout_operations": 1255911,
-        "total_couts": 11063820,
-        "marge_nette": 29687630,
-        "marge_pct": 72.9
+        "cout_flotte": 3300000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 27263120,
+        "marge_nette": 15072198,
+        "marge_pct": 35.6
       },
       {
         "mois": 50,
-        "cout_salaires": 4396719,
-        "cout_marketing": 5068273,
+        "cout_salaires": 16875000,
+        "cout_marketing": 5263801,
         "cout_tech": 612089,
         "cout_operations": 1286269,
-        "total_couts": 11363352,
-        "marge_nette": 30872258,
-        "marge_pct": 73.1
+        "cout_flotte": 3300000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 27487161,
+        "marge_nette": 16377854,
+        "marge_pct": 37.3
       },
       {
         "mois": 51,
-        "cout_salaires": 4476510,
-        "cout_marketing": 5246870,
+        "cout_salaires": 16875000,
+        "cout_marketing": 5447785,
         "cout_tech": 622063,
         "cout_operations": 1316191,
-        "total_couts": 11661636,
-        "marge_nette": 32062285,
-        "marge_pct": 73.3
+        "cout_flotte": 3300000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 27711040,
+        "marge_nette": 17687168,
+        "marge_pct": 39.0
       },
       {
         "mois": 52,
-        "cout_salaires": 4554972,
-        "cout_marketing": 5379233,
+        "cout_salaires": 16875000,
+        "cout_marketing": 5585444,
         "cout_tech": 631871,
         "cout_operations": 1345614,
-        "total_couts": 11911691,
-        "marge_nette": 32915253,
-        "marge_pct": 73.4
+        "cout_flotte": 3300000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 27887930,
+        "marge_nette": 18657436,
+        "marge_pct": 40.1
       },
       {
         "mois": 53,
-        "cout_salaires": 4631949,
-        "cout_marketing": 5509095,
+        "cout_salaires": 16875000,
+        "cout_marketing": 5720502,
         "cout_tech": 641493,
         "cout_operations": 1374481,
-        "total_couts": 12157020,
-        "marge_nette": 33752112,
-        "marge_pct": 73.5
+        "cout_flotte": 3300000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 28061477,
+        "marge_nette": 19609377,
+        "marge_pct": 41.1
       },
       {
         "mois": 54,
-        "cout_salaires": 4707301,
-        "cout_marketing": 5636220,
+        "cout_salaires": 16875000,
+        "cout_marketing": 5852713,
         "cout_tech": 650912,
         "cout_operations": 1402737,
-        "total_couts": 12397172,
-        "marge_nette": 34571330,
-        "marge_pct": 73.6
+        "cout_flotte": 3300000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 28231363,
+        "marge_nette": 20541246,
+        "marge_pct": 42.1
       },
       {
         "mois": 55,
-        "cout_salaires": 4780900,
-        "cout_marketing": 5760391,
+        "cout_salaires": 16875000,
+        "cout_marketing": 5981852,
         "cout_tech": 660112,
         "cout_operations": 1430337,
-        "total_couts": 12631742,
-        "marge_nette": 35371521,
-        "marge_pct": 73.7
+        "cout_flotte": 3300000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 28397302,
+        "marge_nette": 21451467,
+        "marge_pct": 43.0
       },
       {
         "mois": 56,
-        "cout_salaires": 4852633,
-        "cout_marketing": 5881418,
+        "cout_salaires": 16875000,
+        "cout_marketing": 6107721,
         "cout_tech": 669079,
         "cout_operations": 1457237,
-        "total_couts": 12860368,
-        "marge_nette": 36151455,
-        "marge_pct": 73.8
+        "cout_flotte": 3300000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 28559038,
+        "marge_nette": 22338641,
+        "marge_pct": 43.9
       },
       {
         "mois": 57,
-        "cout_salaires": 4922400,
-        "cout_marketing": 5999135,
+        "cout_salaires": 16875000,
+        "cout_marketing": 6230147,
         "cout_tech": 677800,
         "cout_operations": 1483400,
-        "total_couts": 13082736,
-        "marge_nette": 36910061,
-        "marge_pct": 73.8
+        "cout_flotte": 3300000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 28716348,
+        "marge_nette": 23201549,
+        "marge_pct": 44.7
       },
       {
         "mois": 58,
-        "cout_salaires": 4990119,
-        "cout_marketing": 6113400,
+        "cout_salaires": 16875000,
+        "cout_marketing": 6348983,
         "cout_tech": 686264,
         "cout_operations": 1508794,
-        "total_couts": 13298579,
-        "marge_nette": 37646424,
-        "marge_pct": 73.9
+        "cout_flotte": 3300000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 28869043,
+        "marge_nette": 24039153,
+        "marge_pct": 45.4
       },
       {
         "mois": 59,
-        "cout_salaires": 5055719,
-        "cout_marketing": 6224096,
+        "cout_salaires": 16875000,
+        "cout_marketing": 6464107,
         "cout_tech": 694464,
         "cout_operations": 1533394,
-        "total_couts": 13507675,
-        "marge_nette": 38359792,
-        "marge_pct": 74.0
+        "cout_flotte": 3300000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 29016966,
+        "marge_nette": 24850593,
+        "marge_pct": 46.1
       },
       {
         "mois": 60,
-        "cout_salaires": 5119145,
-        "cout_marketing": 6331129,
+        "cout_salaires": 16875000,
+        "cout_marketing": 6575422,
         "cout_tech": 702393,
         "cout_operations": 1557179,
-        "total_couts": 13709848,
-        "marge_nette": 39049565,
-        "marge_pct": 74.0
+        "cout_flotte": 3300000,
+        "cout_formation": 0,
+        "cout_qualite": 150000,
+        "total_couts": 29159994,
+        "marge_nette": 25635189,
+        "marge_pct": 46.8
       }
     ],
     "profit": [
       {
         "mois": 1,
-        "profit_mensuel": 211379,
-        "cumul": -22348621
+        "profit_mensuel": -8165636,
+        "cumul": -57665636
       },
       {
         "mois": 2,
-        "profit_mensuel": 387071,
-        "cumul": -21961550
+        "profit_mensuel": -6474415,
+        "cumul": -64140051
       },
       {
         "mois": 3,
-        "profit_mensuel": 576120,
-        "cumul": -21385430
+        "profit_mensuel": -6268828,
+        "cumul": -70408879
       },
       {
         "mois": 4,
-        "profit_mensuel": 779431,
-        "cumul": -20605999
+        "profit_mensuel": -6047913,
+        "cumul": -76456792
       },
       {
         "mois": 5,
-        "profit_mensuel": 1094933,
-        "cumul": -19511066
+        "profit_mensuel": -5713681,
+        "cumul": -82170473
       },
       {
         "mois": 6,
-        "profit_mensuel": 1336231,
-        "cumul": -18174835
+        "profit_mensuel": -5452467,
+        "cumul": -87622940
       },
       {
         "mois": 7,
-        "profit_mensuel": 1595188,
-        "cumul": -16579647
+        "profit_mensuel": -5164976,
+        "cumul": -92787916
       },
       {
         "mois": 8,
-        "profit_mensuel": 1872912,
-        "cumul": -14706735
+        "profit_mensuel": -4864278,
+        "cumul": -97652194
       },
       {
         "mois": 9,
-        "profit_mensuel": 2170552,
-        "cumul": -12536183
+        "profit_mensuel": -4542254,
+        "cumul": -102194448
       },
       {
         "mois": 10,
-        "profit_mensuel": 2489304,
-        "cumul": -10046879
+        "profit_mensuel": -4197641,
+        "cumul": -106392089
       },
       {
         "mois": 11,
-        "profit_mensuel": 2778952,
-        "cumul": -7267927
+        "profit_mensuel": -3890117,
+        "cumul": -110282206
       },
       {
         "mois": 12,
-        "profit_mensuel": 3033391,
-        "cumul": -4234536
+        "profit_mensuel": -3607274,
+        "cumul": -113889480
       },
       {
         "mois": 13,
-        "profit_mensuel": 3133785,
-        "cumul": -1100751
+        "profit_mensuel": -10414326,
+        "cumul": -124303806
       },
       {
         "mois": 14,
-        "profit_mensuel": 3414986,
-        "cumul": 2314235
+        "profit_mensuel": -7601349,
+        "cumul": -131905155
       },
       {
         "mois": 15,
-        "profit_mensuel": 3716126,
-        "cumul": 6030361
+        "profit_mensuel": -7266648,
+        "cumul": -139171803
       },
       {
         "mois": 16,
-        "profit_mensuel": 4038280,
-        "cumul": 10068641
+        "profit_mensuel": -6909078,
+        "cumul": -146080881
       },
       {
         "mois": 17,
-        "profit_mensuel": 4382541,
-        "cumul": 14451182
+        "profit_mensuel": -6527486,
+        "cumul": -152608367
       },
       {
         "mois": 18,
-        "profit_mensuel": 4750007,
-        "cumul": 19201189
+        "profit_mensuel": -6120711,
+        "cumul": -158729078
       },
       {
         "mois": 19,
-        "profit_mensuel": 5141778,
-        "cumul": 24342967
+        "profit_mensuel": -5687596,
+        "cumul": -164416674
       },
       {
         "mois": 20,
-        "profit_mensuel": 5558942,
-        "cumul": 29901909
+        "profit_mensuel": -5226999,
+        "cumul": -169643673
       },
       {
         "mois": 21,
-        "profit_mensuel": 6002574,
-        "cumul": 35904483
+        "profit_mensuel": -4737801,
+        "cumul": -174381474
       },
       {
         "mois": 22,
-        "profit_mensuel": 6473716,
-        "cumul": 42378199
+        "profit_mensuel": -4218914,
+        "cumul": -178600388
       },
       {
         "mois": 23,
-        "profit_mensuel": 6973375,
-        "cumul": 49351574
+        "profit_mensuel": -3669300,
+        "cumul": -182269688
       },
       {
         "mois": 24,
-        "profit_mensuel": 7502504,
-        "cumul": 56854078
+        "profit_mensuel": -3087978,
+        "cumul": -185357666
       },
       {
         "mois": 25,
-        "profit_mensuel": 8061996,
-        "cumul": 64916074
+        "profit_mensuel": -7137076,
+        "cumul": -192494742
       },
       {
         "mois": 26,
-        "profit_mensuel": 8652664,
-        "cumul": 73568738
+        "profit_mensuel": -5461627,
+        "cumul": -197956369
       },
       {
         "mois": 27,
-        "profit_mensuel": 9275233,
-        "cumul": 82843971
+        "profit_mensuel": -4750900,
+        "cumul": -202707269
       },
       {
         "mois": 28,
-        "profit_mensuel": 9930326,
-        "cumul": 92774297
+        "profit_mensuel": -4004298,
+        "cumul": -206711567
       },
       {
         "mois": 29,
-        "profit_mensuel": 10618445,
-        "cumul": 103392742
+        "profit_mensuel": -3221356,
+        "cumul": -209932923
       },
       {
         "mois": 30,
-        "profit_mensuel": 11339965,
-        "cumul": 114732707
+        "profit_mensuel": -2401764,
+        "cumul": -212334687
       },
       {
         "mois": 31,
-        "profit_mensuel": 12095117,
-        "cumul": 126827824
+        "profit_mensuel": -1545372,
+        "cumul": -213880059
       },
       {
         "mois": 32,
-        "profit_mensuel": 12883978,
-        "cumul": 139711802
+        "profit_mensuel": -652209,
+        "cumul": -214532268
       },
       {
         "mois": 33,
-        "profit_mensuel": 13706458,
-        "cumul": 153418260
+        "profit_mensuel": 277511,
+        "cumul": -214254757
       },
       {
         "mois": 34,
-        "profit_mensuel": 14562293,
-        "cumul": 167980553
+        "profit_mensuel": 1243377,
+        "cumul": -213011380
       },
       {
         "mois": 35,
-        "profit_mensuel": 15451040,
-        "cumul": 183431593
+        "profit_mensuel": 2244776,
+        "cumul": -210766604
       },
       {
         "mois": 36,
-        "profit_mensuel": 16372069,
-        "cumul": 199803662
+        "profit_mensuel": 3280886,
+        "cumul": -207485718
       },
       {
         "mois": 37,
-        "profit_mensuel": 17324560,
-        "cumul": 217128222
+        "profit_mensuel": 1225677,
+        "cumul": -206260041
       },
       {
         "mois": 38,
-        "profit_mensuel": 18307505,
-        "cumul": 235435727
+        "profit_mensuel": 2327909,
+        "cumul": -203932132
       },
       {
         "mois": 39,
-        "profit_mensuel": 19319709,
-        "cumul": 254755436
+        "profit_mensuel": 3461142,
+        "cumul": -200470990
       },
       {
         "mois": 40,
-        "profit_mensuel": 20359800,
-        "cumul": 275115236
+        "profit_mensuel": 4623736,
+        "cumul": -195847254
       },
       {
         "mois": 41,
-        "profit_mensuel": 21426230,
-        "cumul": 296541466
+        "profit_mensuel": 5813868,
+        "cumul": -190033386
       },
       {
         "mois": 42,
-        "profit_mensuel": 22517293,
-        "cumul": 319058759
+        "profit_mensuel": 7029543,
+        "cumul": -183003843
       },
       {
         "mois": 43,
-        "profit_mensuel": 23631138,
-        "cumul": 342689897
+        "profit_mensuel": 8268609,
+        "cumul": -174735234
       },
       {
         "mois": 44,
-        "profit_mensuel": 23924280,
-        "cumul": 366614177
+        "profit_mensuel": 8687280,
+        "cumul": -166047954
       },
       {
         "mois": 45,
-        "profit_mensuel": 25048185,
-        "cumul": 391662362
+        "profit_mensuel": 9936714,
+        "cumul": -156111240
       },
       {
         "mois": 46,
-        "profit_mensuel": 26188680,
-        "cumul": 417851042
+        "profit_mensuel": 11202431,
+        "cumul": -144908809
       },
       {
         "mois": 47,
-        "profit_mensuel": 27343580,
-        "cumul": 445194622
+        "profit_mensuel": 12481941,
+        "cumul": -132426868
       },
       {
         "mois": 48,
-        "profit_mensuel": 28510650,
-        "cumul": 473705272
+        "profit_mensuel": 13772713,
+        "cumul": -118654155
       },
       {
         "mois": 49,
-        "profit_mensuel": 29687631,
-        "cumul": 503392903
+        "profit_mensuel": 15072199,
+        "cumul": -103581956
       },
       {
         "mois": 50,
-        "profit_mensuel": 30872259,
-        "cumul": 534265162
+        "profit_mensuel": 16377855,
+        "cumul": -87204101
       },
       {
         "mois": 51,
-        "profit_mensuel": 32062286,
-        "cumul": 566327448
+        "profit_mensuel": 17687169,
+        "cumul": -69516932
       },
       {
         "mois": 52,
-        "profit_mensuel": 32915254,
-        "cumul": 599242702
+        "profit_mensuel": 18657437,
+        "cumul": -50859495
       },
       {
         "mois": 53,
-        "profit_mensuel": 33752113,
-        "cumul": 632994815
+        "profit_mensuel": 19609378,
+        "cumul": -31250117
       },
       {
         "mois": 54,
-        "profit_mensuel": 34571331,
-        "cumul": 667566146
+        "profit_mensuel": 20541247,
+        "cumul": -10708870
       },
       {
         "mois": 55,
-        "profit_mensuel": 35371522,
-        "cumul": 702937668
+        "profit_mensuel": 21451468,
+        "cumul": 10742598
       },
       {
         "mois": 56,
-        "profit_mensuel": 36151456,
-        "cumul": 739089124
+        "profit_mensuel": 22338642,
+        "cumul": 33081240
       },
       {
         "mois": 57,
-        "profit_mensuel": 36910062,
-        "cumul": 775999186
+        "profit_mensuel": 23201550,
+        "cumul": 56282790
       },
       {
         "mois": 58,
-        "profit_mensuel": 37646425,
-        "cumul": 813645611
+        "profit_mensuel": 24039154,
+        "cumul": 80321944
       },
       {
         "mois": 59,
-        "profit_mensuel": 38359793,
-        "cumul": 852005404
+        "profit_mensuel": 24850594,
+        "cumul": 105172538
       },
       {
         "mois": 60,
-        "profit_mensuel": 39049566,
-        "cumul": 891054970
+        "profit_mensuel": 25635190,
+        "cumul": 130807728
       }
     ]
   },
@@ -2613,43 +2988,43 @@
       "param": "mau_L",
       "label": "MAU plateau",
       "delta_pct": 25.0,
-      "impact_up": 22.4,
-      "impact_dn": -22.4
+      "impact_up": 22.5,
+      "impact_dn": -22.5
     },
     {
       "param": "avg_cmd_par_mau",
       "label": "Commandes / MAU",
       "delta_pct": 20.0,
-      "impact_up": 17.9,
-      "impact_dn": -17.9
+      "impact_up": 18.0,
+      "impact_dn": -18.0
     },
     {
       "param": "frais_livraison_moy",
       "label": "Frais de livraison",
       "delta_pct": 25.0,
-      "impact_up": 16.9,
-      "impact_dn": -16.9
+      "impact_up": 17.2,
+      "impact_dn": -17.2
     },
     {
       "param": "mau_k",
       "label": "Vitesse croissance",
       "delta_pct": 20.0,
-      "impact_up": -11.0,
-      "impact_dn": 12.0
+      "impact_up": -11.1,
+      "impact_dn": 12.1
     },
     {
       "param": "marge_livraison",
       "label": "Marge livraison",
       "delta_pct": 15.0,
-      "impact_up": 10.1,
-      "impact_dn": -10.1
+      "impact_up": 9.7,
+      "impact_dn": -9.7
     },
     {
       "param": "avg_basket",
       "label": "Panier moyen",
       "delta_pct": 20.0,
-      "impact_up": 4.4,
-      "impact_dn": -4.4
+      "impact_up": 4.2,
+      "impact_dn": -4.2
     },
     {
       "param": "commission_starter",
@@ -2666,755 +3041,1200 @@
       "impact_dn": 0.0
     }
   ],
+  "amortissements": {
+    "motos_annuel": 5500000,
+    "developpement_annuel": 1820000,
+    "materiel_annuel": 1625000,
+    "total_annuel": 8945000,
+    "detail": {
+      "motos_base": 16500000,
+      "duree_motos_ans": 3,
+      "dev_v1_base": 9100000,
+      "duree_dev_ans": 5,
+      "materiel_base": 6500000,
+      "duree_materiel_ans": 4
+    }
+  },
+  "compte_exploitation": [
+    {
+      "an": 1,
+      "ca": 54240634,
+      "depenses_hors_salaires": 29080114,
+      "valeur_ajoutee": 25160520,
+      "va_sur_ca_pct": 46.39,
+      "charges_salariales": 89550000,
+      "ebe": -64389480,
+      "ebe_sur_ca_pct": -118.71,
+      "amortissements": 8945000,
+      "resultat_exploitation": -73334480,
+      "re_sur_ca_pct": -135.2,
+      "frais_financiers": 1336500,
+      "resultat_courant": -74670980,
+      "rc_sur_ca_pct": -137.67,
+      "is": 0,
+      "resultat_net": -74670980,
+      "rn_sur_ca_pct": -137.67,
+      "caf": -65725980
+    },
+    {
+      "an": 2,
+      "ca": 110367510,
+      "depenses_hors_salaires": 58835696,
+      "valeur_ajoutee": 51531814,
+      "va_sur_ca_pct": 46.69,
+      "charges_salariales": 123000000,
+      "ebe": -71468186,
+      "ebe_sur_ca_pct": -64.75,
+      "amortissements": 8945000,
+      "resultat_exploitation": -80413186,
+      "re_sur_ca_pct": -72.86,
+      "frais_financiers": 1069200,
+      "resultat_courant": -81482386,
+      "rc_sur_ca_pct": -73.83,
+      "is": 0,
+      "resultat_net": -81482386,
+      "rn_sur_ca_pct": -73.83,
+      "caf": -72537386
+    },
+    {
+      "an": 3,
+      "ca": 225916492,
+      "depenses_hors_salaires": 83044544,
+      "valeur_ajoutee": 142871948,
+      "va_sur_ca_pct": 63.24,
+      "charges_salariales": 165000000,
+      "ebe": -22128052,
+      "ebe_sur_ca_pct": -9.79,
+      "amortissements": 8945000,
+      "resultat_exploitation": -31073052,
+      "re_sur_ca_pct": -13.75,
+      "frais_financiers": 801900,
+      "resultat_courant": -31874952,
+      "rc_sur_ca_pct": -14.11,
+      "is": 0,
+      "resultat_net": -31874952,
+      "rn_sur_ca_pct": -14.11,
+      "caf": -22929952
+    },
+    {
+      "an": 4,
+      "ca": 399758021,
+      "depenses_hors_salaires": 108426458,
+      "valeur_ajoutee": 291331563,
+      "va_sur_ca_pct": 72.88,
+      "charges_salariales": 202500000,
+      "ebe": 88831563,
+      "ebe_sur_ca_pct": 22.22,
+      "amortissements": 8945000,
+      "resultat_exploitation": 79886563,
+      "re_sur_ca_pct": 19.98,
+      "frais_financiers": 534600,
+      "resultat_courant": 79351963,
+      "rc_sur_ca_pct": 19.85,
+      "is": 23805588,
+      "resultat_net": 55546374,
+      "rn_sur_ca_pct": 13.89,
+      "caf": 64491374
+    },
+    {
+      "an": 5,
+      "ca": 588822665,
+      "depenses_hors_salaires": 136860782,
+      "valeur_ajoutee": 451961883,
+      "va_sur_ca_pct": 76.76,
+      "charges_salariales": 202500000,
+      "ebe": 249461883,
+      "ebe_sur_ca_pct": 42.37,
+      "amortissements": 8945000,
+      "resultat_exploitation": 240516883,
+      "re_sur_ca_pct": 40.85,
+      "frais_financiers": 267300,
+      "resultat_courant": 240249583,
+      "rc_sur_ca_pct": 40.8,
+      "is": 72074874,
+      "resultat_net": 168174708,
+      "rn_sur_ca_pct": 28.56,
+      "caf": 177119708
+    }
+  ],
+  "remboursement_emprunt": {
+    "montant": 14850000,
+    "taux": 0.09,
+    "duree_ans": 5,
+    "amortissement_constant": [
+      {
+        "an": 1,
+        "capital_debut": 14850000,
+        "interets": 1336500,
+        "amortissement": 2970000,
+        "annuite": 4306500,
+        "capital_fin": 11880000
+      },
+      {
+        "an": 2,
+        "capital_debut": 11880000,
+        "interets": 1069200,
+        "amortissement": 2970000,
+        "annuite": 4039200,
+        "capital_fin": 8910000
+      },
+      {
+        "an": 3,
+        "capital_debut": 8910000,
+        "interets": 801900,
+        "amortissement": 2970000,
+        "annuite": 3771900,
+        "capital_fin": 5940000
+      },
+      {
+        "an": 4,
+        "capital_debut": 5940000,
+        "interets": 534600,
+        "amortissement": 2970000,
+        "annuite": 3504600,
+        "capital_fin": 2970000
+      },
+      {
+        "an": 5,
+        "capital_debut": 2970000,
+        "interets": 267300,
+        "amortissement": 2970000,
+        "annuite": 3237300,
+        "capital_fin": 0
+      }
+    ],
+    "annuites_constantes": [
+      {
+        "an": 1,
+        "capital_debut": 14850000,
+        "interets": 1336500,
+        "amortissement": 2481323,
+        "annuite": 3817823,
+        "capital_fin": 12368677
+      },
+      {
+        "an": 2,
+        "capital_debut": 12368677,
+        "interets": 1113181,
+        "amortissement": 2704642,
+        "annuite": 3817823,
+        "capital_fin": 9664035
+      },
+      {
+        "an": 3,
+        "capital_debut": 9664035,
+        "interets": 869763,
+        "amortissement": 2948060,
+        "annuite": 3817823,
+        "capital_fin": 6715975
+      },
+      {
+        "an": 4,
+        "capital_debut": 6715975,
+        "interets": 604438,
+        "amortissement": 3213385,
+        "annuite": 3817823,
+        "capital_fin": 3502590
+      },
+      {
+        "an": 5,
+        "capital_debut": 3502590,
+        "interets": 315233,
+        "amortissement": 3502590,
+        "annuite": 3817823,
+        "capital_fin": 0
+      }
+    ]
+  },
+  "recettes_exploitation_detail": [
+    {
+      "flux": "Frais livraison (marge 40%)",
+      "an1": 21665569,
+      "an2": 60906026,
+      "an3": 146649401,
+      "an4": 294692091,
+      "an5": 464370399
+    },
+    {
+      "flux": "Commission dégrésive (1–2,5%)",
+      "an1": 7933860,
+      "an2": 13424470,
+      "an3": 25928939,
+      "an4": 38412330,
+      "an5": 46383065
+    },
+    {
+      "flux": "Abonnements Pro/Premium",
+      "an1": 17569252,
+      "an2": 22500000,
+      "an3": 22500000,
+      "an4": 22500000,
+      "an5": 22500000
+    },
+    {
+      "flux": "E-cantine Vitrine (5%)",
+      "an1": 1118727,
+      "an2": 3158694,
+      "an3": 6100923,
+      "an4": 10241622,
+      "an5": 14551544
+    },
+    {
+      "flux": "Livraisons propres (2,5%)",
+      "an1": 5948708,
+      "an2": 10225304,
+      "an3": 15216823,
+      "an4": 17964522,
+      "an5": 18389315
+    },
+    {
+      "flux": "B2B cantines entreprises",
+      "an1": 4500,
+      "an2": 153000,
+      "an3": 369000,
+      "an4": 585000,
+      "an5": 801000
+    },
+    {
+      "flux": "Livreurs externes (10% · An3+)",
+      "an1": 0,
+      "an2": 0,
+      "an3": 9151386,
+      "an4": 15362435,
+      "an5": 21827321
+    }
+  ],
+  "tresorerie_12mois": [
+    {
+      "mois": 1,
+      "tresorerie_debut": -49500000,
+      "ca_ht": 2840462,
+      "tva_collectee": 511283,
+      "ca_ttc": 3351745,
+      "encaissements_hors_exploit": 49500000,
+      "total_encaissements": 52851745,
+      "achats_ht": 9355183,
+      "tva_deductible": 1683933,
+      "immobilisations": 49500000,
+      "amortissements": 745417,
+      "total_decaissements": 61284533,
+      "tresorerie_fin": -57932788
+    },
+    {
+      "mois": 2,
+      "tresorerie_debut": -57932788,
+      "ca_ht": 3066581,
+      "tva_collectee": 551985,
+      "ca_ttc": 3618566,
+      "encaissements_hors_exploit": 0,
+      "total_encaissements": 3618566,
+      "achats_ht": 8109847,
+      "tva_deductible": 1459772,
+      "immobilisations": 0,
+      "amortissements": 745417,
+      "total_decaissements": 10315036,
+      "tresorerie_fin": -64629258
+    },
+    {
+      "mois": 3,
+      "tresorerie_debut": -64629258,
+      "ca_ht": 3309599,
+      "tva_collectee": 595728,
+      "ca_ttc": 3905327,
+      "encaissements_hors_exploit": 0,
+      "total_encaissements": 3905327,
+      "achats_ht": 8141663,
+      "tva_deductible": 1465499,
+      "immobilisations": 0,
+      "amortissements": 745417,
+      "total_decaissements": 10352579,
+      "tresorerie_fin": -71076510
+    },
+    {
+      "mois": 4,
+      "tresorerie_debut": -71076510,
+      "ca_ht": 3570641,
+      "tva_collectee": 642715,
+      "ca_ttc": 4213356,
+      "encaissements_hors_exploit": 0,
+      "total_encaissements": 4213356,
+      "achats_ht": 8175771,
+      "tva_deductible": 1471639,
+      "immobilisations": 0,
+      "amortissements": 745417,
+      "total_decaissements": 10392826,
+      "tresorerie_fin": -77255980
+    },
+    {
+      "mois": 5,
+      "tresorerie_debut": -77255980,
+      "ca_ht": 3961092,
+      "tva_collectee": 712997,
+      "ca_ttc": 4674089,
+      "encaissements_hors_exploit": 0,
+      "total_encaissements": 4674089,
+      "achats_ht": 8223557,
+      "tva_deductible": 1480240,
+      "immobilisations": 0,
+      "amortissements": 745417,
+      "total_decaissements": 10449214,
+      "tresorerie_fin": -83031105
+    },
+    {
+      "mois": 6,
+      "tresorerie_debut": -83031105,
+      "ca_ht": 4269242,
+      "tva_collectee": 768464,
+      "ca_ttc": 5037706,
+      "encaissements_hors_exploit": 0,
+      "total_encaissements": 5037706,
+      "achats_ht": 8263453,
+      "tva_deductible": 1487421,
+      "immobilisations": 0,
+      "amortissements": 745417,
+      "total_decaissements": 10496291,
+      "tresorerie_fin": -88489691
+    },
+    {
+      "mois": 7,
+      "tresorerie_debut": -88489691,
+      "ca_ht": 4607963,
+      "tva_collectee": 829433,
+      "ca_ttc": 5437396,
+      "encaissements_hors_exploit": 0,
+      "total_encaissements": 5437396,
+      "achats_ht": 8306998,
+      "tva_deductible": 1495260,
+      "immobilisations": 0,
+      "amortissements": 745417,
+      "total_decaissements": 10547674,
+      "tresorerie_fin": -93599969
+    },
+    {
+      "mois": 8,
+      "tresorerie_debut": -93599969,
+      "ca_ht": 4962437,
+      "tva_collectee": 893239,
+      "ca_ttc": 5855676,
+      "encaissements_hors_exploit": 0,
+      "total_encaissements": 5855676,
+      "achats_ht": 8352708,
+      "tva_deductible": 1503487,
+      "immobilisations": 0,
+      "amortissements": 745417,
+      "total_decaissements": 10601612,
+      "tresorerie_fin": -98345905
+    },
+    {
+      "mois": 9,
+      "tresorerie_debut": -98345905,
+      "ca_ht": 5341930,
+      "tva_collectee": 961547,
+      "ca_ttc": 6303477,
+      "encaissements_hors_exploit": 0,
+      "total_encaissements": 6303477,
+      "achats_ht": 8401556,
+      "tva_deductible": 1512280,
+      "immobilisations": 0,
+      "amortissements": 745417,
+      "total_decaissements": 10659253,
+      "tresorerie_fin": -102701681
+    },
+    {
+      "mois": 10,
+      "tresorerie_debut": -102701681,
+      "ca_ht": 5747914,
+      "tva_collectee": 1034625,
+      "ca_ttc": 6782539,
+      "encaissements_hors_exploit": 0,
+      "total_encaissements": 6782539,
+      "achats_ht": 8453722,
+      "tva_deductible": 1521670,
+      "immobilisations": 0,
+      "amortissements": 745417,
+      "total_decaissements": 10720808,
+      "tresorerie_fin": -106639951
+    },
+    {
+      "mois": 11,
+      "tresorerie_debut": -106639951,
+      "ca_ht": 6112611,
+      "tva_collectee": 1100270,
+      "ca_ttc": 7212881,
+      "encaissements_hors_exploit": 0,
+      "total_encaissements": 7212881,
+      "achats_ht": 8502319,
+      "tva_deductible": 1530417,
+      "immobilisations": 0,
+      "amortissements": 745417,
+      "total_decaissements": 10778153,
+      "tresorerie_fin": -110205222
+    },
+    {
+      "mois": 12,
+      "tresorerie_debut": -110205222,
+      "ca_ht": 6450162,
+      "tva_collectee": 1161029,
+      "ca_ttc": 7611191,
+      "encaissements_hors_exploit": 0,
+      "total_encaissements": 7611191,
+      "achats_ht": 8548821,
+      "tva_deductible": 1538788,
+      "immobilisations": 0,
+      "amortissements": 745417,
+      "total_decaissements": 10833025,
+      "tresorerie_fin": -113427056
+    }
+  ],
   "monte_carlo": {
-    "n_simulations": 500,
+    "n_simulations": 1000,
     "ca5": {
-      "p10": 382834615,
-      "p25": 477751493,
-      "p50": 608910244,
-      "p75": 755045714,
-      "p90": 925365599,
-      "mean": 637515961,
+      "p10": 401296176,
+      "p25": 506559920,
+      "p50": 634776261,
+      "p75": 788512252,
+      "p90": 958109833,
+      "mean": 665250323,
       "values": [
-        559653549,
-        770728781,
-        749978594,
-        357172615,
-        370816258,
-        975497684,
-        501442448,
-        542438591,
-        396018725,
-        377200854,
-        369208590,
-        530210159,
-        689465575,
-        452438677,
-        782667556,
-        348521878,
-        661082539,
-        621503729,
-        480807785,
-        464604489,
-        546894730,
-        574693316,
-        1376299869,
-        663482516,
-        594969474,
-        403807735,
-        545796719,
-        504870405,
-        628561787,
-        916256332,
-        751632827,
-        695035767,
-        352138503,
-        307396013,
-        567292294,
-        447953560,
-        654564276,
-        1039823843,
-        501664910,
-        480673293,
-        808623097,
-        701475140,
-        470122767,
-        816962469,
-        832480561,
-        450169307,
-        655184749,
-        726989183,
-        696261705,
-        665698784,
-        1053917506,
-        589347555,
-        733303962,
-        478392511,
-        372171363,
-        464458323,
-        656146287,
-        779467628,
-        614832638,
-        419148186,
-        342287996,
-        838187941,
-        791168755,
-        705106018,
-        398865110,
-        382709603,
-        645513742,
-        740634185,
-        587451719,
-        435410969,
-        771289313,
-        684184652,
-        746662139,
-        404580732,
-        559734357,
-        1301725513,
-        1008697127,
-        530074720,
-        664910055,
-        466664003,
-        618315587,
-        627014969,
-        516175318,
-        766903112,
-        974127564,
-        452045664,
-        525725924,
-        516834636,
-        766150093,
-        765940741,
-        375615127,
-        340149650,
-        306282280,
-        739334118,
-        547034625,
-        494315608,
-        660212069,
-        590735529,
-        839093389,
-        236283339,
-        492717404,
-        715187469,
-        423722768,
-        625501005,
-        990268558,
-        470050255,
-        768473044,
-        891378002,
-        608381610,
-        700613796,
-        579039019,
-        544514086,
-        451201667,
-        474018659,
-        691234661,
-        533220349,
-        585947885,
-        473339084,
-        903621427,
-        911364965,
-        623251599,
-        314853870,
-        800802078,
-        511514834,
-        695987234,
-        482625508,
-        731858622,
-        798003217,
-        800056008,
-        656573412,
-        452266740,
-        434197638,
-        878499105,
-        466135102,
-        846780487,
-        1434707893,
-        470237165,
-        425835678,
-        746051995,
-        563066651,
-        517854237,
-        653827454,
-        477829451,
-        754947386,
-        276742118,
-        486365444,
-        471344448,
-        545265792,
-        568652152,
-        639619093,
-        475379571,
-        788631953,
-        343137341,
-        914159523,
-        377598737,
-        416964306,
-        389860104,
-        548155150,
-        725419884,
-        370059101,
-        880156226,
-        698423587,
-        439301005,
-        568547387,
-        427998052,
-        487122791,
-        656460422,
-        505949345,
-        571835079,
-        560808827,
-        525244364,
-        528672613,
-        688066698,
-        679266641,
-        546089474,
-        433048194,
-        1302359857,
-        1059103664,
-        514089712,
-        419449440,
-        285612146,
-        914524949,
-        860995292,
-        693847136,
-        629082210,
-        512951417,
-        681973918,
-        827317473,
-        563844602,
-        548409195,
-        925504569,
-        474191675,
-        990973844,
-        485617642,
-        778619692,
-        1157857639,
-        680398166,
-        1349227500,
-        581147066,
-        561990279,
-        521258891,
-        730299747,
-        486966738,
-        435753484,
-        792693188,
-        367065620,
-        472761651,
-        417482246,
-        518514735,
-        845899991,
-        504259625,
-        651145916,
-        1316555379,
-        781411394,
-        677658043,
-        575131729,
-        687225888,
-        503467879,
-        751884790,
-        532485780,
-        275602308,
-        939339090,
-        447500886,
-        869640362,
-        761955731,
-        713142645,
-        523375724,
-        912523103,
-        719914714,
-        253909167,
-        458376845,
-        733281466,
-        522415095,
-        842184617,
-        824445501,
-        599069837,
-        608153753,
-        406652968,
-        681416196,
-        601016760,
-        410549461,
-        850253765,
-        382848506,
-        490691199,
-        1069881794,
-        639246415,
-        807191006,
-        959257437,
-        979237793,
-        459438003,
-        583575684,
-        348412495,
-        541647552,
-        687302614,
-        708235603,
-        1147135221,
-        576634712,
-        626425725,
-        706830704,
-        933392460,
-        587529364,
-        694207914,
-        529353672,
-        756204888,
-        446515471,
-        365243379,
-        688640295,
-        1176051697,
-        831765161,
-        566823514,
-        679602091,
-        533455711,
-        982896001,
-        552344898,
-        406609371,
-        659418022,
-        816215993,
-        718609170,
-        356829372,
-        640838160,
-        389836941,
-        602793781,
-        724557423,
-        746245072,
-        728795127,
-        406956810,
-        796895237,
-        627008332,
-        657700196,
-        366890643,
-        351265491,
-        773231716,
-        387451168,
-        439052609,
-        680294842,
-        696141851,
-        480432684,
-        770066300,
-        789454178,
-        485538454
+        579021375,
+        796463792,
+        777575570,
+        371991480,
+        386109613,
+        1016449338,
+        523185435,
+        565386265,
+        411186506,
+        390900519,
+        384391996,
+        548726243,
+        711276955,
+        470132008,
+        808650257,
+        360688084,
+        682795356,
+        648829820,
+        498381152,
+        480828987,
+        572122027,
+        596142670,
+        1426134446,
+        691886930,
+        620576753,
+        420278633,
+        566447403,
+        525455381,
+        651212779,
+        947536658,
+        778344523,
+        718589770,
+        363264238,
+        318884430,
+        590623580,
+        466733940,
+        685034783,
+        1077066852,
+        518713356,
+        500092155,
+        837471681,
+        731595621,
+        485159802,
+        851569106,
+        863654800,
+        468181033,
+        683190806,
+        751281398,
+        719288655,
+        689789708,
+        1103117124,
+        611207105,
+        757558814,
+        493555495,
+        386392915,
+        483528618,
+        677847447,
+        807239078,
+        634730528,
+        436178487,
+        355534567,
+        868684685,
+        820936475,
+        728441166,
+        416118357,
+        395038764,
+        667991224,
+        764845945,
+        614409043,
+        453115296,
+        800598510,
+        707075846,
+        776617696,
+        419196982,
+        581913973,
+        1349177734,
+        1044682425,
+        552358083,
+        694171736,
+        487115221,
+        642260643,
+        647190729,
+        535726901,
+        792120032,
+        1011672308,
+        469100271,
+        542203722,
+        537569971,
+        793317118,
+        798805478,
+        386565414,
+        354569078,
+        317631417,
+        767682970,
+        570736734,
+        514061745,
+        684869560,
+        610345559,
+        872890143,
+        244581705,
+        510178111,
+        746251734,
+        440023425,
+        651175836,
+        1028082148,
+        488933768,
+        801549907,
+        924157372,
+        629940468,
+        723373242,
+        601777817,
+        562212671,
+        467705762,
+        493795193,
+        713544291,
+        553692315,
+        608493383,
+        493692397,
+        934597507,
+        942975715,
+        649382561,
+        327803754,
+        835512069,
+        535029633,
+        723162283,
+        503539221,
+        758462479,
+        826942650,
+        832688388,
+        679919294,
+        468474878,
+        452256229,
+        908793915,
+        482310575,
+        882378157,
+        1485691058,
+        486470801,
+        444459770,
+        775583211,
+        588956340,
+        540120237,
+        678891218,
+        493918543,
+        781245872,
+        288795871,
+        508425991,
+        486662971,
+        567659213,
+        587008764,
+        666855841,
+        491672888,
+        816206136,
+        358163669,
+        950298043,
+        394000460,
+        434538303,
+        405235207,
+        565005096,
+        747988476,
+        384117532,
+        912326551,
+        723409201,
+        456915833,
+        588201572,
+        442097019,
+        502787768,
+        682205516,
+        526667063,
+        593338806,
+        587728036,
+        548876078,
+        545521260,
+        714764396,
+        706440908,
+        571010411,
+        450531706,
+        1344726385,
+        1094251369,
+        536240007,
+        432625258,
+        297392357,
+        948319569,
+        897140889,
+        722498385,
+        653564652,
+        534628123,
+        703311670,
+        855785320,
+        585152326,
+        571269083,
+        958894417,
+        495112510,
+        1029667545,
+        501827512,
+        805427882,
+        1196090458,
+        705357755,
+        1395249697,
+        602071772,
+        581272522,
+        538032875,
+        755049014,
+        510709474,
+        454014438,
+        824538423,
+        381315646,
+        490817737,
+        436549887,
+        539812436,
+        873577756,
+        524616553,
+        672620171,
+        1365569721,
+        810959537,
+        699687595,
+        597339997,
+        720917403,
+        519742322,
+        780128741,
+        550996342,
+        286747215,
+        972949732,
+        463621000,
+        900883232,
+        794929327,
+        737278953,
+        543073014,
+        945177311,
+        746890975,
+        263923403,
+        473138225,
+        757085797,
+        543968000,
+        879016363,
+        852488522,
+        619545626,
+        627965307,
+        423441585,
+        711629636,
+        624498269,
+        426235572,
+        882850573,
+        399435068,
+        505575568,
+        1104968679,
+        666856190,
+        832997572,
+        1001192124,
+        1013110345,
+        474932419,
+        604207773,
+        362028734,
+        563553249,
+        715261160,
+        731991618,
+        1185938375,
+        604965998,
+        652172916,
+        729711905,
+        969001222,
+        613245872,
+        716795746,
+        551610135,
+        780580583,
+        460618614,
+        380228208,
+        712697187,
+        1217196670,
+        858035140,
+        585224335,
+        705935862,
+        555641563,
+        1014487587,
+        572669789,
+        419562751,
+        689419042,
+        849618448,
+        749687706,
+        371598879,
+        662947387,
+        405593592,
+        623614727,
+        750387684,
+        774845689,
+        762506330,
+        420464144,
+        826354156,
+        647310589,
+        683390730,
+        381157918,
+        366937951,
+        804036367,
+        403477739,
+        453282089,
+        703822316,
+        718580502,
+        499754317,
+        795570193,
+        828471180,
+        500743380
       ]
     },
     "ca3": {
-      "p10": 152737568,
-      "p50": 225954430,
-      "p90": 334939540
+      "p10": 160382333,
+      "p50": 237993661,
+      "p90": 349607459
     },
     "van": {
-      "p10": 315234482,
-      "p50": 530042353,
-      "p90": 830524708,
-      "pct_positive": 100.0,
+      "p10": -195555542,
+      "p50": 38974320,
+      "p90": 377287472,
+      "pct_positive": 55.8,
       "values": [
-        407251062,
-        627097871,
-        652391354,
-        236487272,
-        289244993,
-        836008812,
-        366313001,
-        446982567,
-        333170749,
-        270053214,
-        330158567,
-        463593353,
-        551794799,
-        341628125,
-        651302547,
-        279059653,
-        600817934,
-        529719278,
-        445597837,
-        344589291,
-        453345343,
-        459026370,
-        1189862147,
-        611343071,
-        462992993,
-        379013293,
-        408400490,
-        398263328,
-        640795442,
-        833761017,
-        608993606,
-        678196252,
-        244197325,
-        290847116,
-        457443584,
-        370892514,
-        600619661,
-        1100414781,
-        492517591,
-        366193296,
-        679856139,
-        569913563,
-        323430697,
-        855996657,
-        688421784,
-        356719047,
-        641480804,
-        565010956,
-        570987601,
-        621856267,
-        884443024,
-        482861005,
-        790286023,
-        347250919,
-        288018810,
-        337178177,
-        648198389,
-        774201344,
-        551712092,
-        304060799,
-        266533352,
-        786761581,
-        608500868,
-        738225731,
-        286556310,
-        293294335,
-        578815324,
-        598172587,
-        501372042,
-        347494618,
-        636009769,
-        538541587,
-        701137960,
-        385873932,
-        419554508,
-        1116856647,
-        826648940,
-        417837882,
-        513999562,
-        315291669,
-        506256493,
-        568428289,
-        409855461,
-        739540371,
-        941937699,
-        357477666,
-        465208995,
-        484913855,
-        660841740,
-        782445987,
-        363999923,
-        276129604,
-        252445116,
-        605288206,
-        423974368,
-        489265354,
-        528861869,
-        451152887,
-        763037995,
-        157759117,
-        466239621,
-        622778848,
-        339940832,
-        566788678,
-        808081068,
-        341479971,
-        614143954,
-        749802077,
-        585968298,
-        667385605,
-        537891733,
-        515039583,
-        406546532,
-        421947241,
-        730348755,
-        504022432,
-        463683001,
-        363660181,
-        855444953,
-        814629214,
-        507931939,
-        191438844,
-        627427282,
-        377611100,
-        699581672,
-        377983646,
-        594788416,
-        636137311,
-        731349705,
-        614261445,
-        397448510,
-        409876823,
-        783667945,
-        387653808,
-        772919631,
-        1247916012,
-        423107963,
-        347628527,
-        731055151,
-        456637709,
-        422138335,
-        534709545,
-        339968323,
-        615993159,
-        222691576,
-        346920392,
-        351540574,
-        536896711,
-        473876088,
-        559583307,
-        464316324,
-        744368038,
-        273262793,
-        967113320,
-        318114763,
-        371691686,
-        314719800,
-        496385729,
-        629267165,
-        320864906,
-        706934128,
-        665589845,
-        332869486,
-        439342336,
-        379355631,
-        361920707,
-        465591309,
-        385058790,
-        555896780,
-        471196188,
-        459128726,
-        385892221,
-        715470189,
-        650402923,
-        390903018,
-        359193922,
-        1142765059,
-        1000594770,
-        397480519,
-        297455331,
-        168218453,
-        749531789,
-        784969523,
-        662972844,
-        468939823,
-        461822544,
-        557584207,
-        675514349,
-        480230245,
-        437909282,
-        943828076,
-        363848002,
-        1019418091,
-        454294827,
-        662105644,
-        1163858387,
-        565774707,
-        1385918748,
-        598954237,
-        538845447,
-        459921052,
-        649292868,
-        393303119,
-        364080476,
-        656013851,
-        281779284,
-        447878418,
-        315335293,
-        409520803,
-        753002149,
-        479452074,
-        530365429,
-        1108074756,
-        730581203,
-        584792836,
-        557286970,
-        604810388,
-        479215714,
-        691564885,
-        382178940,
-        213153528,
-        764158790,
-        349524719,
-        876730999,
-        719285610,
-        622892621,
-        443033231,
-        830609816,
-        618177361,
-        156582857,
-        359916842,
-        580903404,
-        343520493,
-        718503165,
-        817249515,
-        579998414,
-        644637607,
-        369335668,
-        556340060,
-        473806067,
-        385999561,
-        683747611,
-        316406238,
-        363483887,
-        1129397584,
-        615637257,
-        780204181,
-        893465972,
-        1041590936,
-        373920607,
-        464644965,
-        269420882,
-        530556805,
-        612982160,
-        698458256,
-        1232573209,
-        444245439,
-        592092816,
-        619587159,
-        953977542,
-        540728126,
-        657904578,
-        454684804,
-        770534088,
-        450082444,
-        284569416,
-        501684127,
-        1090611049,
-        850068031,
-        553397715,
-        601798827,
-        507339465,
-        781739688,
-        426537226,
-        324266133,
-        554771816,
-        695570325,
-        660904557,
-        259671228,
-        608549930,
-        332575705,
-        484779161,
-        576472639,
-        580752316,
-        700186671,
-        348421577,
-        773044624,
-        485505772,
-        489748169,
-        241471425,
-        221786477,
-        773050502,
-        357830761,
-        435745095,
-        575611745,
-        592752260,
-        447526406,
-        786970569,
-        786380862,
-        452311891
+        -106801302,
+        136363605,
+        188096102,
+        -273330957,
+        -224052257,
+        370423752,
+        -109634111,
+        -30375929,
+        -189508701,
+        -237143732,
+        -188614095,
+        -30052595,
+        85207847,
+        -183536327,
+        174975832,
+        -251645753,
+        106524545,
+        43275465,
+        -38961281,
+        -161133559,
+        -25278175,
+        -57947265,
+        734116792,
+        137550475,
+        -28685939,
+        -135921502,
+        -98887677,
+        -96662257,
+        163106288,
+        339466338,
+        119920417,
+        194770851,
+        -285345269,
+        -230573624,
+        -36322097,
+        -121047027,
+        154756305,
+        646736941,
+        -12346257,
+        -128185181,
+        209341082,
+        92899870,
+        -196084789,
+        383856429,
+        215574220,
+        -127272131,
+        146359192,
+        71284392,
+        50698492,
+        151458487,
+        443442732,
+        -37216388,
+        310866390,
+        -171543019,
+        -228185631,
+        -169989803,
+        167803482,
+        294226822,
+        39966497,
+        -199603521,
+        -261276251,
+        314975636,
+        129148599,
+        261302639,
+        -215614542,
+        -217187248,
+        75522319,
+        139927199,
+        22205798,
+        -159075536,
+        147594058,
+        42588950,
+        215842136,
+        -123844258,
+        -62824464,
+        659520586,
+        367914198,
+        -61212508,
+        32697726,
+        -166519263,
+        18196044,
+        84811248,
+        -106944677,
+        244266170,
+        485053767,
+        -121703799,
+        -43078471,
+        -11295900,
+        173829483,
+        320840228,
+        -161125641,
+        -237319970,
+        -280314212,
+        125255533,
+        -79615715,
+        19257589,
+        46285675,
+        -57796956,
+        295146081,
+        -365002337,
+        -50432982,
+        170739967,
+        -177588236,
+        103279004,
+        337228456,
+        -173774134,
+        144045693,
+        277389863,
+        68632520,
+        175202909,
+        26946878,
+        18347026,
+        -88516768,
+        -75160378,
+        223577543,
+        4170267,
+        -41420878,
+        -146478023,
+        390163366,
+        346504382,
+        36097923,
+        -329887995,
+        165234895,
+        -119804957,
+        225505463,
+        -110493609,
+        94687335,
+        165737079,
+        267927018,
+        110685550,
+        -116820641,
+        -88475686,
+        323196640,
+        -131080314,
+        294005648,
+        807483144,
+        -83470937,
+        -164491323,
+        278377262,
+        -44973845,
+        -70566476,
+        19448265,
+        -162985535,
+        130159445,
+        -290757954,
+        -165795698,
+        -157247032,
+        60658361,
+        -43053355,
+        61977793,
+        -51930397,
+        264108431,
+        -245143962,
+        525048281,
+        -199202702,
+        -133782130,
+        -197251864,
+        -13839007,
+        135149895,
+        -187926144,
+        235828972,
+        180705700,
+        -182938583,
+        -73136623,
+        -102937687,
+        -147538363,
+        -21372569,
+        -129675961,
+        71499681,
+        -20456720,
+        -39306496,
+        -127711253,
+        242418964,
+        199967458,
+        -103962665,
+        -157843539,
+        686581993,
+        530666822,
+        -78022931,
+        -209182463,
+        -349439359,
+        272647693,
+        317673246,
+        189328758,
+        -30112818,
+        -15969563,
+        70775991,
+        190590765,
+        -34043050,
+        -81719028,
+        480949903,
+        -129290993,
+        561075392,
+        -50204121,
+        202830863,
+        696158888,
+        70361995,
+        938593747,
+        93335146,
+        28657614,
+        -52252762,
+        170264011,
+        -119346356,
+        -138924550,
+        168298229,
+        -227505283,
+        -57339653,
+        -203285821,
+        -106246698,
+        279107425,
+        -29578018,
+        22903458,
+        657562010,
+        267037368,
+        89272279,
+        80408816,
+        146043974,
+        -18607894,
+        200070542,
+        -128228703,
+        -311697817,
+        284531861,
+        -173547489,
+        417988427,
+        248170786,
+        138642739,
+        -33722180,
+        372730899,
+        160801882,
+        -367491842,
+        -154269181,
+        95758993,
+        -151502805,
+        237243703,
+        323874244,
+        75733892,
+        156632854,
+        -121614827,
+        76282294,
+        -4107232,
+        -115648601,
+        203229655,
+        -199796772,
+        -172072153,
+        663424079,
+        156563308,
+        301810719,
+        436826625,
+        599007991,
+        -133043831,
+        -57792378,
+        -247626028,
+        50025378,
+        128430173,
+        246448917,
+        795161660,
+        -48322421,
+        123915018,
+        115189338,
+        499513643,
+        63441488,
+        171874121,
+        -9655410,
+        279270921,
+        -59286299,
+        -221786173,
+        29264919,
+        644113986,
+        376128936,
+        32499329,
+        136023879,
+        23392165,
+        298769999,
+        -81669537,
+        -195075648,
+        59626934,
+        225677752,
+        166504203,
+        -260695259,
+        102029925,
+        -164202513,
+        -15676540,
+        83736638,
+        102459861,
+        230490650,
+        -157071279,
+        290022973,
+        9368605,
+        -7752143,
+        -269285514,
+        -298199807,
+        318279746,
+        -154877725,
+        -71750489,
+        77646568,
+        105477122,
+        -59242733,
+        313287621,
+        338903469,
+        -52869776
       ]
     },
     "monthly_bands": {
       "p10": [
-        1354,
-        1476,
-        1601,
-        1720,
-        1861,
-        2012,
-        2163,
-        2321,
-        2489,
-        2682,
-        2894,
-        3118,
-        3310,
-        3547,
-        3839,
-        4154,
-        4494,
-        4868,
-        5250,
-        5620,
-        6006,
-        6426,
-        6950,
-        7488,
-        7842,
-        8326,
-        8870,
-        9350,
-        9865,
-        10551,
-        11326,
-        12016,
-        12549,
-        13094,
-        13793,
-        14538,
-        15293,
-        16016,
-        16795,
-        17525,
-        18313,
-        19072,
-        19660,
-        20388,
-        21277,
-        22009,
-        22652,
-        23299,
-        23948,
-        24614,
-        25449,
-        26314,
-        27274,
-        28266,
-        29040,
-        29587,
-        30178,
-        30680,
-        31382,
-        32077
+        1085,
+        1182,
+        1284,
+        1395,
+        1513,
+        1637,
+        1784,
+        1931,
+        2088,
+        2259,
+        2452,
+        2661,
+        2887,
+        3089,
+        3359,
+        3642,
+        3917,
+        4208,
+        4519,
+        4857,
+        5230,
+        5640,
+        6106,
+        6567,
+        7004,
+        7396,
+        7824,
+        8357,
+        8898,
+        9408,
+        9983,
+        10464,
+        11105,
+        11785,
+        12437,
+        13168,
+        13716,
+        14380,
+        15141,
+        15923,
+        16723,
+        17547,
+        18399,
+        19372,
+        20403,
+        21257,
+        22072,
+        22879,
+        23673,
+        24452,
+        25209,
+        25922,
+        26621,
+        27323,
+        28036,
+        28784,
+        29567,
+        30209,
+        30733,
+        31177
       ],
       "p90": [
-        5670,
-        5999,
-        6343,
-        6704,
-        7084,
-        7489,
-        7914,
-        8360,
-        8828,
-        9317,
-        9888,
-        10394,
-        10933,
-        11488,
-        12004,
-        12591,
-        13218,
-        13854,
-        14543,
-        15282,
-        16219,
-        17157,
-        18001,
-        18872,
-        19770,
-        20890,
-        22027,
-        23201,
-        24414,
-        25442,
-        26398,
-        27303,
-        28218,
-        29148,
-        30166,
-        31460,
-        32976,
-        34706,
+        6017,
+        6405,
+        6745,
+        7129,
+        7547,
+        7970,
+        8371,
+        8787,
+        9221,
+        9674,
+        10145,
+        10635,
+        11145,
+        11676,
+        12229,
+        12825,
+        13443,
+        14132,
+        14877,
+        15573,
+        16348,
+        17037,
+        17914,
+        19023,
+        20146,
+        21154,
+        22177,
+        23214,
+        24278,
+        25368,
+        26756,
+        27887,
+        28908,
+        30154,
+        31400,
+        32535,
+        33713,
+        34949,
         36271,
-        37385,
-        38506,
-        39632,
-        40762,
-        41887,
-        43202,
-        44447,
-        45679,
-        47002,
-        48424,
-        49882,
-        51230,
-        52472,
-        53731,
-        54942,
-        56300,
-        57544,
-        58588,
-        59592,
-        60708,
-        62214
+        37738,
+        39002,
+        40280,
+        41729,
+        43184,
+        44610,
+        46024,
+        47284,
+        48638,
+        50101,
+        51550,
+        52980,
+        54454,
+        55863,
+        57210,
+        58516,
+        59783,
+        61036,
+        62257,
+        63269,
+        64181
       ]
     }
   }

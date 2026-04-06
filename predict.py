@@ -179,6 +179,36 @@ DEFAULT_PARAMS = {
     "dashboard_url":   "https://ecantine-dash.streamlit.app/",
     "github_url":      "https://github.com/magi22/ecantine-dashboard",
     "formulaire_url":  "https://forms.gle/FMQqysZSYWC7Phhp9",
+    # ── Salaires réels par poste ─────────────────────────────
+    "salaires_detail": {
+        "ceo_adote":            500_000,
+        "cto_tito_wiicode":     650_000,
+        "devops_espoir":        500_000,
+        "ux_ui_designer":       300_000,
+        "developpeur_backend":  380_000,
+        "marketing_digital":    320_000,
+        "commercial_terrain":   200_000,
+        "account_manager":      220_000,
+        "support_client_x2":    300_000,   # 2 × 150k
+        "livreurs_base_moy":  2_700_000,   # 30 × 90k
+        "total_mensuel_brut": 5_970_000,
+        "charges_sociales_pct": 0.25,
+        "total_mensuel_charge": 7_462_500,
+        "total_annuel_charge":  89_550_000,
+    },
+    # ── TVA (Sénégal) ────────────────────────────────────────
+    "tva_taux": 0.18,
+    # ── Amortissements ───────────────────────────────────────
+    "amortissement_motos_ans":        3,   # motos sur 3 ans
+    "amortissement_developpement_ans": 5,  # dev V1 sur 5 ans
+    "amortissement_materiel_ans":      4,  # matériel informatique sur 4 ans
+    # ── Compte d'exploitation ────────────────────────────────
+    "frais_financiers_taux": 0.09,   # taux emprunt bancaire BOAD/SFD
+    "emprunt_montant":     14_850_000,
+    "emprunt_duree_ans":   5,
+    "is_taux":             0.30,     # Impôt sur les Sociétés 30%
+    # ── Bilan ────────────────────────────────────────────────
+    "capital_social":      1_000_000,
 }
 
 # ══════════════════════════════════════════════════════════════
@@ -399,8 +429,13 @@ def compute_costs(mau_array, revenues, params=None):
         mau_k = mau / 1_000
         rev_total = rev["total_mensuel"]
 
-        # Salaires : base + croissance avec l'équipe
-        salaires = p["salaires_base"] + mau_k * p["salaires_par_kmau"]
+        # Salaires réels par tranche annuelle + charges sociales CSS/IPRES 25%
+        _an = i // 12 + 1
+        if   _an == 1: _sal_base = 5_970_000   # CEO+CTO+DevOps+UX+Back+Mkt+Com+AM+2Sup+30Liv
+        elif _an == 2: _sal_base = 8_200_000   # +50 livreurs + 2 recrutements
+        elif _an == 3: _sal_base = 11_000_000  # expansion + 100 livreurs plafond
+        else:          _sal_base = 13_500_000  # An4-5 stabilisation
+        salaires = _sal_base * 1.25
 
         # Marketing : % du CA + minimum fixe
         marketing = max(p["marketing_fixe"], rev_total * p["marketing_pct_rev"])
@@ -708,10 +743,140 @@ def run_model(params=None, run_mc=False, n_mc=1000):
     # Sensibilité
     sensitivity, _ = sensitivity_analysis(p)
 
+    # ── Calculs complémentaires BP ───────────────────────────
+    amort_motos    = p["budget_detail"]["motos_30_an1"]        / p.get("amortissement_motos_ans", 3)
+    amort_dev_v1   = p["budget_detail"]["developpement_v1"]    / p.get("amortissement_developpement_ans", 5)
+    amort_materiel = p["budget_detail"]["materiel_informatique"] / p.get("amortissement_materiel_ans", 4)
+    amort_total    = amort_motos + amort_dev_v1 + amort_materiel
+
+    # Compte d'exploitation annuel
+    _emprunt   = p.get("emprunt_montant", 14_850_000)
+    _taux_fi   = p.get("frais_financiers_taux", 0.09)
+    _is_taux   = p.get("is_taux", 0.30)
+    compte_exploitation = []
+    for _an in range(1, 6):
+        _s, _e = (_an - 1) * 12, _an * 12
+        ca_an  = sum(r["total_mensuel"] for r in rev_c[_s:_e])
+        ch_an  = sum(c["total_couts"]   for c in cost_c[_s:_e])
+        sal_an = sum(c["cout_salaires"] for c in cost_c[_s:_e])
+        dep_hors_sal = ch_an - sal_an
+        va   = ca_an - dep_hors_sal
+        ebe  = va - sal_an
+        re   = ebe - amort_total
+        fi_an = _emprunt * _taux_fi * ((5 - _an + 1) / 5)
+        rc   = re - fi_an
+        is_  = max(0, rc * _is_taux)
+        rn   = rc - is_
+        caf  = rn + amort_total
+        compte_exploitation.append({
+            "an":                    _an,
+            "ca":                    int(ca_an),
+            "depenses_hors_salaires": int(dep_hors_sal),
+            "valeur_ajoutee":        int(va),
+            "va_sur_ca_pct":         round(va / ca_an * 100, 2) if ca_an else 0,
+            "charges_salariales":    int(sal_an),
+            "ebe":                   int(ebe),
+            "ebe_sur_ca_pct":        round(ebe / ca_an * 100, 2) if ca_an else 0,
+            "amortissements":        int(amort_total),
+            "resultat_exploitation": int(re),
+            "re_sur_ca_pct":         round(re / ca_an * 100, 2) if ca_an else 0,
+            "frais_financiers":      int(fi_an),
+            "resultat_courant":      int(rc),
+            "rc_sur_ca_pct":         round(rc / ca_an * 100, 2) if ca_an else 0,
+            "is":                    int(is_),
+            "resultat_net":          int(rn),
+            "rn_sur_ca_pct":         round(rn / ca_an * 100, 2) if ca_an else 0,
+            "caf":                   int(caf),
+        })
+
+    # Remboursement emprunt — 2 méthodes
+    remboursement_emprunt = {
+        "montant": int(_emprunt), "taux": _taux_fi, "duree_ans": 5,
+        "amortissement_constant": [], "annuites_constantes": [],
+    }
+    _cap = _emprunt
+    _amort_k = _emprunt / 5
+    for _i in range(5):
+        _int = _cap * _taux_fi
+        remboursement_emprunt["amortissement_constant"].append({
+            "an": _i + 1, "capital_debut": round(_cap), "interets": round(_int),
+            "amortissement": round(_amort_k), "annuite": round(_amort_k + _int),
+            "capital_fin": round(_cap - _amort_k),
+        })
+        _cap -= _amort_k
+    _cap = _emprunt
+    _n = 5
+    _ann_cst = _emprunt * (_taux_fi * (1 + _taux_fi)**_n) / ((1 + _taux_fi)**_n - 1)
+    for _i in range(5):
+        _int = _cap * _taux_fi
+        _amort_i = _ann_cst - _int
+        remboursement_emprunt["annuites_constantes"].append({
+            "an": _i + 1, "capital_debut": round(_cap), "interets": round(_int),
+            "amortissement": round(_amort_i), "annuite": round(_ann_cst),
+            "capital_fin": round(_cap - _amort_i),
+        })
+        _cap -= _amort_i
+
+    # Recettes détaillées par flux et par an
+    _flux_map = {
+        "Frais livraison (marge 40%)":    "rev_livraison",
+        "Commission dégrésive (1–2,5%)":  "rev_commission",
+        "Abonnements Pro/Premium":        "rev_abonnements",
+        "E-cantine Vitrine (5%)":         "rev_selection",
+        "Livraisons propres (2,5%)":      "rev_propres",
+        "B2B cantines entreprises":       "rev_b2b",
+        "Livreurs externes (10% · An3+)": "rev_externes",
+    }
+    recettes_exploitation_detail = []
+    for _label, _key in _flux_map.items():
+        _row = {"flux": _label}
+        for _an in range(1, 6):
+            _s, _e = (_an - 1) * 12, _an * 12
+            _row[f"an{_an}"] = int(sum(r.get(_key, 0) for r in rev_c[_s:_e]))
+        recettes_exploitation_detail.append(_row)
+
+    # Trésorerie mensuelle 12 mois (avec TVA 18%)
+    _tva = p.get("tva_taux", 0.18)
+    _amort_m = amort_total / 12
+    _cum_tres = -p["budget_lancement_fcfa"]
+    tresorerie_12mois = []
+    for _m in rev_c[:12]:
+        _mois = _m["mois"]
+        _rev_ht = _m["total_mensuel"]
+        _tva_col = _rev_ht * _tva
+        _hors_exploit = p["budget_lancement_fcfa"] if _mois == 1 else 0
+        _cout = next((c["total_couts"] for c in cost_c if c["mois"] == _mois), 0)
+        _achats_ht = _cout * 0.85
+        _tva_ded  = _achats_ht * _tva
+        _immo = p["budget_lancement_fcfa"] if _mois == 1 else 0
+        _dec  = _achats_ht + _tva_ded + _immo + _amort_m
+        _enc  = _rev_ht + _tva_col + _hors_exploit
+        _debut = _cum_tres
+        _fin   = _debut + _enc - _dec
+        _cum_tres = _fin
+        tresorerie_12mois.append({
+            "mois":                      _mois,
+            "tresorerie_debut":          round(_debut),
+            "ca_ht":                     round(_rev_ht),
+            "tva_collectee":             round(_tva_col),
+            "ca_ttc":                    round(_rev_ht + _tva_col),
+            "encaissements_hors_exploit": round(_hors_exploit),
+            "total_encaissements":       round(_enc),
+            "achats_ht":                 round(_achats_ht),
+            "tva_deductible":            round(_tva_ded),
+            "immobilisations":           round(_immo),
+            "amortissements":            round(_amort_m),
+            "total_decaissements":       round(_dec),
+            "tresorerie_fin":            round(_fin),
+        })
+
     result = {
         "metadata": {
             "projet":           "E-cantine",
-            "version_bp":           "V9",
+            "version_bp":           "V10",
+            "salaires_revises":     True,
+            "tva_integree":         True,
+            "amortissements_calcules": True,
             "livreurs_modele":      "Flotte propre prioritaire — activité parallèle autorisée — nourriture uniquement",
             "cercle_vertueux":      "Client fidèle → demande restaurant → intégration naturelle",
             "frustrations_livreurs": "Analyse en cours — intégration version suivante",
@@ -753,6 +918,10 @@ def run_model(params=None, run_mc=False, n_mc=1000):
             "criteres_selection_livreurs",
             "n_repondants_clients", "n_repondants_livreurs", "n_discussions_restaurants",
             "frais_bceao_taux", "frais_bceao_operateurs", "frais_bceao_note",
+            "salaires_detail", "tva_taux",
+            "amortissement_motos_ans", "amortissement_developpement_ans", "amortissement_materiel_ans",
+            "frais_financiers_taux", "emprunt_montant", "emprunt_duree_ans", "is_taux",
+            "capital_social",
         ] if k in p},
         "mau": {
             "central_series":    [int(x) for x in mau_c],
@@ -779,6 +948,24 @@ def run_model(params=None, run_mc=False, n_mc=1000):
             "profit":   fin_c["monthly_profit"],
         },
         "sensitivity": sensitivity,
+        "amortissements": {
+            "motos_annuel":          int(amort_motos),
+            "developpement_annuel":  int(amort_dev_v1),
+            "materiel_annuel":       int(amort_materiel),
+            "total_annuel":          int(amort_total),
+            "detail": {
+                "motos_base":      int(p["budget_detail"]["motos_30_an1"]),
+                "duree_motos_ans": p.get("amortissement_motos_ans", 3),
+                "dev_v1_base":     int(p["budget_detail"]["developpement_v1"]),
+                "duree_dev_ans":   p.get("amortissement_developpement_ans", 5),
+                "materiel_base":   int(p["budget_detail"]["materiel_informatique"]),
+                "duree_materiel_ans": p.get("amortissement_materiel_ans", 4),
+            },
+        },
+        "compte_exploitation":        compte_exploitation,
+        "remboursement_emprunt":      remboursement_emprunt,
+        "recettes_exploitation_detail": recettes_exploitation_detail,
+        "tresorerie_12mois":          tresorerie_12mois,
     }
 
     if run_mc:
@@ -809,7 +996,7 @@ if __name__ == "__main__":
     def info(t):
         print(f"  {B}ℹ{END}  {t}")
 
-    titre("E-CANTINE · Modèle de Prédiction IA · V7")
+    titre("E-CANTINE · Modèle de Prédiction IA · V10")
     print(f"\n  Lancement du modèle...\n")
 
     res = run_model(run_mc=True, n_mc=1000)
